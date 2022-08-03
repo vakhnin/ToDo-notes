@@ -1,3 +1,5 @@
 .idea/
 todo_notes/__pycache__/
 db.sqlite3
+users/__pycache__/
+users/migrations/__pycache__/
