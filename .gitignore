@@ -5,3 +5,5 @@ users/__pycache__/
 users/migrations/__pycache__/
 users/management/commands/__pycache__/
 node_modules/
+todo/__pycache__/
+todo/migrations/__pycache__/
