@@ -1,0 +1,6 @@
+.idea/
+todo_notes/__pycache__/
+db.sqlite3
+users/__pycache__/
+users/migrations/__pycache__/
+users/management/commands/__pycache__/
