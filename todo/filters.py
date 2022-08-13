@@ -1,5 +1,5 @@
 from django_filters import rest_framework as filters
-from .models import Project
+from .models import Project, ToDo
 
 
 class ProjectNameFilter(filters.FilterSet):
@@ -7,4 +7,10 @@ class ProjectNameFilter(filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['name']
+        fields = ['name',]
+
+
+class TodoFilter(filters.FilterSet):
+    class Meta:
+        model = ToDo
+        fields = ['project',]
