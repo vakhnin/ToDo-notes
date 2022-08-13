@@ -4,3 +4,4 @@ db.sqlite3
 users/__pycache__/
 users/migrations/__pycache__/
 users/management/commands/__pycache__/
+node_modules/
