@@ -2,12 +2,11 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import status
-from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, ViewSet
+from rest_framework.viewsets import ModelViewSet
 
-from todo.filters import ProjectNameFilter, TodoFilter
+from todo.filters import ProjectNameFilter, ToDoFilter
 from todo.models import Project, ToDo
 from todo.serializers import ProjectModelSerializer, ToDoModelSerializer
 
@@ -31,7 +30,7 @@ class ToDoModelViewSet(ModelViewSet):
     queryset = ToDo.objects.all()
     serializer_class = ToDoModelSerializer
     pagination_class = ToDoLimitOffsetPagination
-    filterset_class = TodoFilter
+    filterset_class = ToDoFilter
 
     def destroy(self, request, *args, **kwargs):
         try:

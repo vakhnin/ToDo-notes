@@ -7,10 +7,15 @@ class ProjectNameFilter(filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['name',]
+        fields = ['name', ]
 
 
-class TodoFilter(filters.FilterSet):
+class ToDoFilter(filters.FilterSet):
+    from_created = filters.DateTimeFilter(field_name='created',
+                                          lookup_expr='gte', input_formats=['%Y-%m-%d'])
+    to_created = filters.DateTimeFilter(field_name='created',
+                                        lookup_expr='lte', input_formats=['%Y-%m-%d'])
+
     class Meta:
         model = ToDo
-        fields = ['project',]
+        fields = ['project', 'from_created', 'to_created']
