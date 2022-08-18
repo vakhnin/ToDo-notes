@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import './App.css';
 import UserList from './components/User.js';
+import ProjectList from './components/Project.js';
 import Footer from './components/Footer.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
@@ -11,7 +12,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      'users': []
+      'users': [],
+      'projects': []
     }
   }
 
@@ -22,6 +24,17 @@ class App extends React.Component {
         this.setState(
           {
             'users': users
+          }
+        )
+      }).catch(error => console.log(error));
+
+    axios.get('http://127.0.0.1:8000/api/projects/')
+      .then(response => {
+        const projects = response.data.results
+        console.log(projects)
+        this.setState(
+          {
+            'projects': projects
           }
         )
       }).catch(error => console.log(error))
@@ -55,7 +68,11 @@ class App extends React.Component {
                 <h2>Пользователи</h2>
                 <UserList users={this.state.users} />
               </div>} />
-            <Route path='/projects' element={<h2>Проекты</h2>} />
+            <Route path='/projects' element={
+              <div>
+                <h2>Проекты</h2>
+                <ProjectList projects={this.state.projects} />
+              </div>} />
             <Route path='/todos' element={<h2>ToDos</h2>} />
           </Routes>
         </Router>
