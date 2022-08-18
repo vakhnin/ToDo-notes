@@ -4,6 +4,7 @@ import axios from 'axios';
 import './App.css';
 import UserList from './components/User.js';
 import ProjectList from './components/Project.js';
+import ToDoList from './components/ToDo.js';
 import Footer from './components/Footer.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
@@ -13,7 +14,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       'users': [],
-      'projects': []
+      'projects': [],
+      'todos': []
     }
   }
 
@@ -31,10 +33,19 @@ class App extends React.Component {
     axios.get('http://127.0.0.1:8000/api/projects/')
       .then(response => {
         const projects = response.data.results
-        console.log(projects)
         this.setState(
           {
             'projects': projects
+          }
+        )
+      }).catch(error => console.log(error));
+
+    axios.get('http://127.0.0.1:8000/api/todos/')
+      .then(response => {
+        const todos = response.data.results
+        this.setState(
+          {
+            'todos': todos
           }
         )
       }).catch(error => console.log(error))
@@ -73,7 +84,11 @@ class App extends React.Component {
                 <h2>Проекты</h2>
                 <ProjectList projects={this.state.projects} />
               </div>} />
-            <Route path='/todos' element={<h2>ToDos</h2>} />
+            <Route path='/todos' element={
+              <div>
+                <h2>ToDos</h2>
+                <ToDoList todos={this.state.todos} />
+              </div>} />
           </Routes>
         </Router>
         <hr />
