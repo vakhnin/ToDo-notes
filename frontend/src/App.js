@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import './App.css';
 import UserList from './components/User.js';
-import ProjectList from './components/Project.js';
+import { ProjectList, ProjectDetail } from './components/Project.js';
 import ToDoList from './components/ToDo.js';
 import Footer from './components/Footer.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
@@ -88,6 +88,11 @@ class App extends React.Component {
               <div>
                 <h2>ToDos</h2>
                 <ToDoList todos={this.state.todos} />
+              </div>} />
+            <Route path="/project/:id" element={
+              <div>
+                <h2>Детальная информация о проекте</h2>
+                <ProjectDetail projects={this.state.projects} />
               </div>} />
           </Routes>
         </Router>
