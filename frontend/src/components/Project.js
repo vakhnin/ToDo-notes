@@ -45,7 +45,7 @@ const ProjectDetail = ({ projects }) => {
                 <p>Repository: <a href={project.repository}>{project.repository}</a></p>
                 <p>Users:</p>
                 <ol>
-                    {project.users.map((user) => <ProjectUserItem item={user} />)}
+                    {project.users.map((user) => <ProjectUserItem key={user} item={user} />)}
                 </ol>
             </div>
         )
