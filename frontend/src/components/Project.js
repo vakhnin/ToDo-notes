@@ -36,7 +36,7 @@ const ProjectUserItem = ({ item }) => {
 
 const ProjectDetail = ({ projects }) => {
     let { id } = useParams();
-    let project = projects.find((item) => item.id == id)
+    let project = projects.find((item) => item.id === Number(id))
 
     if (project) {
         return (
