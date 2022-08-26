@@ -95,6 +95,11 @@ class App extends React.Component {
       }).catch(error => alert('Неверный логин или пароль'))
   }
 
+  logout() {
+    this.set_token('')
+  }
+
+
   componentDidMount() {
     this.get_token_from_storage_and_load_data()
   }
@@ -118,7 +123,8 @@ class App extends React.Component {
                 <Link to='/todos'>ToDos</Link>
               </li>
               <li>
-                <Link to='/login'>Login</Link>
+                {this.is_authenticated() ? <button
+                  onClick={() => this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
               </li>
             </ul>
           </nav>
