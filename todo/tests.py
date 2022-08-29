@@ -2,7 +2,7 @@ from django.test import TestCase
 from mixer.backend.django import mixer
 
 from rest_framework import status
-from rest_framework.test import APIRequestFactory, APIClient, APITestCase
+from rest_framework.test import APIRequestFactory, APIClient, APITestCase, APILiveServerTestCase
 
 from users.models import User
 from .models import Project
@@ -26,10 +26,18 @@ class TestProjectViewSet(TestCase):
         client = APIClient()
         response = client.get(f'{self.url}{project.id}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
 class TestProjectAPITestCase(APITestCase):
     def setUp(self) -> None:
         self.url = '/api/projects/'
 
     def test_get_project_list_test_case(self):
         response = self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
+class TestProjectAPILiveServerTestCase(APILiveServerTestCase):
+    def test_live(self):
+        response = self.client.get('http://127.0.0.1:8000/api/projects/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
