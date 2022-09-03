@@ -27,17 +27,23 @@ class ToDoType(DjangoObjectType):
 
 
 class Query(graphene.ObjectType):
-    all_users = graphene.List(UserType)
-    all_projects = graphene.List(ProjectType)
-    all_todos = graphene.List(ToDoType)
+    user_by_id_or_all = graphene.List(UserType, id=graphene.Int(required=False))
+    project_by_id_or_all = graphene.List(ProjectType, id=graphene.Int(required=False))
+    todo_by_id_or_all = graphene.List(ToDoType, id=graphene.Int(required=False))
 
-    def resolve_all_projects(root, info):
-        return Project.objects.all()
-
-    def resolve_all_users(root, info):
+    def resolve_user_by_id_or_all(root, info, id=None):
+        if id:
+            return User.objects.filter(id=id)
         return User.objects.all()
 
-    def resolve_all_todos(root, info):
+    def resolve_project_by_id_or_all(root, info, id=None):
+        if id:
+            return Project.objects.filter(id=id)
+        return Project.objects.all()
+
+    def resolve_todo_by_id_or_all(root, info, id=None):
+        if id:
+            return ToDo.objects.filter(id=id)
         return ToDo.objects.all()
 
 
