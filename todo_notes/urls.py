@@ -18,6 +18,7 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
+from graphene_django.views import GraphQLView
 from rest_framework.schemas import get_schema_view as get_schema_view_drf
 from rest_framework import permissions
 from rest_framework.authtoken import views as authtoken_views
@@ -70,4 +71,6 @@ urlpatterns = [
         description="Documentation to ToDo notes project",
         version="0.1"
     ), name='openapi-schema'),
+
+    path("graphql/", GraphQLView.as_view(graphiql=True)),
 ]

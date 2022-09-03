@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'users',
     'todo',
     'drf_yasg',
+    'graphene_django',
+
 ]
 
 MIDDLEWARE = [
@@ -165,4 +167,8 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning',
+}
+
+GRAPHENE = {
+    "SCHEMA": "todo_notes.schema.schema"
 }
