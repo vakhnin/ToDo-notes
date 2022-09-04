@@ -102,9 +102,33 @@ class ProjectUpdateMutation(graphene.Mutation):
         return ProjectUpdateMutation(project=project)
 
 
+class ProjectDeleteMutation(graphene.Mutation):
+    """
+    Query for test:
+    mutation {
+      deleteProject(id:5) {
+        project {
+          id
+          name
+        }
+      }
+    }
+    """
+    class Arguments:
+        id = graphene.ID()
+
+    project = graphene.List(ProjectType)
+
+    @classmethod
+    def mutate(cls, root, info, id):
+        Project.objects.get(id=id).delete()
+        return cls(project=Project.objects.all())
+
+
 class Mutations(ObjectType):
-    update_project = ProjectUpdateMutation.Field()
     create_project = ProjectCreateMutation.Field()
+    update_project = ProjectUpdateMutation.Field()
+    delete_project = ProjectDeleteMutation.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
