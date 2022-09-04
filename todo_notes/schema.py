@@ -48,6 +48,33 @@ class Query(graphene.ObjectType):
         return ToDo.objects.all()
 
 
+class ProjectCreateMutation(graphene.Mutation):
+    """
+    Query for test:
+    mutation {
+      createProject(name: "new new name", repository: "") {
+        project {
+          id
+          name
+        }
+      }
+    }
+    """
+
+    class Arguments:
+        name = graphene.String()
+        repository = graphene.String()
+
+    project = graphene.Field(ProjectType)
+
+    @classmethod
+    def mutate(cls, root, info, name, repository):
+        project = Project.objects.create(name=name,
+                                         repository=repository)
+        project.save()
+        return cls(project=project)
+
+
 class ProjectUpdateMutation(graphene.Mutation):
     """
     Query for test:
@@ -77,6 +104,7 @@ class ProjectUpdateMutation(graphene.Mutation):
 
 class Mutations(ObjectType):
     update_project = ProjectUpdateMutation.Field()
+    create_project = ProjectCreateMutation.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutations)
