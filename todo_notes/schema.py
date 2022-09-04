@@ -1,4 +1,5 @@
 import graphene
+from graphene import ObjectType
 from graphene_django import DjangoObjectType
 
 from todo.models import Project, ToDo
@@ -47,4 +48,35 @@ class Query(graphene.ObjectType):
         return ToDo.objects.all()
 
 
-schema = graphene.Schema(query=Query)
+class ProjectUpdateMutation(graphene.Mutation):
+    """
+    Query for test:
+    mutation {
+      updateProject( id: 1, name: "new name") {
+        project {
+          id
+          name
+        }
+      }
+    }
+    """
+
+    class Arguments:
+        name = graphene.String(required=True)
+        id = graphene.ID()
+
+    project = graphene.Field(ProjectType)
+
+    @classmethod
+    def mutate(cls, root, info, name, id):
+        project = Project.objects.get(pk=id)
+        project.name = name
+        project.save()
+        return ProjectUpdateMutation(project=project)
+
+
+class Mutations(ObjectType):
+    update_project = ProjectUpdateMutation.Field()
+
+
+schema = graphene.Schema(query=Query, mutation=Mutations)
