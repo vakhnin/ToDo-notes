@@ -95,6 +95,17 @@ class App extends React.Component {
       }).catch(error => alert('Неверный логин или пароль'))
   }
 
+  delete_project(id) {
+    const headers = this.get_headers()
+    axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, { headers })
+      .then(response => {
+        this.load_data()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ books: [] })
+      })
+  }
+
   logout() {
     this.set_token('')
   }
@@ -139,7 +150,7 @@ class App extends React.Component {
             <Route path='/projects' element={
               <div>
                 <h2>Проекты</h2>
-                <ProjectList projects={this.state.projects} />
+                <ProjectList projects={this.state.projects} delete_project={(id) => this.delete_project(id)}/>
               </div>} />
             <Route path='/todos' element={
               <div>

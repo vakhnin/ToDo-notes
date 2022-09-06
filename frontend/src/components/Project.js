@@ -1,17 +1,20 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-const ProjectItem = ({ project }) => {
+const ProjectItem = ({ project, delete_project }) => {
     return (
         <tr>
             <td><Link to={`/project/${project.id}`}>{project.id}</Link></td>
             <td>{project.name}</td>
             <td>{project.repository}</td>
+            <td>
+                <button onClick={() => delete_project(project.id)} type='button'>Delete</button>
+            </td>
         </tr>
     )
 }
 
-const ProjectList = ({ projects }) => {
+const ProjectList = ({ projects, delete_project }) => {
     return (
         <table>
             <thead>
@@ -19,10 +22,12 @@ const ProjectList = ({ projects }) => {
                     <th>ID</th>
                     <th>Project name</th>
                     <th>Repository</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                {projects.map((project) => <ProjectItem key={project.id} project={project} />)}
+                {projects.map((project) => <ProjectItem key={project.id}
+                    delete_project={delete_project} project={project} />)}
             </tbody>
         </table>
     )
