@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import './App.css';
 import UserList from './components/User.js';
 import { ProjectList, ProjectDetail } from './components/Project.js';
+import ProjectForm from './components/ProjectForm.js';
 import ToDoList from './components/ToDo.js';
 import Footer from './components/Footer.js';
 import LoginForm from './components/Auth.js';
@@ -95,6 +96,17 @@ class App extends React.Component {
       }).catch(error => alert('Неверный логин или пароль'))
   }
 
+  create_project(name, repository, users) {
+    const headers = this.get_headers()
+    const data = { name: name, repository: repository, users: users }
+    axios.post('http://127.0.0.1:8000/api/projects/', data, { headers }).then(response => {
+      this.load_data()
+    }).catch(error => {
+      console.log(error)
+      this.setState({ projects: [] })
+    })
+  }
+
   delete_project(id) {
     const headers = this.get_headers()
     axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, { headers })
@@ -102,7 +114,7 @@ class App extends React.Component {
         this.load_data()
       }).catch(error => {
         console.log(error)
-        this.setState({ books: [] })
+        this.setState({ projects: [] })
       })
   }
 
@@ -150,8 +162,16 @@ class App extends React.Component {
             <Route path='/projects' element={
               <div>
                 <h2>Проекты</h2>
-                <ProjectList projects={this.state.projects} delete_project={(id) => this.delete_project(id)}/>
+                <Link to='/projects/create'>Создать проект</Link>
+                <ProjectList projects={this.state.projects} delete_project={(id) => this.delete_project(id)} />
               </div>} />
+            <Route path='/projects/create'
+              element={
+                <div>
+                  <h2>Создание проекта</h2>
+                  <ProjectForm users={this.state.users}
+                    create_project={(name, repository, users) => this.create_project(name, repository, users)} />
+                </div>} />
             <Route path='/todos' element={
               <div>
                 <h2>ToDos</h2>
