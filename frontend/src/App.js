@@ -7,6 +7,7 @@ import UserList from './components/User.js';
 import { ProjectList, ProjectDetail } from './components/Project.js';
 import ProjectForm from './components/ProjectForm.js';
 import ToDoList from './components/ToDo.js';
+import ToDoForm from './components/ToDoForm';
 import Footer from './components/Footer.js';
 import LoginForm from './components/Auth.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
@@ -118,6 +119,17 @@ class App extends React.Component {
       })
   }
 
+  create_todo(project, text) {
+    const headers = this.get_headers()
+    const data = { project: project, text: text }
+    axios.post('http://127.0.0.1:8000/api/todos/', data, { headers }).then(response => {
+      this.load_data()
+    }).catch(error => {
+      console.log(error)
+      this.setState({ projects: [] })
+    })
+  }
+
   logout() {
     this.set_token('')
   }
@@ -172,9 +184,17 @@ class App extends React.Component {
                   <ProjectForm users={this.state.users}
                     create_project={(name, repository, users) => this.create_project(name, repository, users)} />
                 </div>} />
+            <Route path='/todos/create'
+              element={
+                <div>
+                  <h2>Создание ToDo</h2>
+                  <ToDoForm projects={this.state.projects}
+                    create_todo={(project, text) => this.create_todo(project, text)} />
+                </div>} />
             <Route path='/todos' element={
               <div>
                 <h2>ToDos</h2>
+                <Link to='/todos/create'>Создать ToDo</Link>
                 <ToDoList todos={this.state.todos} />
               </div>} />
             <Route path='/login' element={

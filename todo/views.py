@@ -32,6 +32,9 @@ class ToDoModelViewSet(ModelViewSet):
     pagination_class = ToDoLimitOffsetPagination
     filterset_class = ToDoFilter
 
+    def perform_create(self, serializer):
+        instance = serializer.save(creater=self.request.user)
+
     def destroy(self, request, *args, **kwargs):
         try:
             instance = self.get_object()

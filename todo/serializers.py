@@ -14,7 +14,9 @@ class ProjectModelSerializer(HyperlinkedModelSerializer):
 
 class ToDoModelSerializer(HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField()
+    creater = serializers.CurrentUserDefault()
 
     class Meta:
         model = ToDo
         fields = '__all__'
+        extra_kwargs = {"creater": {"required": False, "allow_null": True}}
