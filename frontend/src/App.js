@@ -130,6 +130,17 @@ class App extends React.Component {
     })
   }
 
+  delete_todo(id) {
+    const headers = this.get_headers()
+    axios.delete(`http://127.0.0.1:8000/api/todos/${id}/`, { headers })
+      .then(response => {
+        this.load_data()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ projects: [] })
+      })
+  }
+
   logout() {
     this.set_token('')
   }
@@ -184,6 +195,12 @@ class App extends React.Component {
                   <ProjectForm users={this.state.users}
                     create_project={(name, repository, users) => this.create_project(name, repository, users)} />
                 </div>} />
+            <Route path='/todos' element={
+              <div>
+                <h2>ToDos</h2>
+                <Link to='/todos/create'>Создать ToDo</Link>
+                <ToDoList todos={this.state.todos} delete_todo={(id) => this.delete_todo(id)} />
+              </div>} />
             <Route path='/todos/create'
               element={
                 <div>
@@ -191,12 +208,6 @@ class App extends React.Component {
                   <ToDoForm projects={this.state.projects}
                     create_todo={(project, text) => this.create_todo(project, text)} />
                 </div>} />
-            <Route path='/todos' element={
-              <div>
-                <h2>ToDos</h2>
-                <Link to='/todos/create'>Создать ToDo</Link>
-                <ToDoList todos={this.state.todos} />
-              </div>} />
             <Route path='/login' element={
               <div>
                 <h2>Login</h2>
