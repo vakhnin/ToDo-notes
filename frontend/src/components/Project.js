@@ -7,6 +7,7 @@ const ProjectItem = ({ project, delete_project }) => {
             <td><Link to={`/project/${project.id}`}>{project.id}</Link></td>
             <td>{project.name}</td>
             <td>{project.repository}</td>
+            <td><Link to={`/project/update/${project.id}`}>Редактировать</Link></td>
             <td>
                 <button onClick={() => delete_project(project.id)} type='button'>Delete</button>
             </td>
@@ -22,6 +23,7 @@ const ProjectList = ({ projects, delete_project }) => {
                     <th>ID</th>
                     <th>Project name</th>
                     <th>Repository</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>

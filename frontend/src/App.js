@@ -7,7 +7,8 @@ import UserList from './components/User.js';
 import { ProjectList, ProjectDetail } from './components/Project.js';
 import ProjectForm from './components/ProjectForm.js';
 import ToDoList from './components/ToDo.js';
-import ToDoForm from './components/ToDoForm';
+import ToDoForm from './components/ToDoForm.js';
+import ProjectUpdateFormWrapper from './components/ProjectUpdateForm.js'
 import Footer from './components/Footer.js';
 import LoginForm from './components/Auth.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
@@ -108,6 +109,18 @@ class App extends React.Component {
     })
   }
 
+  update_project(id, name, repository, users) {
+    const headers = this.get_headers()
+    const data = { name: name, repository: repository, users: users }
+    axios.patch(`http://127.0.0.1:8000/api/projects/${id}/`, data, { headers })
+      .then(response => {
+        this.load_data()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ projects: [] })
+      })
+  }
+
   delete_project(id) {
     const headers = this.get_headers()
     axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, { headers })
@@ -139,6 +152,13 @@ class App extends React.Component {
         console.log(error)
         this.setState({ projects: [] })
       })
+  }
+
+  get_data_for_update_projects() {
+    return {
+      'projects': this.state.projects,
+      'users': this.state.users,
+    }
   }
 
   logout() {
@@ -217,6 +237,12 @@ class App extends React.Component {
               <div>
                 <h2>Детальная информация о проекте</h2>
                 <ProjectDetail projects={this.state.projects} />
+              </div>} />
+            <Route path="/project/update/:id" element={
+              <div>
+                <h2>Редактировать информацию о проекте</h2>
+                <ProjectUpdateFormWrapper get_data_for_update_projects={this.get_data_for_update_projects.bind(this)}
+                  update_project={(id, name, repository, users) => this.update_project(id, name, repository, users)} />
               </div>} />
           </Routes>
         </Router>
