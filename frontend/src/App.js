@@ -5,7 +5,10 @@ import Cookies from 'universal-cookie';
 import './App.css';
 import UserList from './components/User.js';
 import { ProjectList, ProjectDetail } from './components/Project.js';
+import ProjectForm from './components/ProjectForm.js';
 import ToDoList from './components/ToDo.js';
+import ToDoForm from './components/ToDoForm.js';
+import ProjectUpdateFormWrapper from './components/ProjectUpdateForm.js'
 import Footer from './components/Footer.js';
 import LoginForm from './components/Auth.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
@@ -95,6 +98,69 @@ class App extends React.Component {
       }).catch(error => alert('Неверный логин или пароль'))
   }
 
+  create_project(name, repository, users) {
+    const headers = this.get_headers()
+    const data = { name: name, repository: repository, users: users }
+    axios.post('http://127.0.0.1:8000/api/projects/', data, { headers }).then(response => {
+      this.load_data()
+    }).catch(error => {
+      console.log(error)
+      this.setState({ projects: [] })
+    })
+  }
+
+  update_project(id, name, repository, users) {
+    const headers = this.get_headers()
+    const data = { name: name, repository: repository, users: users }
+    axios.patch(`http://127.0.0.1:8000/api/projects/${id}/`, data, { headers })
+      .then(response => {
+        this.load_data()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ projects: [] })
+      })
+  }
+
+  delete_project(id) {
+    const headers = this.get_headers()
+    axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, { headers })
+      .then(response => {
+        this.load_data()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ projects: [] })
+      })
+  }
+
+  create_todo(project, text) {
+    const headers = this.get_headers()
+    const data = { project: project, text: text }
+    axios.post('http://127.0.0.1:8000/api/todos/', data, { headers }).then(response => {
+      this.load_data()
+    }).catch(error => {
+      console.log(error)
+      this.setState({ projects: [] })
+    })
+  }
+
+  delete_todo(id) {
+    const headers = this.get_headers()
+    axios.delete(`http://127.0.0.1:8000/api/todos/${id}/`, { headers })
+      .then(response => {
+        this.load_data()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ projects: [] })
+      })
+  }
+
+  get_data_for_update_projects() {
+    return {
+      'projects': this.state.projects,
+      'users': this.state.users,
+    }
+  }
+
   logout() {
     this.set_token('')
   }
@@ -139,13 +205,29 @@ class App extends React.Component {
             <Route path='/projects' element={
               <div>
                 <h2>Проекты</h2>
-                <ProjectList projects={this.state.projects} />
+                <Link to='/projects/create'>Создать проект</Link>
+                <ProjectList projects={this.state.projects} delete_project={(id) => this.delete_project(id)} />
               </div>} />
+            <Route path='/projects/create'
+              element={
+                <div>
+                  <h2>Создание проекта</h2>
+                  <ProjectForm users={this.state.users}
+                    create_project={(name, repository, users) => this.create_project(name, repository, users)} />
+                </div>} />
             <Route path='/todos' element={
               <div>
                 <h2>ToDos</h2>
-                <ToDoList todos={this.state.todos} />
+                <Link to='/todos/create'>Создать ToDo</Link>
+                <ToDoList todos={this.state.todos} delete_todo={(id) => this.delete_todo(id)} />
               </div>} />
+            <Route path='/todos/create'
+              element={
+                <div>
+                  <h2>Создание ToDo</h2>
+                  <ToDoForm projects={this.state.projects}
+                    create_todo={(project, text) => this.create_todo(project, text)} />
+                </div>} />
             <Route path='/login' element={
               <div>
                 <h2>Login</h2>
@@ -155,6 +237,12 @@ class App extends React.Component {
               <div>
                 <h2>Детальная информация о проекте</h2>
                 <ProjectDetail projects={this.state.projects} />
+              </div>} />
+            <Route path="/project/update/:id" element={
+              <div>
+                <h2>Редактировать информацию о проекте</h2>
+                <ProjectUpdateFormWrapper get_data_for_update_projects={this.get_data_for_update_projects.bind(this)}
+                  update_project={(id, name, repository, users) => this.update_project(id, name, repository, users)} />
               </div>} />
           </Routes>
         </Router>

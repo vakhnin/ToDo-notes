@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import status
+from rest_framework import status, filters
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -24,6 +24,8 @@ class ProjectModelViewSet(ModelViewSet):
     serializer_class = ProjectModelSerializer
     pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectNameFilter
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name',]
 
 
 class ToDoModelViewSet(ModelViewSet):
@@ -31,6 +33,9 @@ class ToDoModelViewSet(ModelViewSet):
     serializer_class = ToDoModelSerializer
     pagination_class = ToDoLimitOffsetPagination
     filterset_class = ToDoFilter
+
+    def perform_create(self, serializer):
+        instance = serializer.save(creater=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
         try:
