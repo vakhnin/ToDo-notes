@@ -21,8 +21,6 @@ services:
 
   backend:
     container_name: 'backend_django_now'
-    build:
-      context: ..
     image: backend_django:1.0.0
     ports:
       - 8080:8080
