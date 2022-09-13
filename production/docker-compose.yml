@@ -15,6 +15,20 @@ services:
     image: adminer:4.7.8-standalone
     restart: always
     ports:
+      - 8081:8080
+    depends_on:
+      - db
+
+  backend:
+    container_name: 'backend_django_now'
+    build:
+      context: ..
+    image: backend_django:1.0.0
+    ports:
       - 8080:8080
+    command: > 
+      bash -c "python manage.py migrate
+      && python manage.py fill_db 
+      && python manage.py runserver 0.0.0.0:8080"
     depends_on:
       - db
