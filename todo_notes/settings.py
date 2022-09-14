@@ -147,6 +147,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://0.0.0.0:80',
     'http://46.183.163.195:80',
     'http://46.183.163.195:8080',
+    'http://127.0.0.1:80',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
