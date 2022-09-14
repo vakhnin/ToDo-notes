@@ -32,3 +32,10 @@ services:
       &&  gunicorn todo_notes.wsgi -b 0.0.0.0:8080"
     depends_on:
       - db
+
+  nginx:
+    build: ./nginx
+    ports:
+      - 8010:8010
+    depends_on:
+      - backend
