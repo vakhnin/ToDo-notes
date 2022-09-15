@@ -86,9 +86,17 @@ WSGI_APPLICATION = 'todo_notes.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'todo',
+        'PASSWORD': 'geekbrains',
+        'USER': 'geekbrains',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -134,9 +142,13 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://0.0.0.0:80',
+    'http://46.183.163.195',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

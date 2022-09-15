@@ -13,6 +13,10 @@ import Footer from './components/Footer.js';
 import LoginForm from './components/Auth.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
+// const DOMAIN = 'http://127.0.0.1:8000/'
+const DOMAIN = 'http://46.183.163.195:8000/'
+const URLAPI =  `${DOMAIN}api/`
+const get_url = (url) => `${URLAPI}${url}`
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +42,7 @@ class App extends React.Component {
   load_data() {
     const headers = this.get_headers()
 
-    axios.get('http://127.0.0.1:8000/api/users/', { headers })
+    axios.get(get_url('users/'), { headers })
       .then(response => {
         const users = response.data.results
         this.setState(
@@ -48,7 +52,7 @@ class App extends React.Component {
         )
       }).catch(error => console.log(error));
 
-    axios.get('http://127.0.0.1:8000/api/projects/', { headers })
+    axios.get(get_url('projects/'), { headers })
       .then(response => {
         const projects = response.data.results
         this.setState(
@@ -58,7 +62,7 @@ class App extends React.Component {
         )
       }).catch(error => console.log(error));
 
-    axios.get('http://127.0.0.1:8000/api/todos/', { headers })
+    axios.get(get_url('todos/'), { headers })
       .then(response => {
         const todos = response.data.results
         this.setState(
@@ -89,7 +93,7 @@ class App extends React.Component {
   }
 
   get_token(username, password) {
-    axios.post('http://127.0.0.1:8000/api-token-auth/', {
+    axios.post(`${DOMAIN}api-token-auth/`, {
       username: username,
       password: password
     })
@@ -101,7 +105,7 @@ class App extends React.Component {
   create_project(name, repository, users) {
     const headers = this.get_headers()
     const data = { name: name, repository: repository, users: users }
-    axios.post('http://127.0.0.1:8000/api/projects/', data, { headers }).then(response => {
+    axios.post(get_url('projects/'), data, { headers }).then(response => {
       this.load_data()
     }).catch(error => {
       console.log(error)
@@ -112,7 +116,7 @@ class App extends React.Component {
   update_project(id, name, repository, users) {
     const headers = this.get_headers()
     const data = { name: name, repository: repository, users: users }
-    axios.patch(`http://127.0.0.1:8000/api/projects/${id}/`, data, { headers })
+    axios.patch(get_url(`projects/${id}/`), data, { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
@@ -123,7 +127,7 @@ class App extends React.Component {
 
   delete_project(id) {
     const headers = this.get_headers()
-    axios.delete(`http://127.0.0.1:8000/api/projects/${id}/`, { headers })
+    axios.delete(get_url(`projects/${id}/`), { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
@@ -135,7 +139,7 @@ class App extends React.Component {
   create_todo(project, text) {
     const headers = this.get_headers()
     const data = { project: project, text: text }
-    axios.post('http://127.0.0.1:8000/api/todos/', data, { headers }).then(response => {
+    axios.post(get_url('todos/'), data, { headers }).then(response => {
       this.load_data()
     }).catch(error => {
       console.log(error)
@@ -145,7 +149,7 @@ class App extends React.Component {
 
   delete_todo(id) {
     const headers = this.get_headers()
-    axios.delete(`http://127.0.0.1:8000/api/todos/${id}/`, { headers })
+    axios.delete(get_url(`todos/${id}/`), { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
