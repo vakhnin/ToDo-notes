@@ -13,7 +13,8 @@ import Footer from './components/Footer.js';
 import LoginForm from './components/Auth.js';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
-const DOMAIN = 'http://127.0.0.1:8000/'
+// const DOMAIN = 'http://127.0.0.1:8000/'
+const DOMAIN = 'http://http://192.168.1.65:8000/'
 const URLAPI =  `${DOMAIN}api/`
 const get_url = (url) => `${URLAPI}${url}`
 
