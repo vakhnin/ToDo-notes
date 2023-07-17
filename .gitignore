@@ -7,3 +7,5 @@ users/management/commands/__pycache__/
 node_modules/
 todo/__pycache__/
 todo/migrations/__pycache__/
+
+frontend/package-lock.json
