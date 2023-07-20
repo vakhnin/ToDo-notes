@@ -3,12 +3,12 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 import './App.css';
-import UserList from './components/User.jsx';
-import { ProjectList, ProjectDetail } from './components/Project.jsx';
-import ProjectForm from './components/ProjectForm.jsx';
-import ToDoList from './components/ToDo.jsx';
-import ToDoForm from './components/ToDoForm.jsx';
-import ProjectUpdateFormWrapper from './components/ProjectUpdateForm.jsx'
+import UserList from './components/users/User.jsx';
+import { ProjectList, ProjectDetail } from './components/projects/Project.jsx';
+import ProjectForm from './components/projects/ProjectForm.jsx';
+import ToDoList from './components/todos/ToDo.jsx';
+import ToDoForm from './components/todos/ToDoForm.jsx';
+import ProjectUpdateFormWrapper from './components/projects/ProjectUpdateForm.jsx'
 import Footer from './components/Footer.jsx';
 import LoginForm from './components/Auth.jsx';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
