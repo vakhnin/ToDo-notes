@@ -185,7 +185,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App d-flex flex-column min-vh-100">
         <Router>
           <nav>
             <ul>
@@ -207,11 +207,10 @@ class App extends React.Component {
               </li>
             </ul>
           </nav>
-          <hr />
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users' element={
-              <div>
+              <div className="container flex-grow-1">
                 <h2>Пользователи</h2>
                 <UserList users={this.state.users} />
               </div>} />
@@ -259,7 +258,6 @@ class App extends React.Component {
               </div>} />
           </Routes>
         </Router>
-        <hr />
         <Footer />
       </div>
     )
