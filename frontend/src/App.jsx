@@ -1,120 +1,123 @@
-import React from 'react';
-import axios from 'axios';
-import Cookies from 'universal-cookie';
+import React from 'react'
+import axios from 'axios'
+import Cookies from 'universal-cookie'
 
-import './App.css';
-import UserList from './components/users/User.jsx';
-import { ProjectList, ProjectDetail } from './components/projects/Project.jsx';
-import ProjectForm from './components/projects/ProjectForm.jsx';
-import ToDoList from './components/todos/ToDo.jsx';
-import ToDoForm from './components/todos/ToDoForm.jsx';
+import './App.css'
+import UserList from './components/users/User.jsx'
+import { ProjectList, ProjectDetail } from './components/projects/Project.jsx'
+import ProjectForm from './components/projects/ProjectForm.jsx'
+import ToDoList from './components/todos/ToDo.jsx'
+import ToDoForm from './components/todos/ToDoForm.jsx'
 import ProjectUpdateFormWrapper from './components/projects/ProjectUpdateForm.jsx'
-import Footer from './components/Footer.jsx';
-import LoginForm from './components/Auth.jsx';
+import Footer from './components/Footer.jsx'
+import LoginForm from './components/Auth.jsx'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 let DOMAIN
 switch (process.env.NODE_ENV) {
-  case 'production':
-    const hostname = window.location.hostname;
-    DOMAIN = `http://${hostname}:8000/`;
-    break;
+  case 'production':{
+    const hostname = window.location.hostname
+    DOMAIN = `http://${hostname}:8000/`
+    break }
   case 'development':
   default:
-    DOMAIN = 'http://127.0.0.1:8000/';
+    DOMAIN = 'http://127.0.0.1:8000/'
 }
 
 const URLAPI = `${DOMAIN}api/`
-const get_url = (url) => `${URLAPI}${url}`
+const getUrl = (url) => `${URLAPI}${url}`
 
 class App extends React.Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
-      'users': [],
-      'projects': [],
-      'todos': [],
-      'token': ''
+      users: [],
+      projects: [],
+      todos: [],
+      token: ''
     }
   }
 
-  get_headers() {
-    let headers = {
+  get_headers () {
+    const headers = {
       'Content-Type': 'application/json'
     }
     if (this.is_authenticated()) {
-      headers['Authorization'] = 'Token ' + this.state.token
+      headers.Authorization = 'Token ' + this.state.token
     }
     return headers
   }
 
-  load_data() {
+  load_data () {
     const headers = this.get_headers()
 
-    axios.get(get_url('users/'), { headers })
+    axios.get(getUrl('users/'), { headers })
       .then(response => {
         const users = response.data.results
         this.setState(
           {
-            'users': users
+            users
           }
         )
-      }).catch(error => console.log(error));
+      }).catch(error => console.log(error))
 
-    axios.get(get_url('projects/'), { headers })
+    axios.get(getUrl('projects/'), { headers })
       .then(response => {
         const projects = response.data.results
         this.setState(
           {
-            'projects': projects
+            projects
           }
         )
-      }).catch(error => console.log(error));
+      }).catch(error => console.log(error))
 
-    axios.get(get_url('todos/'), { headers })
+    axios.get(getUrl('todos/'), { headers })
       .then(response => {
         const todos = response.data.results
         this.setState(
           {
-            'todos': todos
+            todos
           }
         )
       }).catch(error => console.log(error))
   }
 
-  set_token(token) {
+  set_token (token) {
     const cookies = new Cookies()
     cookies.set('token', token)
-    this.setState({ 'token': token }, () => this.load_data())
+    this.setState({ token }, () => this.load_data())
   }
 
-  is_authenticated() {
+  is_authenticated () {
     return this.state.token !== ''
   }
 
-  get_token_from_storage_and_load_data() {
+  get_token_from_storage_and_load_data () {
     const cookies = new Cookies()
     let token = ''
     if (cookies.get('token')) {
       token = cookies.get('token')
     }
-    this.setState({ 'token': token }, () => this.load_data())
+    this.setState({ token }, () => this.load_data())
   }
 
-  get_token(username, password) {
+  get_token (username, password) {
     axios.post(`${DOMAIN}api-token-auth/`, {
-      username: username,
-      password: password
+      username,
+      password
     })
       .then(response => {
-        this.set_token(response.data['token'])
-      }).catch(error => alert('Неверный логин или пароль'))
+        this.set_token(response.data.token)
+      }).catch(error => {
+        alert('Неверный логин или пароль')
+        return error
+      })
   }
 
-  create_project(name, repository, users) {
+  create_project (name, repository, users) {
     const headers = this.get_headers()
-    const data = { name: name, repository: repository, users: users }
-    axios.post(get_url('projects/'), data, { headers }).then(response => {
+    const data = { name, repository, users }
+    axios.post(getUrl('projects/'), data, { headers }).then(response => {
       this.load_data()
     }).catch(error => {
       console.log(error)
@@ -122,10 +125,10 @@ class App extends React.Component {
     })
   }
 
-  update_project(id, name, repository, users) {
+  update_project (id, name, repository, users) {
     const headers = this.get_headers()
-    const data = { name: name, repository: repository, users: users }
-    axios.patch(get_url(`projects/${id}/`), data, { headers })
+    const data = { name, repository, users }
+    axios.patch(getUrl(`projects/${id}/`), data, { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
@@ -134,9 +137,9 @@ class App extends React.Component {
       })
   }
 
-  delete_project(id) {
+  delete_project (id) {
     const headers = this.get_headers()
-    axios.delete(get_url(`projects/${id}/`), { headers })
+    axios.delete(getUrl(`projects/${id}/`), { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
@@ -145,10 +148,10 @@ class App extends React.Component {
       })
   }
 
-  create_todo(project, text) {
+  create_todo (project, text) {
     const headers = this.get_headers()
-    const data = { project: project, text: text }
-    axios.post(get_url('todos/'), data, { headers }).then(response => {
+    const data = { project, text }
+    axios.post(getUrl('todos/'), data, { headers }).then(response => {
       this.load_data()
     }).catch(error => {
       console.log(error)
@@ -156,9 +159,9 @@ class App extends React.Component {
     })
   }
 
-  delete_todo(id) {
+  delete_todo (id) {
     const headers = this.get_headers()
-    axios.delete(get_url(`todos/${id}/`), { headers })
+    axios.delete(getUrl(`todos/${id}/`), { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
@@ -167,23 +170,22 @@ class App extends React.Component {
       })
   }
 
-  get_data_for_update_projects() {
+  get_data_for_update_projects () {
     return {
-      'projects': this.state.projects,
-      'users': this.state.users,
+      projects: this.state.projects,
+      users: this.state.users
     }
   }
 
-  logout() {
+  logout () {
     this.set_token('')
   }
 
-
-  componentDidMount() {
+  componentDidMount () {
     this.get_token_from_storage_and_load_data()
   }
 
-  render() {
+  render () {
     return (
       <div className="App d-flex flex-column min-vh-100">
         <Router>
@@ -202,8 +204,10 @@ class App extends React.Component {
                 <Link to='/todos'>ToDos</Link>
               </li>
               <li>
-                {this.is_authenticated() ? <button
-                  onClick={() => this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
+                {this.is_authenticated()
+                  ? <button
+                    onClick={() => this.logout()}>Logout</button>
+                  : <Link to='/login'>Login</Link>}
               </li>
             </ul>
           </nav>
@@ -242,7 +246,7 @@ class App extends React.Component {
                 </div>} />
             <Route path='/login' element={
               <div>
-                <h2>Login</h2>
+                    <h2>Login</h2>
                 <LoginForm get_token={(username, password) => this.get_token(username, password)} />
               </div>} />
             <Route path="/project/:id" element={
@@ -264,4 +268,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default App
