@@ -1,28 +1,28 @@
-import React from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 class ToDoForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { project: '', text: '' }
-    }
+  constructor (props) {
+    super(props)
+    this.state = { project: '', text: '' }
+  }
 
-    handleChange(event) {
-        this.setState(
-            {
-                [event.target.name]: event.target.value
-            }
-        )
-    }
+  handleChange (event) {
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      }
+    )
+  }
 
-    handleSubmit(event) {
-        this.props.create_todo(this.state.project,
-            this.state.text)
-        event.preventDefault()
-    }
+  handleSubmit (event) {
+    this.props.create_todo(this.state.project,
+      this.state.text)
+    event.preventDefault()
+  }
 
-
-    render() {
-        return (
+  render () {
+    return (
             <form onSubmit={(event) => this.handleSubmit(event)}>
                 <div>
                     <p>Project:</p>
@@ -45,8 +45,12 @@ class ToDoForm extends React.Component {
                     <input type="submit" value="Create" />
                 </div>
             </form>
-        );
-    }
+    )
+  }
+}
+ToDoForm.propTypes = {
+  create_todo: PropTypes.func,
+  projects: PropTypes.string
 }
 
 export default ToDoForm

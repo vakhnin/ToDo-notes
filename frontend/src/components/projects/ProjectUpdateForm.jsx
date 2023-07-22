@@ -1,69 +1,73 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-function ProjectUpdateFormWrapper(props) {
-    let params = useParams();
+function ProjectUpdateFormWrapper (props) {
+  const params = useParams()
 
-    return <ProjectUpdateForm id={params.id} get_data_for_update_projects={props.get_data_for_update_projects}
-        update_project={props.update_project} />;
+  return <ProjectUpdateForm id={params.id} get_data_for_update_projects={props.get_data_for_update_projects}
+        update_project={props.update_project} />
+}
+ProjectUpdateFormWrapper.propTypes = {
+  get_data_for_update_projects: PropTypes.func,
+  update_project: PropTypes.func
 }
 
 class ProjectUpdateForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { name: '', repository: '', users: [], allUsers: [] }
+  constructor (props) {
+    super(props)
+    this.state = { name: '', repository: '', users: [], allUsers: [] }
+  }
+
+  componentDidMount () {
+    const data = this.props.get_data_for_update_projects()
+    const projects = data.projects
+    const project = projects.find((item) => item.id === Number(this.props.id))
+    if (project) {
+      this.setState(
+        {
+          name: project.name,
+          repository: project.repository,
+          users: project.users,
+          allUsers: data.users.slice()
+        })
     }
 
-    componentDidMount() {
-        let data = this.props.get_data_for_update_projects()
-        let projects = data.projects
-        let project = projects.find((item) => item.id === Number(this.props.id))
-        if (project) {
-            this.setState(
-                {
-                    name: project.name,
-                    repository: project.repository,
-                    users: project.users,
-                    allUsers: data.users.slice()
-                })
-        }
+    this.render()
+  }
 
-        this.render()
+  handleChange (event) {
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      }
+    )
+  }
+
+  handleUserChange (event) {
+    if (!event.target.selectedOptions) {
+      this.setState({
+        users: []
+      })
+      return
     }
-
-    handleChange(event) {
-        this.setState(
-            {
-                [event.target.name]: event.target.value
-            }
-        )
+    const users = []
+    for (let i = 0; i < event.target.selectedOptions.length; i++) {
+      users.push(event.target.selectedOptions.item(i).value)
     }
+    this.setState(
+      { users }
+    )
+  }
 
-    handleUserChange(event) {
-        if (!event.target.selectedOptions) {
-            this.setState({
-                'users': []
-            })
-            return;
-        }
-        let users = []
-        for (let i = 0; i < event.target.selectedOptions.length; i++) {
-            users.push(event.target.selectedOptions.item(i).value)
-        }
-        this.setState(
-            { 'users': users }
-        )
-    }
+  handleSubmit (event) {
+    this.props.update_project(this.props.id, this.state.name,
+      this.state.repository, this.state.users)
+    event.preventDefault()
+  }
 
-    handleSubmit(event) {
-        this.props.update_project(this.props.id, this.state.name,
-            this.state.repository, this.state.users)
-        event.preventDefault()
-    }
-
-
-    render() {
-        return (
+  render () {
+    return (
             <form onSubmit={(event) => this.handleSubmit(event)}>
 
                 <div>№ проекта: {this.props.id}</div>
@@ -93,8 +97,13 @@ class ProjectUpdateForm extends React.Component {
                     <input type="submit" value="Change" />
                 </div>
             </form>
-        );
-    }
+    )
+  }
+}
+ProjectUpdateForm.propTypes = {
+  id: PropTypes.string,
+  get_data_for_update_projects: PropTypes.func,
+  update_project: PropTypes.func
 }
 
 export default ProjectUpdateFormWrapper

@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-const ToDoItem = ({ todo, delete_todo }) => {
-    return (
+const ToDoItem = ({ todo, deleteTodo }) => {
+  return (
         <tr>
             <td>{todo.id}</td>
             <td>{todo.project}</td>
@@ -11,14 +12,18 @@ const ToDoItem = ({ todo, delete_todo }) => {
             <td>{todo.creater}</td>
             <td>{(todo.isActive ? 'Active' : 'Not active')}</td>
             <td>
-                <button onClick={() => delete_todo(todo.id)} type='button'>Delete</button>
+                <button onClick={() => deleteTodo(todo.id)} type='button'>Delete</button>
             </td>
         </tr>
-    )
+  )
+}
+ToDoItem.propTypes = {
+  todo: PropTypes.string.isRequired,
+  deleteTodo: PropTypes.func
 }
 
-const ToDoList = ({ todos, delete_todo }) => {
-    return (
+const ToDoList = ({ todos, deleteTodo }) => {
+  return (
         <table>
             <thead>
                 <tr>
@@ -34,10 +39,14 @@ const ToDoList = ({ todos, delete_todo }) => {
             </thead>
             <tbody>
                 {todos.map((todo) => <ToDoItem key={todo.id} todo={todo}
-                    delete_todo={delete_todo} />)}
+                    deleteTodo={deleteTodo} />)}
             </tbody>
         </table>
-    )
+  )
+}
+ToDoList.propTypes = {
+  todos: PropTypes.string.isRequired,
+  deleteTodo: PropTypes.func
 }
 
 export default ToDoList

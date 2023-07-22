@@ -1,18 +1,22 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const UserItem = ({ user }) => {
-    return (
+  return (
         <tr>
             <td>{user.username}</td>
             <td>{user.firstName}</td>
             <td>{user.lastName}</td>
             <td>{user.email}</td>
         </tr>
-    )
+  )
+}
+UserItem.propTypes = {
+  user: PropTypes.string.isRequired
 }
 
 const UserList = ({ users }) => {
-    return (
+  return (
         <table>
             <thead>
                 <tr>
@@ -26,7 +30,10 @@ const UserList = ({ users }) => {
                 {users.map((user) => <UserItem key={user.username} user={user} />)}
             </tbody>
         </table>
-    )
+  )
+}
+UserList.propTypes = {
+  users: PropTypes.string.isRequired
 }
 
 export default UserList

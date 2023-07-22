@@ -1,26 +1,27 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class LoginForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { login: '', password: '' }
-    }
+  constructor (props) {
+    super(props)
+    this.state = { login: '', password: '' }
+  }
 
-    handleChange(event) {
-        this.setState(
-            {
-                [event.target.name]: event.target.value
-            }
-        );
-    }
+  handleChange (event) {
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      }
+    )
+  }
 
-    handleSubmit(event) {
-        this.props.get_token(this.state.login, this.state.password)
-        event.preventDefault()
-    }
+  handleSubmit (event) {
+    this.props.get_token(this.state.login, this.state.password)
+    event.preventDefault()
+  }
 
-    render() {
-        return (
+  render () {
+    return (
             <form onSubmit={(event) => this.handleSubmit(event)}>
                 <input type="text" name="login" placeholder="login"
                     value={this.state.login} onChange={(event) => this.handleChange(event)} />
@@ -28,8 +29,12 @@ class LoginForm extends React.Component {
                     value={this.state.password} onChange={(event) => this.handleChange(event)} />
                 <input type="submit" value="Login" />
             </form>
-        );
-    }
+    )
+  }
+}
+
+LoginForm.propTypes = {
+  get_token: PropTypes.func
 }
 
 export default LoginForm

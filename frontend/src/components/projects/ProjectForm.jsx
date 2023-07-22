@@ -1,44 +1,44 @@
-import React from "react";
+import React from 'react'
+import PropTypes from 'prop-types'
 
 class ProjectForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { name: '', repository: '', users: [] }
+  constructor (props) {
+    super(props)
+    this.state = { name: '', repository: '', users: [] }
+  }
+
+  handleChange (event) {
+    this.setState(
+      {
+        [event.target.name]: event.target.value
+      }
+    )
+  }
+
+  handleUserChange (event) {
+    if (!event.target.selectedOptions) {
+      this.setState({
+        users: []
+      })
+      return
     }
-
-    handleChange(event) {
-        this.setState(
-            {
-                [event.target.name]: event.target.value
-            }
-        )
+    const users = []
+    for (let i = 0; i < event.target.selectedOptions.length; i++) {
+      users.push(event.target.selectedOptions.item(i).value)
     }
+    this.setState(
+      { users }
+    )
+  }
 
-    handleUserChange(event) {
-        if (!event.target.selectedOptions) {
-            this.setState({
-                'users': []
-            })
-            return;
-        }
-        let users = []
-        for (let i = 0; i < event.target.selectedOptions.length; i++) {
-            users.push(event.target.selectedOptions.item(i).value)
-        }
-        this.setState(
-            { 'users': users }
-        )
-    }
+  handleSubmit (event) {
+    this.props.create_project(this.state.name,
+      this.state.repository, this.state.users)
+    event.preventDefault()
+  }
 
-    handleSubmit(event) {
-        this.props.create_project(this.state.name,
-            this.state.repository, this.state.users)
-        event.preventDefault()
-    }
-
-
-    render() {
-        return (
+  render () {
+    return (
             <form onSubmit={(event) => this.handleSubmit(event)}>
 
                 <div className="form-group">
@@ -69,8 +69,12 @@ class ProjectForm extends React.Component {
                     <input type="submit" value="Create" />
                 </div>
             </form>
-        );
-    }
+    )
+  }
+}
+ProjectForm.propTypes = {
+  create_project: PropTypes.func,
+  users: PropTypes.string
 }
 
 export default ProjectForm
