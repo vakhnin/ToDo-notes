@@ -45,7 +45,7 @@ const ToDoList = ({ todos, deleteTodo }) => {
   )
 }
 ToDoList.propTypes = {
-  todos: PropTypes.string.isRequired,
+  todos: PropTypes.array,
   deleteTodo: PropTypes.func
 }
 

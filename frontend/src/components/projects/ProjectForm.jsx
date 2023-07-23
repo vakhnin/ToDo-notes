@@ -74,7 +74,7 @@ class ProjectForm extends React.Component {
 }
 ProjectForm.propTypes = {
   create_project: PropTypes.func,
-  users: PropTypes.string
+  users: PropTypes.array
 }
 
 export default ProjectForm

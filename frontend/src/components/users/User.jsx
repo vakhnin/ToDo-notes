@@ -12,7 +12,7 @@ const UserItem = ({ user }) => {
   )
 }
 UserItem.propTypes = {
-  user: PropTypes.string.isRequired
+  user: PropTypes.object
 }
 
 const UserList = ({ users }) => {
@@ -33,7 +33,7 @@ const UserList = ({ users }) => {
   )
 }
 UserList.propTypes = {
-  users: PropTypes.string.isRequired
+  users: PropTypes.array
 }
 
 export default UserList

@@ -50,7 +50,7 @@ class ToDoForm extends React.Component {
 }
 ToDoForm.propTypes = {
   create_todo: PropTypes.func,
-  projects: PropTypes.string
+  projects: PropTypes.array
 }
 
 export default ToDoForm
