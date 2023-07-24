@@ -79,13 +79,13 @@ class App extends React.Component {
     return this.state.token !== ''
   }
 
-  get_token_from_storage_and_load_data () {
+  get_token_from_storage () {
     const cookies = new Cookies()
     let token = ''
     if (cookies.get('token')) {
       token = cookies.get('token')
     }
-    this.setState({ token }, () => this.load_data())
+    this.setState({ token })
   }
 
   get_token (username, password) {
@@ -169,7 +169,8 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    this.get_token_from_storage_and_load_data()
+    this.get_token_from_storage()
+    this.load_data()
   }
 
   render () {
