@@ -1,8 +1,10 @@
 import React from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import './App.css'
+import { getUrl } from './components/Settings'
 import UserList from './components/users/User.jsx'
 import { ProjectList, ProjectDetail } from './components/projects/Project.jsx'
 import ProjectForm from './components/projects/ProjectForm.jsx'
@@ -11,21 +13,6 @@ import ToDoForm from './components/todos/ToDoForm.jsx'
 import ProjectUpdateFormWrapper from './components/projects/ProjectUpdateForm.jsx'
 import Footer from './components/Footer.jsx'
 import LoginForm from './components/Auth.jsx'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
-
-let DOMAIN
-switch (process.env.NODE_ENV) {
-  case 'production':{
-    const hostname = window.location.hostname
-    DOMAIN = `http://${hostname}:8000/`
-    break }
-  case 'development':
-  default:
-    DOMAIN = 'http://127.0.0.1:8000/'
-}
-
-const URLAPI = `${DOMAIN}api/`
-const getUrl = (url) => `${URLAPI}${url}`
 
 class App extends React.Component {
   constructor (props) {
@@ -102,7 +89,7 @@ class App extends React.Component {
   }
 
   get_token (username, password) {
-    axios.post(`${DOMAIN}api-token-auth/`, {
+    axios.post(getUrl('api-token-auth/'), {
       username,
       password
     })
