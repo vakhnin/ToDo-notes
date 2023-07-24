@@ -18,7 +18,7 @@ const ToDoItem = ({ todo, deleteTodo }) => {
   )
 }
 ToDoItem.propTypes = {
-  todo: PropTypes.string.isRequired,
+  todo: PropTypes.object,
   deleteTodo: PropTypes.func
 }
 
