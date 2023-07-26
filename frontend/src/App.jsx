@@ -19,12 +19,13 @@ class App extends React.Component {
     super(props)
     this.state = {
       users: [],
+      projects: [],
       todos: [],
       token: ''
     }
   }
 
-  get_headers = () => {
+  get_headers () {
     const headers = {
       'Content-Type': 'application/json'
     }
@@ -47,6 +48,16 @@ class App extends React.Component {
         )
       }).catch(error => console.log(error))
 
+    axios.get(getUrl('projects/'), { headers })
+      .then(response => {
+        const projects = response.data.results
+        this.setState(
+          {
+            projects
+          }
+        )
+      }).catch(error => console.log(error))
+
     axios.get(getUrl('todos/'), { headers })
       .then(response => {
         const todos = response.data.results
@@ -61,7 +72,7 @@ class App extends React.Component {
   set_token (token) {
     const cookies = new Cookies()
     cookies.set('token', token)
-    this.setState({ token })
+    this.setState({ token }, () => this.load_data())
   }
 
   is_authenticated () {
@@ -105,6 +116,17 @@ class App extends React.Component {
     const headers = this.get_headers()
     const data = { name, repository, users }
     axios.patch(getUrl(`projects/${id}/`), data, { headers })
+      .then(response => {
+        this.load_data()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ projects: [] })
+      })
+  }
+
+  delete_project (id) {
+    const headers = this.get_headers()
+    axios.delete(getUrl(`projects/${id}/`), { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
@@ -188,7 +210,7 @@ class App extends React.Component {
               <div>
                 <h2>Проекты</h2>
                 <Link to='/projects/create'>Создать проект</Link>
-                <ProjectList get_headers={this.get_headers} />
+                <ProjectList projects={this.state.projects} delete_project={(id) => this.delete_project(id)} />
               </div>} />
             <Route path='/projects/create'
               element={
