@@ -1,8 +1,14 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 
-const ProjectItem = ({ project, deleteProject }) => {
+import { getUrl } from '../Settings'
+
+const ProjectItem = ({ project, deleteProjectAndUpdateProjetsState }) => {
+  function deleteProject (id) {
+    deleteProjectAndUpdateProjetsState(id)
+  }
   return (
         <tr>
             <td><Link to={`/project/${project.id}`}>{project.id}</Link></td>
@@ -16,12 +22,46 @@ const ProjectItem = ({ project, deleteProject }) => {
   )
 }
 ProjectItem.propTypes = {
-  project: PropTypes.string,
-  deleteProject: PropTypes.func
+  project: PropTypes.object,
+  deleteProjectAndUpdateProjetsState: PropTypes.func
 }
 
-const ProjectList = ({ projects, deleteProject }) => {
-  return (
+class ProjectList extends React.Component {
+  constructor (props) {
+    super(props)
+    this.get_headers = this.props.get_headers
+    this.state = {
+      projects: []
+    }
+  }
+
+  deleteProjectAndUpdateProjetsState = (id) => {
+    const headers = this.get_headers()
+    axios.delete(getUrl(`projects/${id}/`), { headers })
+      .then(response => {
+        this.load_projects()
+      }).catch(error => {
+        console.log(error)
+        this.setState({ projects: [] })
+      })
+  }
+
+  load_projects () {
+    const headers = this.headers
+
+    axios.get(getUrl('projects/'), { headers })
+      .then(response => {
+        const projects = response.data.results
+        this.setState({ projects })
+      }).catch(error => console.log(error))
+  }
+
+  componentDidMount () {
+    this.load_projects()
+  }
+
+  render () {
+    return (
         <table>
             <thead>
                 <tr>
@@ -33,15 +73,15 @@ const ProjectList = ({ projects, deleteProject }) => {
                 </tr>
             </thead>
             <tbody>
-                {projects.map((project) => <ProjectItem key={project.id}
-                    delete_project={deleteProject} project={project} />)}
+                {this.state.projects.map((project) => <ProjectItem key={project.id} project={project}
+                  deleteProjectAndUpdateProjetsState={this.deleteProjectAndUpdateProjetsState} />)}
             </tbody>
         </table>
-  )
+    )
+  }
 }
 ProjectList.propTypes = {
-  projects: PropTypes.array,
-  deleteProject: PropTypes.func
+  get_headers: PropTypes.func
 }
 
 const ProjectUserItem = ({ item }) => {
