@@ -26,7 +26,7 @@ class App extends React.Component {
     }
   }
 
-  loadData = (loadData) => loadData(this)
+  loadData = () => loadData(this)
 
   get_headers () {
     const headers = {
@@ -41,7 +41,7 @@ class App extends React.Component {
   set_token (token) {
     const cookies = new Cookies()
     cookies.set('token', token)
-    this.setState({ token }, () => this.load_data())
+    this.setState({ token })
   }
 
   is_authenticated () {
@@ -139,7 +139,7 @@ class App extends React.Component {
 
   componentDidMount () {
     this.get_token_from_storage()
-    loadData(this)
+    this.loadData()
   }
 
   render () {
