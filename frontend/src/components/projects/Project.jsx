@@ -16,7 +16,7 @@ const ProjectItem = ({ project, deleteProject }) => {
   )
 }
 ProjectItem.propTypes = {
-  project: PropTypes.string,
+  project: PropTypes.object,
   deleteProject: PropTypes.func
 }
 
@@ -33,8 +33,8 @@ const ProjectList = ({ projects, deleteProject }) => {
                 </tr>
             </thead>
             <tbody>
-                {projects.map((project) => <ProjectItem key={project.id}
-                    delete_project={deleteProject} project={project} />)}
+                {projects.map((project) => <ProjectItem key={project.id} project={project}
+                    deleteProject={deleteProject} />)}
             </tbody>
         </table>
   )

@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import { getUrl } from './components/Settings'
 import loadData from './components/LoadData'
+import { deleteProjectAction } from './components/projects/ProjectActions'
+
 import UserList from './components/users/User.jsx'
 import { ProjectList, ProjectDetail } from './components/projects/Project.jsx'
 import ProjectForm from './components/projects/ProjectForm.jsx'
@@ -27,6 +29,7 @@ class App extends React.Component {
   }
 
   loadData = () => loadData(this)
+  deleteProject = (id) => deleteProjectAction(this, id)
 
   get_headers () {
     const headers = {
@@ -85,17 +88,6 @@ class App extends React.Component {
     const headers = this.get_headers()
     const data = { name, repository, users }
     axios.patch(getUrl(`projects/${id}/`), data, { headers })
-      .then(response => {
-        this.load_data()
-      }).catch(error => {
-        console.log(error)
-        this.setState({ projects: [] })
-      })
-  }
-
-  delete_project (id) {
-    const headers = this.get_headers()
-    axios.delete(getUrl(`projects/${id}/`), { headers })
       .then(response => {
         this.load_data()
       }).catch(error => {
@@ -179,7 +171,7 @@ class App extends React.Component {
               <div>
                 <h2>Проекты</h2>
                 <Link to='/projects/create'>Создать проект</Link>
-                <ProjectList projects={this.state.projects} delete_project={(id) => this.delete_project(id)} />
+                <ProjectList projects={this.state.projects} deleteProject={this.deleteProject} />
               </div>} />
             <Route path='/projects/create'
               element={
