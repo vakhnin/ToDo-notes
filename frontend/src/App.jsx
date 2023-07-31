@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 import './App.css'
 import { getUrl } from './components/Settings'
+import loadData from './components/LoadData'
 import UserList from './components/users/User.jsx'
 import { ProjectList, ProjectDetail } from './components/projects/Project.jsx'
 import ProjectForm from './components/projects/ProjectForm.jsx'
@@ -25,6 +26,8 @@ class App extends React.Component {
     }
   }
 
+  loadData = (loadData) => loadData(this)
+
   get_headers () {
     const headers = {
       'Content-Type': 'application/json'
@@ -33,40 +36,6 @@ class App extends React.Component {
       headers.Authorization = 'Token ' + this.state.token
     }
     return headers
-  }
-
-  load_data () {
-    const headers = this.get_headers()
-
-    axios.get(getUrl('users/'), { headers })
-      .then(response => {
-        const users = response.data.results
-        this.setState(
-          {
-            users
-          }
-        )
-      }).catch(error => console.log(error))
-
-    axios.get(getUrl('projects/'), { headers })
-      .then(response => {
-        const projects = response.data.results
-        this.setState(
-          {
-            projects
-          }
-        )
-      }).catch(error => console.log(error))
-
-    axios.get(getUrl('todos/'), { headers })
-      .then(response => {
-        const todos = response.data.results
-        this.setState(
-          {
-            todos
-          }
-        )
-      }).catch(error => console.log(error))
   }
 
   set_token (token) {
@@ -170,7 +139,7 @@ class App extends React.Component {
 
   componentDidMount () {
     this.get_token_from_storage()
-    this.load_data()
+    loadData(this)
   }
 
   render () {
