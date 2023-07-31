@@ -6,11 +6,11 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import { getUrl } from './components/Settings'
 import loadData from './components/LoadData'
-import { deleteProjectAction } from './components/projects/ProjectActions'
+import { createProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
 
 import UserList from './components/users/User.jsx'
 import { ProjectList, ProjectDetail } from './components/projects/Project.jsx'
-import ProjectForm from './components/projects/ProjectForm.jsx'
+import ProjectCreationForm from './components/projects/ProjectCreationForm.jsx'
 import ToDoList from './components/todos/ToDo.jsx'
 import ToDoForm from './components/todos/ToDoForm.jsx'
 import ProjectUpdateFormWrapper from './components/projects/ProjectUpdateForm.jsx'
@@ -30,6 +30,7 @@ class App extends React.Component {
 
   loadData = () => loadData(this)
   deleteProject = (id) => deleteProjectAction(this, id)
+  createProject = (name, repository, users) => createProjectAction(this, name, repository, users)
 
   get_headers () {
     const headers = {
@@ -71,17 +72,6 @@ class App extends React.Component {
         alert('Неверный логин или пароль')
         return error
       })
-  }
-
-  create_project (name, repository, users) {
-    const headers = this.get_headers()
-    const data = { name, repository, users }
-    axios.post(getUrl('projects/'), data, { headers }).then(response => {
-      this.load_data()
-    }).catch(error => {
-      console.log(error)
-      this.setState({ projects: [] })
-    })
   }
 
   update_project (id, name, repository, users) {
@@ -177,8 +167,8 @@ class App extends React.Component {
               element={
                 <div>
                   <h2>Создание проекта</h2>
-                  <ProjectForm users={this.state.users}
-                    create_project={(name, repository, users) => this.create_project(name, repository, users)} />
+                  <ProjectCreationForm users={this.state.users}
+                    createProject={this.createProject} />
                 </div>} />
             <Route path='/todos' element={
               <div>

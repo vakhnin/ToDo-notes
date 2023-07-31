@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class ProjectForm extends React.Component {
+class ProjectCreationForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = { name: '', repository: '', users: [] }
@@ -32,7 +32,7 @@ class ProjectForm extends React.Component {
   }
 
   handleSubmit (event) {
-    this.props.create_project(this.state.name,
+    this.props.createProject(this.state.name,
       this.state.repository, this.state.users)
     event.preventDefault()
   }
@@ -72,9 +72,9 @@ class ProjectForm extends React.Component {
     )
   }
 }
-ProjectForm.propTypes = {
-  create_project: PropTypes.func,
+ProjectCreationForm.propTypes = {
+  createProject: PropTypes.func,
   users: PropTypes.array
 }
 
-export default ProjectForm
+export default ProjectCreationForm
