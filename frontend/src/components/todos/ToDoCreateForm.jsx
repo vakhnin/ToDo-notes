@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-class ToDoForm extends React.Component {
+class ToDoCreateForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = { project: '', text: '' }
@@ -48,9 +48,9 @@ class ToDoForm extends React.Component {
     )
   }
 }
-ToDoForm.propTypes = {
+ToDoCreateForm.propTypes = {
   createTodo: PropTypes.func,
   projects: PropTypes.array
 }
 
-export default ToDoForm
+export default ToDoCreateForm

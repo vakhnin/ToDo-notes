@@ -11,8 +11,7 @@ import { createTodo, deleteTodo } from './components/todos/TodoActions'
 
 import UserList from './components/users/User'
 import Projects from './components/projects/Projects'
-import ToDoList from './components/todos/ToDo'
-import ToDoForm from './components/todos/ToDoCreateForm'
+import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
 import LoginForm from './components/Auth'
 
@@ -124,20 +123,12 @@ class App extends React.Component {
               <Projects projects={this.state.projects} users={this.state.users}
                 createProject={this.createProject} updateProject={this.updateProject}
                 deleteProject={this.deleteProject} />
-              } />
-            <Route path='/todos' element={
-              <div>
-                <h2>ToDos</h2>
-                <Link to='/todos/create'>Создать ToDo</Link>
-                <ToDoList todos={this.state.todos} deleteTodo={this.deleteTodo} />
-              </div>} />
-            <Route path='/todos/create'
-              element={
-                <div>
-                  <h2>Создание ToDo</h2>
-                  <ToDoForm projects={this.state.projects}
-                    createTodo={this.createTodo} />
-                </div>} />
+              }
+            />
+            <Route path='/todos/*' element={
+              <ToDos projects={this.state.projects} todos={this.state.todos}
+                createTodo={this.createTodo} deleteTodo={this.deleteTodo} /> }
+            />
             <Route path='/login' element={
               <div>
                     <h2>Login</h2>
