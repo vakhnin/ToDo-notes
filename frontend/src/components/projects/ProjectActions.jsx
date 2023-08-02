@@ -14,6 +14,18 @@ function createProjectAction (MainAppThis, name, repository, users) {
     })
 }
 
+function updateProjectAction (MainAppThis, id, name, repository, users) {
+  const headers = MainAppThis.get_headers()
+  const data = { name, repository, users }
+  axios.patch(getUrl(`projects/${id}/`), data, { headers })
+    .then(response => {
+      MainAppThis.loadData()
+    }).catch(error => {
+      console.log(error)
+      MainAppThis.setState({ projects: [] })
+    })
+}
+
 function deleteProjectAction (MainAppThis, id) {
   const headers = MainAppThis.get_headers()
   axios.delete(getUrl(`projects/${id}/`), { headers })
@@ -25,4 +37,4 @@ function deleteProjectAction (MainAppThis, id) {
     })
 }
 
-export { createProjectAction, deleteProjectAction }
+export { createProjectAction, updateProjectAction, deleteProjectAction }

@@ -2,38 +2,15 @@ import React from 'react'
 import { useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-function ProjectUpdateFormWrapper (props) {
+const ProjectUpdateFormWrapper = props => {
   const params = useParams()
-
-  return <ProjectUpdateForm id={params.id} get_data_for_update_projects={props.get_data_for_update_projects}
-        update_project={props.update_project} />
-}
-ProjectUpdateFormWrapper.propTypes = {
-  get_data_for_update_projects: PropTypes.func,
-  update_project: PropTypes.func
+  return <ProjectUpdateForm id={params.id} {...props} />
 }
 
 class ProjectUpdateForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = { name: '', repository: '', users: [], allUsers: [] }
-  }
-
-  componentDidMount () {
-    const data = this.props.get_data_for_update_projects()
-    const projects = data.projects
-    const project = projects.find((item) => item.id === Number(this.props.id))
-    if (project) {
-      this.setState(
-        {
-          name: project.name,
-          repository: project.repository,
-          users: project.users,
-          allUsers: data.users.slice()
-        })
-    }
-
-    this.render()
   }
 
   handleChange (event) {
@@ -61,9 +38,22 @@ class ProjectUpdateForm extends React.Component {
   }
 
   handleSubmit (event) {
-    this.props.update_project(this.props.id, this.state.name,
+    this.props.updateProject(this.props.id, this.state.name,
       this.state.repository, this.state.users)
     event.preventDefault()
+  }
+
+  componentDidMount () {
+    const project = this.props.projects.find((item) => item.id === Number(this.props.id))
+    if (project) {
+      this.setState(
+        {
+          name: project.name,
+          repository: project.repository,
+          users: project.users,
+          allUsers: this.props.users
+        })
+    }
   }
 
   render () {
@@ -102,8 +92,9 @@ class ProjectUpdateForm extends React.Component {
 }
 ProjectUpdateForm.propTypes = {
   id: PropTypes.string,
-  get_data_for_update_projects: PropTypes.func,
-  update_project: PropTypes.func
+  projects: PropTypes.array,
+  users: PropTypes.array,
+  updateProject: PropTypes.func
 }
 
 export default ProjectUpdateFormWrapper

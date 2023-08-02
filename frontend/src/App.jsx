@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import './App.css'
 import { getUrl } from './components/Settings'
 import loadData from './components/LoadData'
-import { createProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
+import { createProjectAction, updateProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
 
 import UserList from './components/users/User.jsx'
 import { ProjectList, ProjectDetail } from './components/projects/Project.jsx'
@@ -29,8 +29,10 @@ class App extends React.Component {
   }
 
   loadData = () => loadData(this)
-  deleteProject = (id) => deleteProjectAction(this, id)
+
   createProject = (name, repository, users) => createProjectAction(this, name, repository, users)
+  updateProject = (id, name, repository, users) => updateProjectAction(this, id, name, repository, users)
+  deleteProject = (id) => deleteProjectAction(this, id)
 
   get_headers () {
     const headers = {
@@ -71,18 +73,6 @@ class App extends React.Component {
       }).catch(error => {
         alert('Неверный логин или пароль')
         return error
-      })
-  }
-
-  update_project (id, name, repository, users) {
-    const headers = this.get_headers()
-    const data = { name, repository, users }
-    axios.patch(getUrl(`projects/${id}/`), data, { headers })
-      .then(response => {
-        this.load_data()
-      }).catch(error => {
-        console.log(error)
-        this.setState({ projects: [] })
       })
   }
 
@@ -196,8 +186,8 @@ class App extends React.Component {
             <Route path="/project/update/:id" element={
               <div>
                 <h2>Редактировать информацию о проекте</h2>
-                <ProjectUpdateFormWrapper get_data_for_update_projects={this.get_data_for_update_projects.bind(this)}
-                  update_project={(id, name, repository, users) => this.update_project(id, name, repository, users)} />
+                <ProjectUpdateFormWrapper projects={this.state.projects} users={this.state.users}
+                  updateProject={this.updateProject} />
               </div>} />
           </Routes>
         </Router>
