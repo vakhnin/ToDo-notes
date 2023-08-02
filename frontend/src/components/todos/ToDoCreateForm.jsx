@@ -16,7 +16,7 @@ class ToDoForm extends React.Component {
   }
 
   handleSubmit (event) {
-    this.props.create_todo(this.state.project,
+    this.props.createTodo(this.state.project,
       this.state.text)
     event.preventDefault()
   }
@@ -49,7 +49,7 @@ class ToDoForm extends React.Component {
   }
 }
 ToDoForm.propTypes = {
-  create_todo: PropTypes.func,
+  createTodo: PropTypes.func,
   projects: PropTypes.array
 }
 

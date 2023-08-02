@@ -7,13 +7,14 @@ import './App.css'
 import { getUrl } from './components/Settings'
 import loadData from './components/LoadData'
 import { createProjectAction, updateProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
+import { createTodo, deleteTodo } from './components/todos/TodoActions'
 
-import UserList from './components/users/User.jsx'
+import UserList from './components/users/User'
 import Projects from './components/projects/Projects'
-import ToDoList from './components/todos/ToDo.jsx'
-import ToDoForm from './components/todos/ToDoForm.jsx'
-import Footer from './components/Footer.jsx'
-import LoginForm from './components/Auth.jsx'
+import ToDoList from './components/todos/ToDo'
+import ToDoForm from './components/todos/ToDoCreateForm'
+import Footer from './components/Footer'
+import LoginForm from './components/Auth'
 
 class App extends React.Component {
   constructor (props) {
@@ -31,6 +32,9 @@ class App extends React.Component {
   createProject = (name, repository, users) => createProjectAction(this, name, repository, users)
   updateProject = (id, name, repository, users) => updateProjectAction(this, id, name, repository, users)
   deleteProject = (id) => deleteProjectAction(this, id)
+
+  createTodo = (project, text) => createTodo(this, project, text)
+  deleteTodo = id => deleteTodo(this, id)
 
   get_headers () {
     const headers = {
@@ -72,35 +76,6 @@ class App extends React.Component {
         alert('Неверный логин или пароль')
         return error
       })
-  }
-
-  create_todo (project, text) {
-    const headers = this.get_headers()
-    const data = { project, text }
-    axios.post(getUrl('todos/'), data, { headers }).then(response => {
-      this.load_data()
-    }).catch(error => {
-      console.log(error)
-      this.setState({ projects: [] })
-    })
-  }
-
-  delete_todo (id) {
-    const headers = this.get_headers()
-    axios.delete(getUrl(`todos/${id}/`), { headers })
-      .then(response => {
-        this.load_data()
-      }).catch(error => {
-        console.log(error)
-        this.setState({ projects: [] })
-      })
-  }
-
-  get_data_for_update_projects () {
-    return {
-      projects: this.state.projects,
-      users: this.state.users
-    }
   }
 
   logout () {
@@ -154,14 +129,14 @@ class App extends React.Component {
               <div>
                 <h2>ToDos</h2>
                 <Link to='/todos/create'>Создать ToDo</Link>
-                <ToDoList todos={this.state.todos} delete_todo={(id) => this.delete_todo(id)} />
+                <ToDoList todos={this.state.todos} deleteTodo={this.deleteTodo} />
               </div>} />
             <Route path='/todos/create'
               element={
                 <div>
                   <h2>Создание ToDo</h2>
                   <ToDoForm projects={this.state.projects}
-                    create_todo={(project, text) => this.create_todo(project, text)} />
+                    createTodo={this.createTodo} />
                 </div>} />
             <Route path='/login' element={
               <div>
