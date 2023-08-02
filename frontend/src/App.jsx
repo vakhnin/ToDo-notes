@@ -9,11 +9,9 @@ import loadData from './components/LoadData'
 import { createProjectAction, updateProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
 
 import UserList from './components/users/User.jsx'
-import { ProjectList, ProjectDetail } from './components/projects/Project.jsx'
-import ProjectCreationForm from './components/projects/ProjectCreationForm.jsx'
+import Projects from './components/projects/Projects'
 import ToDoList from './components/todos/ToDo.jsx'
 import ToDoForm from './components/todos/ToDoForm.jsx'
-import ProjectUpdateFormWrapper from './components/projects/ProjectUpdateForm.jsx'
 import Footer from './components/Footer.jsx'
 import LoginForm from './components/Auth.jsx'
 
@@ -147,19 +145,11 @@ class App extends React.Component {
                 <h2>Пользователи</h2>
                 <UserList users={this.state.users} />
               </div>} />
-            <Route path='/projects' element={
-              <div>
-                <h2>Проекты</h2>
-                <Link to='/projects/create'>Создать проект</Link>
-                <ProjectList projects={this.state.projects} deleteProject={this.deleteProject} />
-              </div>} />
-            <Route path='/projects/create'
-              element={
-                <div>
-                  <h2>Создание проекта</h2>
-                  <ProjectCreationForm users={this.state.users}
-                    createProject={this.createProject} />
-                </div>} />
+            <Route path='/projects/*' element={
+              <Projects projects={this.state.projects} users={this.state.users}
+                createProject={this.createProject} updateProject={this.updateProject}
+                deleteProject={this.deleteProject} />
+              } />
             <Route path='/todos' element={
               <div>
                 <h2>ToDos</h2>
@@ -177,17 +167,6 @@ class App extends React.Component {
               <div>
                     <h2>Login</h2>
                 <LoginForm get_token={(username, password) => this.get_token(username, password)} />
-              </div>} />
-            <Route path="/project/:id" element={
-              <div>
-                <h2>Детальная информация о проекте</h2>
-                <ProjectDetail projects={this.state.projects} />
-              </div>} />
-            <Route path="/project/update/:id" element={
-              <div>
-                <h2>Редактировать информацию о проекте</h2>
-                <ProjectUpdateFormWrapper projects={this.state.projects} users={this.state.users}
-                  updateProject={this.updateProject} />
               </div>} />
           </Routes>
         </Router>
