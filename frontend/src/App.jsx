@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
 import { getUrl } from './components/Settings'
@@ -13,6 +13,7 @@ import UserList from './components/users/User'
 import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
+import Nav from './components/Nav'
 import LoginForm from './components/Auth'
 
 class App extends React.Component {
@@ -90,28 +91,7 @@ class App extends React.Component {
     return (
       <div className="App d-flex flex-column min-vh-100">
         <Router>
-          <nav>
-            <ul>
-              <li>
-                <Link to='/'>Главная</Link>
-              </li>
-              <li>
-                <Link to='/users'>Пользователи</Link>
-              </li>
-              <li>
-                <Link to='/projects'>Проекты</Link>
-              </li>
-              <li>
-                <Link to='/todos'>ToDos</Link>
-              </li>
-              <li>
-                {this.is_authenticated()
-                  ? <button
-                    onClick={() => this.logout()}>Logout</button>
-                  : <Link to='/login'>Login</Link>}
-              </li>
-            </ul>
-          </nav>
+          <Nav is_authenticated={() => this.is_authenticated()} logout={() => this.logout()} />
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users' element={
