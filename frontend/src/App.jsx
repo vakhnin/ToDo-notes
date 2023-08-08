@@ -13,7 +13,7 @@ import UserList from './components/users/User'
 import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
-import Nav from './components/Nav'
+import NavMenu from './components/Nav'
 import LoginForm from './components/Auth'
 
 class App extends React.Component {
@@ -91,7 +91,9 @@ class App extends React.Component {
     return (
       <div className="App d-flex flex-column min-vh-100">
         <Router>
-          <Nav is_authenticated={() => this.is_authenticated()} logout={() => this.logout()} />
+          <NavMenu is_authenticated={() => this.is_authenticated()}
+            logout={() => this.logout()} />
+          <div className="container bg-light flex-grow-1">
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users' element={
@@ -115,6 +117,7 @@ class App extends React.Component {
                 <LoginForm get_token={(username, password) => this.get_token(username, password)} />
               </div>} />
           </Routes>
+          </div>
         </Router>
         <Footer />
       </div>
