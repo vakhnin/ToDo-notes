@@ -48,7 +48,7 @@ class App extends React.Component {
 
   set_token (token) {
     const cookies = new Cookies()
-    cookies.set('token', token)
+    cookies.set('token', token, { secure: true, sameSite: 'none' })
     this.setState({ token })
   }
 
