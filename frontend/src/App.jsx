@@ -14,7 +14,6 @@ import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
 import NavMenu from './components/Nav'
-import LoginForm from './components/Auth'
 
 class App extends React.Component {
   constructor (props) {
@@ -65,13 +64,14 @@ class App extends React.Component {
     this.setState({ token })
   }
 
-  get_token (username, password) {
+  get_token (username, password, setModalLoginShow) {
     axios.post(getUrl('api-token-auth/'), {
       username,
       password
     })
       .then(response => {
         this.set_token(response.data.token)
+        setModalLoginShow()
       }).catch(error => {
         alert('Неверный логин или пароль')
         return error
@@ -92,6 +92,7 @@ class App extends React.Component {
       <div className="App d-flex flex-column min-vh-100">
         <Router>
           <NavMenu is_authenticated={() => this.is_authenticated()}
+            getToken={(username, password, setModalLoginShow) => this.get_token(username, password, setModalLoginShow)}
             logout={() => this.logout()} />
           <div className="container bg-light flex-grow-1">
           <Routes>
@@ -111,11 +112,6 @@ class App extends React.Component {
               <ToDos projects={this.state.projects} todos={this.state.todos}
                 createTodo={this.createTodo} deleteTodo={this.deleteTodo} /> }
             />
-            <Route path='/login' element={
-              <div>
-                    <h2>Login</h2>
-                <LoginForm get_token={(username, password) => this.get_token(username, password)} />
-              </div>} />
           </Routes>
           </div>
         </Router>
