@@ -64,14 +64,14 @@ class App extends React.Component {
     this.setState({ token })
   }
 
-  get_token (username, password, setModalLoginShow) {
+  get_token (username, password, closeModalLogin) {
     axios.post(getUrl('api-token-auth/'), {
       username,
       password
     })
       .then(response => {
         this.set_token(response.data.token)
-        setModalLoginShow()
+        closeModalLogin()
       }).catch(error => {
         alert('Неверный логин или пароль')
         return error
@@ -92,7 +92,7 @@ class App extends React.Component {
       <div className="App d-flex flex-column min-vh-100">
         <Router>
           <NavMenu is_authenticated={() => this.is_authenticated()}
-            getToken={(username, password, setModalLoginShow) => this.get_token(username, password, setModalLoginShow)}
+            getToken={(username, password, closeModalLogin) => this.get_token(username, password, closeModalLogin)}
             logout={() => this.logout()} />
           <div className="container bg-light flex-grow-1">
           <Routes>
