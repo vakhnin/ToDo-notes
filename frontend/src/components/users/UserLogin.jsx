@@ -8,14 +8,22 @@ import Form from 'react-bootstrap/Form'
 export default function loginModal (props) {
   const [login, setLogin] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
 
   function clearState () {
     setLogin('')
     setPassword('')
+    setError('')
   }
 
   function getToken () {
-    props.getToken(login, password, () => props.setModalLoginShow(false))
+    props.getToken(login, password, error => {
+      if (error) {
+        setError(error)
+      } else {
+        props.setModalLoginShow(false)
+      }
+    })
   }
 
   return (
@@ -24,6 +32,7 @@ export default function loginModal (props) {
           <Modal.Title>Авторизация</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <div className='text-danger'>{error}</div>
           <Form>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Имя пользователя</Form.Label>
@@ -40,7 +49,7 @@ export default function loginModal (props) {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={props.onHide}>
+          <Button variant="secondary" onClick={() => props.setModalLoginShow(false)}>
             Отменить
           </Button>
           <Button variant="primary" onClick={() => getToken()}>
