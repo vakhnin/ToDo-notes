@@ -9,7 +9,12 @@ import Form from 'react-bootstrap/Form'
 export default function loginModal (props) {
   const [error, setError] = useState('')
 
-  const { register, handleSubmit, reset } = useForm()
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      login: '',
+      password: ''
+    }
+  })
 
   const getToken = data => {
     props.getToken(data.login, data.password, error => {
