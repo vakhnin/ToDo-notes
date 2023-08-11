@@ -1,36 +1,23 @@
-import axios from 'axios'
-import { getUrl } from './Settings'
+import { RESTAPI } from './Settings'
 
-export default function LoadData (appThis) {
-  const headers = appThis.get_headers()
+export default function LoadData (getHeaders, setUsersState, setProjectsState, setTodosState) {
+  const headers = getHeaders()
 
-  axios.get(getUrl('users/'), { headers })
+  RESTAPI.get('users/', { headers })
     .then(response => {
       const users = response.data.results
-      appThis.setState(
-        {
-          users
-        }
-      )
+      setUsersState(users)
     }).catch(error => console.log(error))
 
-  axios.get(getUrl('projects/'), { headers })
+  RESTAPI.get('projects/', { headers })
     .then(response => {
       const projects = response.data.results
-      appThis.setState(
-        {
-          projects
-        }
-      )
+      setProjectsState(projects)
     }).catch(error => console.log(error))
 
-  axios.get(getUrl('todos/'), { headers })
+  RESTAPI.get('todos/', { headers })
     .then(response => {
       const todos = response.data.results
-      appThis.setState(
-        {
-          todos
-        }
-      )
+      setTodosState(todos)
     }).catch(error => console.log(error))
 }

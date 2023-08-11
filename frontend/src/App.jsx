@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
 // import { getUrl } from './components/Settings'
-// import loadData from './components/LoadData'
+import loadData from './components/LoadData'
 // import { createProjectAction, updateProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
 // import { createTodo, deleteTodo } from './components/todos/TodoActions'
 
@@ -19,11 +19,12 @@ function App () {
   const [users, setUsersState] = useState([])
   const [projects, setProjectsState] = useState([])
   const [todos, setTodosState] = useState([])
-  const [token, setTokenState] = useState([])
+  const [token, setTokenState] = useState('')
 
-  useEffect(() => { getTokenFromStorage() }, [])
-
-  // loadData = () => loadData(this)
+  useEffect(() => {
+    getTokenFromStorage()
+    loadData(getHeaders, setUsersState, setProjectsState, setTodosState)
+  }, [])
 
   // createProject = (name, repository, users) => createProjectAction(this, name, repository, users)
   // updateProject = (id, name, repository, users) => updateProjectAction(this, id, name, repository, users)
@@ -36,7 +37,7 @@ function App () {
     const headers = {
       'Content-Type': 'application/json'
     }
-    if (isAuthenticated) {
+    if (isAuthenticated()) {
       headers.Authorization = 'Token ' + token
     }
     return headers
@@ -61,16 +62,9 @@ function App () {
     setTokenState(token)
   }
 
-  console.log(setUsersState, setProjectsState, setTodosState, getHeaders, setToken, getTokenFromStorage)
-
   const logout = () => {
     setToken('')
   }
-
-  // componentDidMount () {
-  //   this.get_token_from_storage()
-  //   this.loadData()
-  // }
 
   return (
       <div className="App d-flex flex-column min-vh-100">
