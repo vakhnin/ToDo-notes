@@ -44,7 +44,7 @@ const NavMenu = props => {
                   : <Nav.Link as={Link} to="/todos">ToDos</Nav.Link>}
               </Nav.Item>
               <Nav.Item>
-                {props.is_authenticated()
+                {props.isAuthenticated()
                   ? <Nav.Link onClick={() => props.logout()}>Выйти</Nav.Link>
                   : <Nav.Link onClick={() => setModalLoginShow(true)}>Войти</Nav.Link>}
                   </Nav.Item>
@@ -53,13 +53,13 @@ const NavMenu = props => {
         </Container>
       </Navbar>
       <LoginModal show={modalLoginShow} setModalLoginShow={setModalLoginShow}
-        getToken={props.getToken}/>
+        setToken={props.setToken}/>
     </>
   )
 }
 NavMenu.propTypes = {
-  is_authenticated: PropTypes.func,
-  getToken: PropTypes.func,
+  isAuthenticated: PropTypes.func,
+  setToken: PropTypes.func,
   logout: PropTypes.func,
   locationPathname: PropTypes.string
 }
