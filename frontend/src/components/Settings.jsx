@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 let DOMAIN
 switch (process.env.NODE_ENV) {
   case 'production':{
@@ -11,3 +13,7 @@ switch (process.env.NODE_ENV) {
 
 const URLAPI = `${DOMAIN}api/`
 export const getUrl = (url) => `${URLAPI}${url}`
+
+export const RESTAPI = axios.create({
+  baseURL: `${DOMAIN}api/`
+})

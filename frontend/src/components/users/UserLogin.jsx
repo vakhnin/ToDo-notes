@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import { useForm } from 'react-hook-form'
 
-import { getUrl } from '../Settings'
+import { RESTAPI } from '../Settings'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -18,7 +17,7 @@ export default function loginModal (props) {
   })
 
   const getToken = data => {
-    axios.post(getUrl('api-token-auth/'), {
+    RESTAPI.post('api-token-auth/', {
       username: data.username,
       password: data.password
     })
