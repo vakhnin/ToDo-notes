@@ -2,15 +2,17 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
+import { RESTAPI } from '../Settings'
+
 const ProjectItem = ({ project, deleteProject }) => {
   return (
         <tr>
-            <td><Link to={`/project/${project.id}`}>{project.id}</Link></td>
+            <td><Link to={`/projects/${project.id}`}>{project.id}</Link></td>
             <td>{project.name}</td>
             <td>{project.repository}</td>
             <td><Link to={`/projects/update/${project.id}`}>Редактировать</Link></td>
             <td>
-                <button onClick={() => deleteProject(project.id)} type='button'>Delete</button>
+                <button onClick={deleteProject} type='button'>Delete</button>
             </td>
         </tr>
   )
@@ -20,7 +22,16 @@ ProjectItem.propTypes = {
   deleteProject: PropTypes.func
 }
 
-const ProjectList = ({ projects, deleteProject }) => {
+const ProjectList = ({ projects, setProjectsState }) => {
+  const deleteProject = id => {
+    RESTAPI.delete(`projects/${id}/`)
+      .then(response => {
+        setProjectsState(projects.filter((item) => item.id !== id))
+      }).catch(error => {
+        console.log(error)
+      })
+  }
+
   return (
         <table>
             <thead>
@@ -34,14 +45,14 @@ const ProjectList = ({ projects, deleteProject }) => {
             </thead>
             <tbody>
                 {projects.map((project) => <ProjectItem key={project.id} project={project}
-                    deleteProject={deleteProject} />)}
+                    deleteProject={() => deleteProject(project.id)} />)}
             </tbody>
         </table>
   )
 }
 ProjectList.propTypes = {
   projects: PropTypes.array,
-  deleteProject: PropTypes.func
+  setProjectsState: PropTypes.func
 }
 
 export default ProjectList

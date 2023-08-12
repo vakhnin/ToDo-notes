@@ -1,21 +1,19 @@
 import { RESTAPI } from './Settings'
 
-export default function LoadData (getHeaders, setUsersState, setProjectsState, setTodosState) {
-  const headers = getHeaders()
-
-  RESTAPI.get('users/', { headers })
+export default function LoadData (setUsersState, setProjectsState, setTodosState) {
+  RESTAPI.get('users/')
     .then(response => {
       const users = response.data.results
       setUsersState(users)
     }).catch(error => console.log(error))
 
-  RESTAPI.get('projects/', { headers })
+  RESTAPI.get('projects/')
     .then(response => {
       const projects = response.data.results
       setProjectsState(projects)
     }).catch(error => console.log(error))
 
-  RESTAPI.get('todos/', { headers })
+  RESTAPI.get('todos/')
     .then(response => {
       const todos = response.data.results
       setTodosState(todos)

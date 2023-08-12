@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react'
-// import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
-// import { getUrl } from './components/Settings'
 import loadData from './components/LoadData'
 // import { createProjectAction, updateProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
 // import { createTodo, deleteTodo } from './components/todos/TodoActions'
@@ -14,38 +12,41 @@ import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
 import NavMenu from './components/Nav'
+import { RESTAPI } from './components/Settings'
 
 function App () {
+  const cookies = new Cookies()
   const [users, setUsersState] = useState([])
   const [projects, setProjectsState] = useState([])
   const [todos, setTodosState] = useState([])
-  const [token, setTokenState] = useState('')
+  const [token, setTokenState] = useState(cookies.get('token'))
 
   useEffect(() => {
     getTokenFromStorage()
-    loadData(getHeaders, setUsersState, setProjectsState, setTodosState)
+    loadData(setUsersState, setProjectsState, setTodosState)
   }, [])
 
-  // createProject = (name, repository, users) => createProjectAction(this, name, repository, users)
   // updateProject = (id, name, repository, users) => updateProjectAction(this, id, name, repository, users)
-  // deleteProject = (id) => deleteProjectAction(this, id)
 
   // createTodo = (project, text) => createTodo(this, project, text)
   // deleteTodo = id => deleteTodo(this, id)
 
-  const getHeaders = () => {
+  const getHeaders = (token) => {
     const headers = {
       'Content-Type': 'application/json'
     }
-    if (isAuthenticated()) {
+    if (token) {
       headers.Authorization = 'Token ' + token
     }
+    console.log(headers)
+    console.log(token)
     return headers
   }
 
   const setToken = (token) => {
     const cookies = new Cookies()
     cookies.set('token', token, { secure: true, sameSite: 'none' })
+    RESTAPI.defaults.headers.common = getHeaders(token)
     setTokenState(token)
   }
 
@@ -59,6 +60,7 @@ function App () {
     if (cookies.get('token')) {
       token = cookies.get('token')
     }
+    RESTAPI.defaults.headers.common = getHeaders(token)
     setTokenState(token)
   }
 
@@ -80,15 +82,9 @@ function App () {
                 <UserList users={users} />
               </div>} />
             <Route path='/projects/*' element={
-              <Projects projects={projects} users={users}/>
+              <Projects projects={projects} users={users} setProjectsState={setProjectsState}/>
               }
             />
-            {/* <Route path='/projects/*' element={
-              <Projects projects={projects} users={users}
-                createProject={this.createProject} updateProject={this.updateProject}
-                deleteProject={this.deleteProject} />
-              }
-            /> */}
             <Route path='/todos/*' element={
               <ToDos projects={projects} todos={todos}/> }
             />
