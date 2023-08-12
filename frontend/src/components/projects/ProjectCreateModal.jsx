@@ -27,10 +27,10 @@ export default function ProjectCreateModal (props) {
       .then(response => {
         newProject.id = response.data.id
         props.setProjectsState([...props.projects, newProject])
+        setError('')
+        props.setModalShow(false)
       }).catch(error => {
         console.log(error)
-        setError('111')
-        props.setProjectsState([])
       })
   }
 
@@ -65,7 +65,7 @@ export default function ProjectCreateModal (props) {
             Очистить
           </Button>
           <Button variant="primary" onClick={handleSubmit(createProject)}>
-            Войти
+            Создать
           </Button>
         </Modal.Footer>
       </Modal>)

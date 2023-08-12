@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import ProjectList from './ProjectList'
 import ProjectDetail from './ProjectDetail'
 import ProjectUpdateFormWrapper from './ProjectUpdateForm'
-import ProjectCreateModal from './ProjectCreationModal'
+import ProjectCreateModal from './ProjectCreateModal'
 
 const Projects = props => {
   const [modalCreateShow, setModalCreateShow] = useState(false)
