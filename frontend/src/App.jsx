@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
 import loadData from './components/LoadData'
-// import { createProjectAction, updateProjectAction, deleteProjectAction } from './components/projects/ProjectActions'
 // import { createTodo, deleteTodo } from './components/todos/TodoActions'
 
 import UserList from './components/users/User'
@@ -26,8 +25,6 @@ function App () {
     loadData(setUsersState, setProjectsState, setTodosState)
   }, [])
 
-  // updateProject = (id, name, repository, users) => updateProjectAction(this, id, name, repository, users)
-
   // createTodo = (project, text) => createTodo(this, project, text)
   // deleteTodo = id => deleteTodo(this, id)
 
@@ -38,8 +35,6 @@ function App () {
     if (token) {
       headers.Authorization = 'Token ' + token
     }
-    console.log(headers)
-    console.log(token)
     return headers
   }
 
