@@ -4,14 +4,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
 import loadData from './components/LoadData'
-// import { createTodo, deleteTodo } from './components/todos/TodoActions'
 
+import { RESTAPI } from './components/Settings'
+import NavMenu from './components/Nav'
 import UserList from './components/users/User'
 import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
-import NavMenu from './components/Nav'
-import { RESTAPI } from './components/Settings'
 
 function App () {
   const cookies = new Cookies()
@@ -24,8 +23,6 @@ function App () {
     getTokenFromStorage()
     loadData(setUsersState, setProjectsState, setTodosState)
   }, [])
-
-  // deleteTodo = id => deleteTodo(this, id)
 
   const getHeaders = (token) => {
     const headers = {

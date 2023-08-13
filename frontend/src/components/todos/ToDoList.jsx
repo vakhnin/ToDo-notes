@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { RESTAPI } from '../Settings'
+
 const ToDoItem = ({ todo, deleteTodo }) => {
   return (
         <tr>
@@ -22,7 +24,18 @@ ToDoItem.propTypes = {
   deleteTodo: PropTypes.func
 }
 
-const ToDoList = ({ todos, deleteTodo }) => {
+const ToDoList = props => {
+  const deleteTodo = id => {
+    RESTAPI.delete(`todos/${id}/`)
+      .then(response => {
+        props.setTodosState(
+          props.todos.map(todo => {
+            if (todo.id === id) { return { ...todo, isActive: false } } else { return todo }
+          }))
+      }).catch(error => {
+        console.log(error)
+      })
+  }
   return (
         <table>
             <thead>
@@ -38,15 +51,15 @@ const ToDoList = ({ todos, deleteTodo }) => {
                 </tr>
             </thead>
             <tbody>
-                {todos.map((todo) => <ToDoItem key={todo.id} todo={todo}
-                    deleteTodo={deleteTodo} />)}
+                {props.todos.map((todo) => <ToDoItem key={todo.id} todo={todo}
+                    deleteTodo={() => deleteTodo(todo.id)} />)}
             </tbody>
         </table>
   )
 }
 ToDoList.propTypes = {
   todos: PropTypes.array,
-  deleteTodo: PropTypes.func
+  setTodosState: PropTypes.func
 }
 
 export default ToDoList
