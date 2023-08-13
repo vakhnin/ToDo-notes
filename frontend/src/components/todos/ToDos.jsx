@@ -1,23 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
+
 import ToDoList from './ToDoList'
-import ToDoCreateForm from './ToDoCreateForm'
+import ToDoCreateModal from './ToDoCreateModal'
+// import ToDoCreateForm from './ToDoCreateForm'
 
 const ToDos = props => {
+  const [modalCreateShow, setModalCreateShow] = useState(false)
   return (
+    <>
     <Routes>
       <Route index element={
         <div>
           <h2>ToDos</h2>
-          <Link to='/todos/create'>Создать ToDo</Link>
+          <Link onClick={() => setModalCreateShow(true)}>Создать ToDo</Link>
           <ToDoList {...props} />
         </div> }/>
-      <Route path='create' element={
-        <div>
-          <h2>Создание ToDo</h2>
-          <ToDoCreateForm {...props} />
-        </div>} />
     </Routes>
+    <ToDoCreateModal {...props} show={modalCreateShow} setModalShow={setModalCreateShow}/>
+    </>
   )
 }
 

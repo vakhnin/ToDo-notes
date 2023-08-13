@@ -25,7 +25,6 @@ function App () {
     loadData(setUsersState, setProjectsState, setTodosState)
   }, [])
 
-  // createTodo = (project, text) => createTodo(this, project, text)
   // deleteTodo = id => deleteTodo(this, id)
 
   const getHeaders = (token) => {
@@ -81,12 +80,8 @@ function App () {
               }
             />
             <Route path='/todos/*' element={
-              <ToDos projects={projects} todos={todos}/> }
+              <ToDos projects={projects} todos={todos} setTodosState={setTodosState}/> }
             />
-            {/* <Route path='/todos/*' element={
-              <ToDos projects={projects} todos={todos}
-                createTodo={this.createTodo} deleteTodo={this.deleteTodo} /> }
-            /> */}
           </Routes>
           </div>
         </Router>
