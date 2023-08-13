@@ -38,11 +38,10 @@ export default function ProjectUpdateModal (props) {
     }
     RESTAPI.patch(`projects/${props.projectID}/`, project)
       .then(response => {
-        const projectNew = props.projects.find((project) => project.id === props.projectID)
-        projectNew.name = project.name
-        projectNew.repository = project.repository
-        projectNew.users = project.users
-        props.setProjectsState([...props.projects])
+        props.setProjectsState(
+          props.projects.map(item => {
+            if (item.id === props.projectID) { return project } else { return item }
+          }))
         props.setModalShow(false)
       }).catch(error => {
         console.log(error)
