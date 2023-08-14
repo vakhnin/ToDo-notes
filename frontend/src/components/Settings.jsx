@@ -2,10 +2,11 @@ import axios from 'axios'
 
 let DOMAIN
 switch (process.env.NODE_ENV) {
-  case 'production':{
+  case 'production': {
     const hostname = window.location.hostname
     DOMAIN = `http://${hostname}:8000/`
-    break }
+    break
+  }
   case 'development':
   default:
     DOMAIN = 'http://127.0.0.1:8000/'

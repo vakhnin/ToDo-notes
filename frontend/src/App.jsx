@@ -60,30 +60,28 @@ function App () {
   }
 
   return (
-      <div className="App d-flex flex-column min-vh-100">
-        <Router>
-          <NavMenu isAuthenticated={isAuthenticated} setToken={setToken}
-            logout={logout} />
-          <div className="container bg-light flex-grow-1">
+    <div className="App d-flex flex-column min-vh-100">
+      <Router>
+        <NavMenu isAuthenticated={isAuthenticated} setToken={setToken}
+          logout={logout} />
+        <div className="container bg-light flex-grow-1">
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users' element={
-              <div className="container flex-grow-1">
-                <h2>Пользователи</h2>
-                <UserList users={users} />
-              </div>} />
+              <UserList users={users} />}
+            />
             <Route path='/projects/*' element={
-              <Projects projects={projects} users={users} setProjectsState={setProjectsState}/>
-              }
+              <Projects projects={projects} users={users} setProjectsState={setProjectsState} />
+            }
             />
             <Route path='/todos/*' element={
-              <ToDos projects={projects} todos={todos} setTodosState={setTodosState}/> }
+              <ToDos projects={projects} todos={todos} setTodosState={setTodosState} />}
             />
           </Routes>
-          </div>
-        </Router>
-        <Footer />
-      </div>
+        </div>
+      </Router>
+      <Footer />
+    </div>
   )
 }
 

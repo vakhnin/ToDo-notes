@@ -47,13 +47,13 @@ const NavMenu = props => {
                 {props.isAuthenticated()
                   ? <Nav.Link onClick={() => props.logout()}>Выйти</Nav.Link>
                   : <Nav.Link onClick={() => setModalLoginShow(true)}>Войти</Nav.Link>}
-                  </Nav.Item>
+              </Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
       <LoginModal show={modalLoginShow} setModalLoginShow={setModalLoginShow}
-        setToken={props.setToken}/>
+        setToken={props.setToken} />
     </>
   )
 }
