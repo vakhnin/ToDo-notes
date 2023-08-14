@@ -24,31 +24,25 @@ export default function ProjectUpdateModal (props) {
     setValue('users', project.users)
   }
 
-  if (props.show) {
+  if (props.projectID) {
     project = props.projects
       .find((project) => project.id === props.projectID)
   }
 
   const updateProject = data => {
-    const project = {
-      id: props.projectID,
-      name: data.name,
-      repository: data.repository,
-      users: data.users
-    }
-    RESTAPI.patch(`projects/${props.projectID}/`, project)
+    RESTAPI.patch(`projects/${props.projectID}/`, data)
       .then(response => {
         props.setProjectsState(
           props.projects.map(item => {
             if (item.id === props.projectID) { return project } else { return item }
           }))
-        props.setModalShow(false)
+        props.setProjectID(0)
       }).catch(error => {
         console.log(error)
       })
   }
   return (
-    <Modal show={props.show} onHide={() => props.setModalShow(false)}
+    <Modal show={props.projectID} onHide={() => props.setProjectID(0)}
       onShow={() => { setError(''); reset() }}>
       <Modal.Header closeButton>
         <Modal.Title>Измение проекта</Modal.Title>
@@ -65,7 +59,7 @@ export default function ProjectUpdateModal (props) {
             <Form.Control type="text" placeholder="http://repository.com" {...register('repository')} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="loginForm.ControlSelect1">
-            <Form.Label>Исполнители</Form.Label>
+            <Form.Label>Участники проекта</Form.Label>
             <Form.Select multiple {...register('users')}>
               {props.users.map((user) =>
                 <option value={user.url} key={user.url}>{user.firstName}</option>)}
@@ -84,10 +78,9 @@ export default function ProjectUpdateModal (props) {
     </Modal>)
 }
 ProjectUpdateModal.propTypes = {
-  show: PropTypes.bool,
   users: PropTypes.array,
   projectID: PropTypes.number,
   projects: PropTypes.array,
-  setModalShow: PropTypes.func,
+  setProjectID: PropTypes.func,
   setProjectsState: PropTypes.func
 }

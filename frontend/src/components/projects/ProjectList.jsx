@@ -5,13 +5,13 @@ import PropTypes from 'prop-types'
 import { RESTAPI } from '../Settings'
 import ProjectUpdateModal from './ProjectUpdateModal'
 
-const ProjectItem = ({ project, handleClickDelete, showUpdateModal }) => {
+const ProjectItem = ({ project, handleClickDelete, handleClickUpdate }) => {
   return (
     <tr>
       <td><Link to={`/projects/${project.id}`}>{project.id}</Link></td>
       <td>{project.name}</td>
       <td>{project.repository}</td>
-      <td><Link onClick={() => showUpdateModal(project.id)}>Редактировать</Link></td>
+      <td><Link data-index={project.id} onClick={handleClickUpdate}>Редактировать</Link></td>
       <td>
         <button data-index={project.id} onClick={handleClickDelete} type='button'>Delete</button>
       </td>
@@ -21,16 +21,15 @@ const ProjectItem = ({ project, handleClickDelete, showUpdateModal }) => {
 ProjectItem.propTypes = {
   project: PropTypes.object,
   handleClickDelete: PropTypes.func,
-  showUpdateModal: PropTypes.func
+  handleClickUpdate: PropTypes.func
 }
 
 const ProjectList = props => {
-  const [modalUpdateShow, setModalUpdateShow] = useState(false)
   const [projectID, setProjectID] = useState(0)
 
-  const showUpdateModal = id => {
+  const handleClickUpdate = event => {
+    const id = Number(event.target.dataset.index)
     setProjectID(id)
-    setModalUpdateShow(true)
   }
 
   const handleClickDelete = event => {
@@ -57,10 +56,10 @@ const ProjectList = props => {
         </thead>
         <tbody>
           {props.projects.map((project) => <ProjectItem key={project.id} project={project}
-            handleClickDelete={handleClickDelete} showUpdateModal={showUpdateModal} />)}
+            handleClickDelete={handleClickDelete} handleClickUpdate={handleClickUpdate} />)}
         </tbody>
       </table>
-      <ProjectUpdateModal {...props} projectID={projectID} show={modalUpdateShow} setModalShow={setModalUpdateShow} />
+      <ProjectUpdateModal {...props} projectID={projectID} setProjectID={setProjectID} />
     </>
   )
 }
