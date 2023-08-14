@@ -35,34 +35,34 @@ export default function ToDoCreateModal (props) {
   return (
     <Modal show={props.show} onHide={() => props.setModalShow(false)}
       onShow={() => { setError(''); reset() }}>
-        <Modal.Header closeButton>
-          <Modal.Title>Создание ToDo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className='text-danger'>{error}</div>
-          <Form>
-            <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
-              <Form.Label>Выбор проекта</Form.Label>
-              <Form.Select {...register('project')}>
-                {props.projects.map((project) =>
-                  <option value={project.url} key={project.id}>{project.name}</option>)}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
-              <Form.Label>ToDo текст</Form.Label>
-              <Form.Control as="textarea" placeholder="Текст ToDo" {...register('text')}/>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => reset()}>
-            Очистить
-          </Button>
-          <Button variant="primary" onClick={handleSubmit(createToDo)}>
-            Создать
-          </Button>
-        </Modal.Footer>
-      </Modal>)
+      <Modal.Header closeButton>
+        <Modal.Title>Создание ToDo</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className='text-danger'>{error}</div>
+        <Form>
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+            <Form.Label>Выбор проекта</Form.Label>
+            <Form.Select {...register('project')}>
+              {props.projects.map((project) =>
+                <option value={project.url} key={project.id}>{project.name}</option>)}
+            </Form.Select>
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+            <Form.Label>ToDo текст</Form.Label>
+            <Form.Control as="textarea" placeholder="Текст ToDo" {...register('text')} />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => reset()}>
+          Очистить
+        </Button>
+        <Button variant="primary" onClick={handleSubmit(createToDo)}>
+          Создать
+        </Button>
+      </Modal.Footer>
+    </Modal>)
 }
 ToDoCreateModal.propTypes = {
   show: PropTypes.bool,

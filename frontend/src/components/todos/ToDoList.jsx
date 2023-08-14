@@ -5,18 +5,18 @@ import { RESTAPI } from '../Settings'
 
 const ToDoItem = ({ todo, deleteTodo }) => {
   return (
-        <tr>
-            <td>{todo.id}</td>
-            <td>{todo.project}</td>
-            <td>{todo.text}</td>
-            <td>{todo.created}</td>
-            <td>{todo.updated}</td>
-            <td>{todo.creater}</td>
-            <td>{(todo.isActive ? 'Active' : 'Not active')}</td>
-            <td>
-                <button onClick={() => deleteTodo(todo.id)} type='button'>Delete</button>
-            </td>
-        </tr>
+    <tr>
+      <td>{todo.id}</td>
+      <td>{todo.project}</td>
+      <td>{todo.text}</td>
+      <td>{todo.created}</td>
+      <td>{todo.updated}</td>
+      <td>{todo.creater}</td>
+      <td>{(todo.isActive ? 'Active' : 'Not active')}</td>
+      <td>
+        <button onClick={() => deleteTodo(todo.id)} type='button'>Delete</button>
+      </td>
+    </tr>
   )
 }
 ToDoItem.propTypes = {
@@ -37,24 +37,24 @@ const ToDoList = props => {
       })
   }
   return (
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Project</th>
-                    <th>ToDo text</th>
-                    <th>Created</th>
-                    <th>Updated</th>
-                    <th>Creater</th>
-                    <th>Active</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {props.todos.map((todo) => <ToDoItem key={todo.id} todo={todo}
-                    deleteTodo={() => deleteTodo(todo.id)} />)}
-            </tbody>
-        </table>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Project</th>
+          <th>ToDo text</th>
+          <th>Created</th>
+          <th>Updated</th>
+          <th>Creater</th>
+          <th>Active</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {props.todos.map((todo) => <ToDoItem key={todo.id} todo={todo}
+          deleteTodo={() => deleteTodo(todo.id)} />)}
+      </tbody>
+    </table>
   )
 }
 ToDoList.propTypes = {
