@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 const ProjectUserItem = ({ item }) => {
   return (
-        <li>{item}</li>
+    <li>{item}</li>
   )
 }
 ProjectUserItem.propTypes = {
@@ -17,18 +17,18 @@ const ProjectDetail = ({ projects }) => {
 
   if (project) {
     return (
-            <div>
-                <p>Название проекта: {project.name}</p>
-                <p>Repository: <a href={project.repository}>{project.repository}</a></p>
-                <p>Users:</p>
-                <ol>
-                    {project.users.map((user) => <ProjectUserItem key={user} item={user} />)}
-                </ol>
-            </div>
+      <div>
+        <p>Название проекта: {project.name}</p>
+        <p>Repository: <a href={project.repository}>{project.repository}</a></p>
+        <p>Users:</p>
+        <ol>
+          {project.users.map((user) => <ProjectUserItem key={user} item={user} />)}
+        </ol>
+      </div>
     )
   } else {
     return (
-            <div>Нет проекта с таким ID</div>
+      <div>Нет проекта с таким ID</div>
     )
   }
 }

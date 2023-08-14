@@ -37,38 +37,38 @@ export default function ProjectCreateModal (props) {
   return (
     <Modal show={props.show} onHide={() => props.setModalShow(false)}
       onShow={() => { setError(''); reset() }}>
-        <Modal.Header closeButton>
-          <Modal.Title>Создание проекта</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div className='text-danger'>{error}</div>
-          <Form>
-            <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
-              <Form.Label>Название проекта</Form.Label>
-              <Form.Control type="text" placeholder="Название проекта" {...register('name')}/>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
-              <Form.Label>Репозитарий</Form.Label>
-              <Form.Control type="text" placeholder="http://repository.com" {...register('repository')}/>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="loginForm.ControlSelect1">
-              <Form.Label>Исполнители</Form.Label>
-              <Form.Select multiple {...register('users')}>
-                {props.users.map((user) =>
-                  <option value={user.url} key={user.url}>{user.firstName}</option>)}
-              </Form.Select>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => reset()}>
-            Очистить
-          </Button>
-          <Button variant="primary" onClick={handleSubmit(createProject)}>
-            Создать
-          </Button>
-        </Modal.Footer>
-      </Modal>)
+      <Modal.Header closeButton>
+        <Modal.Title>Создание проекта</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className='text-danger'>{error}</div>
+        <Form>
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+            <Form.Label>Название проекта</Form.Label>
+            <Form.Control type="text" placeholder="Название проекта" {...register('name')} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+            <Form.Label>Репозитарий</Form.Label>
+            <Form.Control type="text" placeholder="http://repository.com" {...register('repository')} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="loginForm.ControlSelect1">
+            <Form.Label>Исполнители</Form.Label>
+            <Form.Select multiple {...register('users')}>
+              {props.users.map((user) =>
+                <option value={user.url} key={user.url}>{user.firstName}</option>)}
+            </Form.Select>
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => reset()}>
+          Очистить
+        </Button>
+        <Button variant="primary" onClick={handleSubmit(createProject)}>
+          Создать
+        </Button>
+      </Modal.Footer>
+    </Modal>)
 }
 ProjectCreateModal.propTypes = {
   show: PropTypes.bool,

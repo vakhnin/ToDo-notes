@@ -7,15 +7,15 @@ import ProjectUpdateModal from './ProjectUpdateModal'
 
 const ProjectItem = ({ project, deleteProject, showUpdateModal }) => {
   return (
-        <tr>
-            <td><Link to={`/projects/${project.id}`}>{project.id}</Link></td>
-            <td>{project.name}</td>
-            <td>{project.repository}</td>
-            <td><Link onClick={() => showUpdateModal(project.id)}>Редактировать</Link></td>
-            <td>
-                <button onClick={deleteProject} type='button'>Delete</button>
-            </td>
-        </tr>
+    <tr>
+      <td><Link to={`/projects/${project.id}`}>{project.id}</Link></td>
+      <td>{project.name}</td>
+      <td>{project.repository}</td>
+      <td><Link onClick={() => showUpdateModal(project.id)}>Редактировать</Link></td>
+      <td>
+        <button onClick={deleteProject} type='button'>Delete</button>
+      </td>
+    </tr>
   )
 }
 ProjectItem.propTypes = {
@@ -45,21 +45,21 @@ const ProjectList = props => {
   return (
     <>
       <table>
-          <thead>
-              <tr>
-                  <th>ID</th>
-                  <th>Project name</th>
-                  <th>Repository</th>
-                  <th></th>
-                  <th></th>
-              </tr>
-          </thead>
-          <tbody>
-              {props.projects.map((project) => <ProjectItem key={project.id} project={project}
-                  deleteProject={() => deleteProject(project.id)} showUpdateModal={showUpdateModal}/>)}
-          </tbody>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Project name</th>
+            <th>Repository</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.projects.map((project) => <ProjectItem key={project.id} project={project}
+            deleteProject={() => deleteProject(project.id)} showUpdateModal={showUpdateModal} />)}
+        </tbody>
       </table>
-      <ProjectUpdateModal {...props} projectID={projectID} show={modalUpdateShow} setModalShow={setModalUpdateShow}/>
+      <ProjectUpdateModal {...props} projectID={projectID} show={modalUpdateShow} setModalShow={setModalUpdateShow} />
     </>
   )
 }

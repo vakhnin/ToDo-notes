@@ -10,20 +10,20 @@ const Projects = props => {
   const [modalCreateShow, setModalCreateShow] = useState(false)
   return (
     <>
-    <Routes>
-      <Route index element={
-        <div>
-          <h2>Проекты</h2>
-          <Link onClick={() => setModalCreateShow(true)}>Создать проект</Link>
-          <ProjectList {...props} />
-        </div>} />
-      <Route path=":id" element={
-        <div>
-          <h2>Детальная информация о проекте</h2>
-          <ProjectDetail {...props} />
-        </div>} />
-    </Routes>
-    <ProjectCreateModal {...props} show={modalCreateShow} setModalShow={setModalCreateShow}/>
+      <Routes>
+        <Route index element={
+          <div>
+            <h2>Проекты</h2>
+            <Link onClick={() => setModalCreateShow(true)}>Создать проект</Link>
+            <ProjectList {...props} />
+          </div>} />
+        <Route path=":id" element={
+          <div>
+            <h2>Детальная информация о проекте</h2>
+            <ProjectDetail {...props} />
+          </div>} />
+      </Routes>
+      <ProjectCreateModal {...props} show={modalCreateShow} setModalShow={setModalCreateShow} />
     </>
   )
 }
