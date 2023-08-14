@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { RESTAPI } from '../Settings'
 
-const ToDoItem = ({ todo, deleteTodo }) => {
+const ToDoItem = ({ todo, handleClickDelete }) => {
   return (
     <tr>
       <td>{todo.id}</td>
@@ -14,18 +14,19 @@ const ToDoItem = ({ todo, deleteTodo }) => {
       <td>{todo.creater}</td>
       <td>{(todo.isActive ? 'Active' : 'Not active')}</td>
       <td>
-        <button onClick={() => deleteTodo(todo.id)} type='button'>Delete</button>
+        <button data-index={todo.id} onClick={handleClickDelete} type='button'>Delete</button>
       </td>
     </tr>
   )
 }
 ToDoItem.propTypes = {
   todo: PropTypes.object,
-  deleteTodo: PropTypes.func
+  handleClickDelete: PropTypes.func
 }
 
 const ToDoList = props => {
-  const deleteTodo = id => {
+  const handleClickDelete = event => {
+    const id = Number(event.target.dataset.index)
     RESTAPI.delete(`todos/${id}/`)
       .then(response => {
         props.setTodosState(
@@ -52,7 +53,7 @@ const ToDoList = props => {
       </thead>
       <tbody>
         {props.todos.map((todo) => <ToDoItem key={todo.id} todo={todo}
-          deleteTodo={() => deleteTodo(todo.id)} />)}
+          handleClickDelete={handleClickDelete} />)}
       </tbody>
     </table>
   )
