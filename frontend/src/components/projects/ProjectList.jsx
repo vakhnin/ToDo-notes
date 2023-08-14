@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { RESTAPI } from '../Settings'
 import ProjectUpdateModal from './ProjectUpdateModal'
 
-const ProjectItem = ({ project, deleteProject, showUpdateModal }) => {
+const ProjectItem = ({ project, handleClickDelete, showUpdateModal }) => {
   return (
     <tr>
       <td><Link to={`/projects/${project.id}`}>{project.id}</Link></td>
@@ -13,14 +13,14 @@ const ProjectItem = ({ project, deleteProject, showUpdateModal }) => {
       <td>{project.repository}</td>
       <td><Link onClick={() => showUpdateModal(project.id)}>Редактировать</Link></td>
       <td>
-        <button onClick={deleteProject} type='button'>Delete</button>
+        <button data-index={project.id} onClick={handleClickDelete} type='button'>Delete</button>
       </td>
     </tr>
   )
 }
 ProjectItem.propTypes = {
   project: PropTypes.object,
-  deleteProject: PropTypes.func,
+  handleClickDelete: PropTypes.func,
   showUpdateModal: PropTypes.func
 }
 
@@ -33,7 +33,8 @@ const ProjectList = props => {
     setModalUpdateShow(true)
   }
 
-  const deleteProject = id => {
+  const handleClickDelete = event => {
+    const id = Number(event.target.dataset.index)
     RESTAPI.delete(`projects/${id}/`)
       .then(response => {
         props.setProjectsState(props.projects.filter((item) => item.id !== id))
@@ -56,7 +57,7 @@ const ProjectList = props => {
         </thead>
         <tbody>
           {props.projects.map((project) => <ProjectItem key={project.id} project={project}
-            deleteProject={() => deleteProject(project.id)} showUpdateModal={showUpdateModal} />)}
+            handleClickDelete={handleClickDelete} showUpdateModal={showUpdateModal} />)}
         </tbody>
       </table>
       <ProjectUpdateModal {...props} projectID={projectID} show={modalUpdateShow} setModalShow={setModalUpdateShow} />
