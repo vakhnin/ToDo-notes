@@ -1,12 +1,10 @@
 import { React, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
-
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
+import { Container, Nav, Navbar } from 'react-bootstrap'
 
 import LoginModal from './profile/UserLogin'
+import RegistryModal from './profile/UserRegistry'
 
 const NavMenuWrapper = props => {
   const location = useLocation()
@@ -14,7 +12,7 @@ const NavMenuWrapper = props => {
 }
 
 const NavMenu = props => {
-  const [modalLoginShow, setModalLoginShow] = useState(false)
+  const [modalShow, setModalShow] = useState('')
   return (
     <>
       <Navbar expand="lg" sticky="top" className="pb-0" bg="dark" data-bs-theme="dark">
@@ -46,14 +44,16 @@ const NavMenu = props => {
               <Nav.Item>
                 {props.isAuthenticated()
                   ? <Nav.Link onClick={() => props.logout()}>Выйти</Nav.Link>
-                  : <Nav.Link onClick={() => setModalLoginShow(true)}>Войти</Nav.Link>}
+                  : <Nav.Link onClick={() => setModalShow('login')}>Войти</Nav.Link>}
               </Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <LoginModal show={modalLoginShow} setModalLoginShow={setModalLoginShow}
+      <LoginModal show={modalShow === 'login'} setModalShow={setModalShow}
         setToken={props.setToken} />
+      <RegistryModal show={modalShow === 'registry'} setModalShow={setModalShow}
+        users={props.users} setUsersState={props.setUsersState} setToken={props.setToken} />
     </>
   )
 }
@@ -61,6 +61,8 @@ NavMenu.propTypes = {
   isAuthenticated: PropTypes.func,
   setToken: PropTypes.func,
   logout: PropTypes.func,
+  users: PropTypes.array,
+  setUsersState: PropTypes.func,
   locationPathname: PropTypes.string
 }
 

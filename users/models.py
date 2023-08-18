@@ -5,4 +5,4 @@ from django.db import models
 # Create your models here.
 class User(AbstractUser):
     class Meta(object):
-        unique_together = ('email',)
+        unique_together = ('username',)

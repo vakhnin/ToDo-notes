@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
+import { Button, Form, Modal } from 'react-bootstrap'
 
 import { RESTAPI } from '../Settings'
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
 
 export default function loginModal (props) {
   const [serverError, setServerError] = useState('')
@@ -17,14 +16,15 @@ export default function loginModal (props) {
   })
 
   const getToken = data => {
-    RESTAPI.post('api-token-auth/', {
-      username: data.username,
-      password: data.password
-    })
+    RESTAPI.post('api-token-auth/', data)
       .then(response => {
         props.setToken(response.data.token)
-        props.setModalLoginShow(false)
+        props.setModalShow('')
       }).catch(error => {
+        if (!error) {
+          setServerError('Неизвестная ошибка. Обратитесь к разработчику')
+          return
+        }
         if (error.response.status === 400) {
           setServerError('Неверные логин или пароль')
         } else {
@@ -34,7 +34,7 @@ export default function loginModal (props) {
   }
 
   return (
-    <Modal show={props.show} onHide={() => props.setModalLoginShow(false)}
+    <Modal show={props.show} onHide={() => props.setModalShow('')}
       onShow={() => { setServerError(''); reset() }}>
       <Modal.Header closeButton>
         <Modal.Title>Авторизация</Modal.Title>
@@ -57,6 +57,9 @@ export default function loginModal (props) {
               render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
         </Form>
+        <div>
+          Нет эккаунта? <Link onClick={() => props.setModalShow('registry')}>Зарегистрироваться</Link>
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => reset()}>

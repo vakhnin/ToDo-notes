@@ -62,8 +62,8 @@ function App () {
   return (
     <div className="App d-flex flex-column min-vh-100">
       <Router>
-        <NavMenu isAuthenticated={isAuthenticated} setToken={setToken}
-          logout={logout} />
+        <NavMenu users={users} setUsersState={setUsersState} isAuthenticated={isAuthenticated}
+          setToken={setToken} logout={logout} />
         <div className="container bg-light flex-grow-1">
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
