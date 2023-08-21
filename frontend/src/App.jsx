@@ -7,7 +7,7 @@ import loadData from './components/LoadData'
 
 import { RESTAPI } from './components/Settings'
 import NavMenu from './components/Nav'
-import UserList from './components/users/User'
+import UsersList from './components/users/Users'
 import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
@@ -68,7 +68,7 @@ function App () {
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users' element={
-              <UserList users={users} />}
+              <UsersList users={users} />}
             />
             <Route path='/projects/*' element={
               <Projects projects={projects} users={users} setProjectsState={setProjectsState} />
