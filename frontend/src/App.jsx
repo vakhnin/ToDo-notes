@@ -17,6 +17,8 @@ function App () {
   const [users, setUsersState] = useState([])
   const [projects, setProjectsState] = useState([])
   const [todos, setTodosState] = useState([])
+
+  const [modalShow, setModalShow] = useState('')
   const [token, setTokenState] = useState(cookies.get('token'))
 
   useEffect(() => {
@@ -63,12 +65,13 @@ function App () {
     <div className="App d-flex flex-column min-vh-100">
       <Router>
         <NavMenu users={users} setUsersState={setUsersState} isAuthenticated={isAuthenticated}
+          modalShow={modalShow} setModalShow={setModalShow}
           setToken={setToken} logout={logout} />
         <div className="container bg-light flex-grow-1">
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users' element={
-              <UsersList users={users} />}
+              <UsersList modalShow={modalShow} setModalShow={setModalShow} users={users} />}
             />
             <Route path='/projects/*' element={
               <Projects projects={projects} users={users} setProjectsState={setProjectsState} />

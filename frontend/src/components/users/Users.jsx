@@ -40,7 +40,7 @@ UserItem.propTypes = {
   user: PropTypes.object
 }
 
-const UsersList = ({ users }) => {
+const UsersList = ({ users, setModalShow }) => {
   return (
     <>
       <h2 className='py-3'>Пользователи</h2>
@@ -52,7 +52,8 @@ const UsersList = ({ users }) => {
             </Card.Header>
             <Card.Body className='h-100'>
               <Card.Text className='big-plus h-100 d-flex align-items-center justify-content-center'>
-                <Link className='link-success  stretched-link'>
+                <Link className='link-success  stretched-link'
+                 onClick={() => setModalShow('registry')}>
                   <FontAwesomeIcon icon={faCirclePlus} />
                 </Link>
               </Card.Text>
@@ -65,7 +66,8 @@ const UsersList = ({ users }) => {
   )
 }
 UsersList.propTypes = {
-  users: PropTypes.array
+  users: PropTypes.array,
+  setModalShow: PropTypes.func
 }
 
 export default UsersList
