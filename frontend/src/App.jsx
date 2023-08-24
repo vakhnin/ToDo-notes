@@ -19,12 +19,27 @@ function App () {
   const [todos, setTodosState] = useState([])
 
   const [modalShow, setModalShow] = useState('')
+  const [currentUserID, setCurrentUserID] = useState(0)
   const [token, setTokenState] = useState(cookies.get('token'))
 
   useEffect(() => {
     getTokenFromStorage()
     loadData(setUsersState, setProjectsState, setTodosState)
+    getAuthorizedUser()
   }, [])
+
+  const getAuthorizedUser = () => {
+    if (RESTAPI.defaults.headers.common.Authorization) {
+      RESTAPI.get('users/me/')
+        .then(response => {
+          setCurrentUserID(response.data.id)
+        }).catch(error => {
+          console.log(error)
+        })
+    } else {
+      setCurrentUserID(0)
+    }
+  }
 
   const getHeaders = (token) => {
     const headers = {
@@ -40,6 +55,7 @@ function App () {
     const cookies = new Cookies()
     cookies.set('token', token, { secure: true, sameSite: 'none' })
     RESTAPI.defaults.headers.common = getHeaders(token)
+    getAuthorizedUser()
     setTokenState(token)
   }
 
@@ -71,7 +87,7 @@ function App () {
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users' element={
-              <UsersList modalShow={modalShow} setModalShow={setModalShow} users={users} />}
+              <UsersList modalShow={modalShow} setModalShow={setModalShow} users={users} currentUserID={currentUserID} />}
             />
             <Route path='/projects/*' element={
               <Projects projects={projects} users={users} setProjectsState={setProjectsState} />
