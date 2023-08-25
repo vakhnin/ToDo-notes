@@ -7,7 +7,7 @@ import loadData from './components/LoadData'
 
 import { RESTAPI } from './components/Settings'
 import NavMenu from './components/Nav'
-import UsersList from './components/users/Users'
+import Users from './components/users/Users'
 import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
 import Footer from './components/Footer'
@@ -86,8 +86,8 @@ function App () {
         <div className="container bg-light flex-grow-1">
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
-            <Route path='/users' element={
-              <UsersList modalShow={modalShow} setModalShow={setModalShow} users={users} currentUserID={currentUserID} />}
+            <Route path='/users/*' element={
+              <Users modalShow={modalShow} setModalShow={setModalShow} users={users} currentUserID={currentUserID} />}
             />
             <Route path='/projects/*' element={
               <Projects projects={projects} users={users} setProjectsState={setProjectsState} />
