@@ -1,25 +1,25 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import { Link, Routes, Route } from 'react-router-dom'
 
 import UsersList from './UsersList'
+import UserDetail from './UserDetail'
 
 const Users = props => {
   return (
     <Routes>
       <Route index element={
-        <UsersList {...props} />} />
-      {/* <Route path=":id" element={
-          <div>
-            <h2>Детальная информация о пользователе</h2>
-            <UserDetail {...props} />
-          </div>} /> */}
+        <>
+          <h2 className='py-3'>Пользователи</h2>
+          <UsersList {...props} />
+        </>} />
+      <Route path=":id" element={
+        <>
+          <h2 className='pt-3'>Детальная информация о пользователе</h2>
+          <h5 className='pb-3'><Link to={'/users'}>&lt;&lt;&lt; К списку пользователей</Link></h5>
+          <UserDetail {...props} />
+        </>} />
     </Routes>
   )
-}
-Users.propTypes = {
-  users: PropTypes.array,
-  setProjectsState: PropTypes.func
 }
 
 export default Users

@@ -11,7 +11,7 @@ const UserItem = ({ user }) => {
       <Card className='h-100'>
         <Card.Header>
           <div className='d-flex justify-content-between'>
-            <div>{user.username}</div>
+            <div><Link to={`/users/${user.id}`}>{user.username}</Link></div>
             <div>
               <Link className='pe-1 link-success'>
                 <FontAwesomeIcon icon={faPenToSquare} />
@@ -27,9 +27,9 @@ const UserItem = ({ user }) => {
           <Card.Subtitle className="mb-2 text-muted">{user.email}</Card.Subtitle>
           <Card.Text as='div'>
             <div>Владелец проектов:</div>
-            <div>Нет проектов</div>
+            <div className=' text-muted'>&lt;нет проектов&gt;</div>
             <div>Участник проектов:</div>
-            <div>Нет проектов</div>
+            <div>&lt;нет проектов&gt;</div>
           </Card.Text>
         </Card.Body>
       </Card>
@@ -42,27 +42,24 @@ UserItem.propTypes = {
 
 const UsersList = ({ users, setModalShow }) => {
   return (
-    <>
-      <h2 className='py-3'>Пользователи</h2>
-      <Row>
-        <Col className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
-          <Card className='h-100'>
-            <Card.Header>
-              <Link className='link-success'>Зарегистрироваться</Link>
-            </Card.Header>
-            <Card.Body className='h-100'>
-              <Card.Text className='big-plus h-100 d-flex align-items-center justify-content-center'>
-                <Link className='link-success  stretched-link'
-                 onClick={() => setModalShow('registry')}>
-                  <FontAwesomeIcon icon={faCirclePlus} />
-                </Link>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        </Col>
-        {users.map((user) => <UserItem key={user.id} user={user} />)}
-      </Row>
-    </>
+    <Row>
+      <Col className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
+        <Card className='h-100'>
+          <Card.Header>
+            <Link className='link-success'>Зарегистрироваться</Link>
+          </Card.Header>
+          <Card.Body className='h-100'>
+            <Card.Text className='big-plus h-100 d-flex align-items-center justify-content-center'>
+              <Link className='link-success  stretched-link'
+                onClick={() => setModalShow('registry')}>
+                <FontAwesomeIcon icon={faCirclePlus} />
+              </Link>
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </Col>
+      {users.map((user) => <UserItem key={user.id} user={user} />)}
+    </Row>
   )
 }
 UsersList.propTypes = {
