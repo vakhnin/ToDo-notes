@@ -87,7 +87,8 @@ function App () {
           <Routes>
             <Route path='/' element={<h2>Главная</h2>} />
             <Route path='/users/*' element={
-              <Users modalShow={modalShow} setModalShow={setModalShow} users={users} currentUserID={currentUserID} />}
+              <Users modalShow={modalShow} setModalShow={setModalShow} isAuthenticated={isAuthenticated}
+                users={users} currentUserID={currentUserID} />}
             />
             <Route path='/projects/*' element={
               <Projects projects={projects} users={users} setProjectsState={setProjectsState} />
