@@ -80,7 +80,8 @@ function App () {
   return (
     <div className="App d-flex flex-column min-vh-100">
       <Router>
-        <NavMenu users={users} setUsersState={setUsersState} isAuthenticated={isAuthenticated}
+        <NavMenu users={users} setUsersState={setUsersState}
+          currentUserID={currentUserID} isAuthenticated={isAuthenticated}
           modalShow={modalShow} setModalShow={setModalShow}
           setToken={setToken} logout={logout} />
         <div className="container bg-light flex-grow-1">

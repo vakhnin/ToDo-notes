@@ -40,11 +40,24 @@ const NavMenu = props => {
                   ? <Nav.Link as={Link} to="/todos" active className="bg-light text-black border-bottom-0">ToDos</Nav.Link>
                   : <Nav.Link as={Link} to="/todos">ToDos</Nav.Link>}
               </Nav.Item>
-              <Nav.Item>
-                {props.isAuthenticated()
-                  ? <Nav.Link onClick={() => props.logout()}>Выйти</Nav.Link>
-                  : <Nav.Link onClick={() => props.setModalShow('login')}>Войти</Nav.Link>}
-              </Nav.Item>
+              {props.isAuthenticated()
+                ? <>
+                  <Nav.Item>
+                    <Nav.Link as={Link} to={`/users/${props.currentUserID}`}>Профиль</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link onClick={() => props.logout()}>Выйти</Nav.Link>
+                  </Nav.Item>
+                </>
+                : <>
+                  <Nav.Item>
+                    <Nav.Link onClick={() => props.setModalShow('login')}>Профиль</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link onClick={() => props.setModalShow('login')}>Войти</Nav.Link>
+                  </Nav.Item>
+                </>
+              }
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -58,6 +71,7 @@ const NavMenu = props => {
 }
 NavMenu.propTypes = {
   isAuthenticated: PropTypes.func,
+  currentUserID: PropTypes.number,
   modalShow: PropTypes.string,
   setModalShow: PropTypes.func,
   setToken: PropTypes.func,
