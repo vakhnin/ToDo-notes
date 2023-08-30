@@ -1,35 +1,25 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
-import PropTypes from 'prop-types'
 
-import ProjectList from './ProjectList'
+import ProjectList from './ProjectsList'
 import ProjectDetail from './ProjectDetail'
-import ProjectCreateModal from './ProjectCreateModal'
 
 const Projects = props => {
-  const [modalCreateShow, setModalCreateShow] = useState(false)
   return (
-    <>
-      <Routes>
-        <Route index element={
-          <div>
-            <h2>Проекты</h2>
-            <Link onClick={() => setModalCreateShow(true)}>Создать проект</Link>
-            <ProjectList {...props} />
-          </div>} />
-        <Route path=":id" element={
-          <div>
-            <h2>Детальная информация о проекте</h2>
-            <ProjectDetail {...props} />
-          </div>} />
-      </Routes>
-      <ProjectCreateModal {...props} show={modalCreateShow} setModalShow={setModalCreateShow} />
-    </>
+    <Routes>
+      <Route index element={
+        <div>
+          <h2 className='py-3'>Проекты</h2>
+          <ProjectList {...props} />
+        </div>} />
+      <Route path=":id" element={
+        <div>
+          <h2 className='py-3'>Детальная информация о проекте</h2>
+          <h5 className='pb-3'><Link to={'/projects'}>&lt;&lt;&lt; К списку проектов</Link></h5>
+          <ProjectDetail {...props} />
+        </div>} />
+    </Routes>
   )
-}
-Projects.propTypes = {
-  users: PropTypes.array,
-  setProjectsState: PropTypes.func
 }
 
 export default Projects
