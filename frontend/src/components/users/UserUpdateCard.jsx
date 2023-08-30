@@ -71,6 +71,55 @@ UserInfoUpdate.propTypes = {
   updateUser: PropTypes.func
 }
 
+const UserPasswordUpdate = props => {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+    defaultValues: {
+      password: '',
+      confirmPassword: ''
+    }
+  })
+
+  return (
+    <>
+      <div className='pt-2 d-flex justify-content-end'>
+        <Link className='pe-1 link-success'>
+          <FontAwesomeIcon icon={faCheck} onClick={handleSubmit(props.updateUser)} />
+        </Link>
+        <Link className='ps-1 link-danger'>
+          <FontAwesomeIcon icon={faXmark} onClick={() => props.setShowEditState(false)} />
+        </Link>
+      </div>
+      <Form>
+        <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+          <Form.Label>Пароль</Form.Label>
+          <Form.Control type="password" placeholder="Пароль"
+            {...register('password', { required: 'Поле "Пароль" не может быть пустым' })} />
+          <ErrorMessage errors={errors} name="password"
+            render={({ message }) => <div className='text-danger'>{message}</div>} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+          <Form.Label>Подтверждение пароля</Form.Label>
+          <Form.Control type="password" placeholder="Подтверждение пароля"
+            {...register('confirmPassword', {
+              required: 'Поле "Подтверждение пароля" не может быть пустым',
+              validate: (val) => {
+                if (watch('password') !== val) {
+                  return 'Поля "Пароль" и "Подтверждение пароля" не совпадают'
+                }
+              }
+            })} />
+          <ErrorMessage errors={errors} name="confirmPassword"
+            render={({ message }) => <div className='text-danger'>{message}</div>} />
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+UserPasswordUpdate.propTypes = {
+  setShowEditState: PropTypes.func,
+  updateUser: PropTypes.func
+}
+
 const UserUpdate = props => {
   const id = props.userID
   const user = props.users.find(user => user.id === id)
@@ -109,7 +158,7 @@ const UserUpdate = props => {
             <UserInfoUpdate updateUser={updateUser} {...props} />
           </Tab>
           <Tab eventKey="profile" title="Пароль">
-            Password
+            <UserPasswordUpdate updateUser={updateUser} {...props} />
           </Tab>
           <Tab eventKey="access" title="Доступ">
             Доступы
