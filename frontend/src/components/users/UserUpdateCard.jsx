@@ -5,11 +5,11 @@ import { ErrorMessage } from '@hookform/error-message'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { Card, Form } from 'react-bootstrap'
+import { Card, Form, Tab, Tabs } from 'react-bootstrap'
 
 import { RESTAPI } from '../Settings'
 
-const UserUpdate = props => {
+const UserInfoUpdate = props => {
   const id = props.userID
   const user = props.users.find(user => user.id === id)
   const { register, handleSubmit, formState: { errors } } = useForm({
@@ -19,6 +19,61 @@ const UserUpdate = props => {
       email: user.email
     }
   })
+
+  return (
+    <>
+      <div className='pt-2 d-flex justify-content-end'>
+        <Link className='pe-1 link-success'>
+          <FontAwesomeIcon icon={faCheck} onClick={handleSubmit(props.updateUser)} />
+        </Link>
+        <Link className='ps-1 link-danger'>
+          <FontAwesomeIcon icon={faXmark} onClick={() => props.setShowEditState(false)} />
+        </Link>
+      </div>
+      <Form>
+        <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+          <Form.Label>Имя</Form.Label>
+          <Form.Control type="text" placeholder="Имя"
+            {...register('firstName', { required: 'Поле "Имя" не может быть пустым' })} />
+          <ErrorMessage errors={errors} name="firstName"
+            render={({ message }) => <div className='text-danger'>{message}</div>} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+          <Form.Label>Фамилия</Form.Label>
+          <Form.Control type="text" placeholder="Фамилия"
+            {...register('lastName', { required: 'Поле "Фамилия" не может быть пустым' })} />
+          <ErrorMessage errors={errors} name="lastName"
+            render={({ message }) => <div className='text-danger'>{message}</div>} />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="loginForm.ControlInput4">
+          <Form.Label>Почта</Form.Label>
+          <Form.Control type="email" placeholder="Почта"
+            {...register('email', {
+              required: 'Поле "Почта" не может быть пустым',
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: 'Введенное значение не соответствует форматату E-mail'
+              }
+            })} />
+          <ErrorMessage errors={errors} name="email"
+            render={({ message }) => <div className='text-danger'>{message}</div>} />
+        </Form.Group>
+      </Form>
+    </>
+  )
+}
+UserInfoUpdate.propTypes = {
+  userID: PropTypes.number,
+  setShowEditState: PropTypes.func,
+  userIsI: PropTypes.bool,
+  users: PropTypes.array,
+  setUsersState: PropTypes.func,
+  updateUser: PropTypes.func
+}
+
+const UserUpdate = props => {
+  const id = props.userID
+  const user = props.users.find(user => user.id === id)
 
   const updateUser = data => {
     RESTAPI.patch(`users/${id}/`, data)
@@ -42,9 +97,6 @@ const UserUpdate = props => {
             {props.userIsI && ' (Вы)'}
           </div>
           <div>
-            <Link className='pe-1 link-success'>
-              <FontAwesomeIcon icon={faCheck} onClick={handleSubmit(updateUser)} />
-            </Link>
             <Link className='ps-1 link-danger'>
               <FontAwesomeIcon icon={faXmark} onClick={() => props.setShowEditState(false)} />
             </Link>
@@ -52,35 +104,17 @@ const UserUpdate = props => {
         </div>
       </Card.Header>
       <Card.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
-            <Form.Label>Имя</Form.Label>
-            <Form.Control type="text" placeholder="Имя"
-              {...register('firstName', { required: 'Поле "Имя" не может быть пустым' })} />
-            <ErrorMessage errors={errors} name="firstName"
-              render={({ message }) => <div className='text-danger'>{message}</div>} />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
-            <Form.Label>Фамилия</Form.Label>
-            <Form.Control type="text" placeholder="Фамилия"
-              {...register('lastName', { required: 'Поле "Фамилия" не может быть пустым' })} />
-            <ErrorMessage errors={errors} name="lastName"
-              render={({ message }) => <div className='text-danger'>{message}</div>} />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput4">
-            <Form.Label>Почта</Form.Label>
-            <Form.Control type="email" placeholder="Почта"
-              {...register('email', {
-                required: 'Поле "Почта" не может быть пустым',
-                pattern: {
-                  value: /\S+@\S+\.\S+/,
-                  message: 'Введенное значение не соответствует форматату E-mail'
-                }
-              })} />
-            <ErrorMessage errors={errors} name="email"
-              render={({ message }) => <div className='text-danger'>{message}</div>} />
-          </Form.Group>
-        </Form>
+        <Tabs defaultActiveKey="info" >
+          <Tab eventKey="info" title="Данные">
+            <UserInfoUpdate updateUser={updateUser} {...props} />
+          </Tab>
+          <Tab eventKey="profile" title="Пароль">
+            Password
+          </Tab>
+          <Tab eventKey="access" title="Доступ">
+            Доступы
+          </Tab>
+        </Tabs>
       </Card.Body>
     </Card>
   )
