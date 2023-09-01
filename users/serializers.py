@@ -6,6 +6,7 @@ from .models import User
 
 class UserModelSerializer(ModelSerializer):
     password = serializers.CharField(write_only=True)
+    creator_projects = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     def create(self, validated_data):
         user = User.objects.create_user(
