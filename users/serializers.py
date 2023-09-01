@@ -31,7 +31,9 @@ class UserModelSerializer(ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password')
+        fields = ('id', 'username', 'first_name',
+                  'last_name', 'email', 'password',
+                  'creator_projects')
 
 
 class UserModelV2Serializer(HyperlinkedModelSerializer):

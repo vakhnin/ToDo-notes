@@ -9,6 +9,7 @@ from rest_framework.viewsets import ModelViewSet
 from todo.filters import ProjectNameFilter, ToDoFilter
 from todo.models import Project, ToDo
 from todo.serializers import ProjectModelSerializer, ToDoModelSerializer
+from users.models import User
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -20,12 +21,15 @@ class ToDoLimitOffsetPagination(LimitOffsetPagination):
 
 
 class ProjectModelViewSet(ModelViewSet):
-    queryset = Project.objects.all()
+    queryset = Project.objects.order_by('-pk')
     serializer_class = ProjectModelSerializer
-    pagination_class = ProjectLimitOffsetPagination
+    # pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectNameFilter
     filter_backends = [filters.SearchFilter]
     search_fields = ['name',]
+
+    def perform_create(self, serializer):
+        instance = serializer.save(creator=self.request.user)
 
 
 class ToDoModelViewSet(ModelViewSet):
@@ -35,7 +39,7 @@ class ToDoModelViewSet(ModelViewSet):
     filterset_class = ToDoFilter
 
     def perform_create(self, serializer):
-        instance = serializer.save(creater=self.request.user)
+        instance = serializer.save(creator=self.request.user)
 
     def destroy(self, request, *args, **kwargs):
         try:
