@@ -7,7 +7,7 @@ from users.serializers import UserModelSerializer, UserModelV2Serializer
 
 
 class UserModelViewSet(ModelViewSet):
-    queryset = User.objects.all()
+    queryset = User.objects.order_by('-pk')
     serializer_class = UserModelSerializer
 
     @action(detail=False)
