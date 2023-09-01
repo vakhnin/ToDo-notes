@@ -32,7 +32,7 @@ export default function registryModal (props) {
         getToken({ username: data.username, password: data.password })
 
         delete data.password
-        props.setUsersState([...props.users, data])
+        props.setUsersState([data, ...props.users])
         props.setModalShow('')
       }).catch(error => {
         if (!error) {
