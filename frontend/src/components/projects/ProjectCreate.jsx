@@ -23,6 +23,7 @@ export default function ProjectCreate (props) {
     RESTAPI.post('projects/', data)
       .then(response => {
         data.id = response.data.id
+        data.creatorId = props.currentUserID
         props.setProjectsState([data, ...props.projects])
         props.setShowAddProjectState(false)
       }).catch(error => {
@@ -72,6 +73,7 @@ export default function ProjectCreate (props) {
 }
 ProjectCreate.propTypes = {
   users: PropTypes.array,
+  currentUserID: PropTypes.number,
   projects: PropTypes.array,
   setProjectsState: PropTypes.func,
   setShowAddProjectState: PropTypes.func

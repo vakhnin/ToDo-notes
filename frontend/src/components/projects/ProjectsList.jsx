@@ -13,7 +13,7 @@ const ProjectItem = props => {
   const project = props.projects.find(user => user.id === id)
 
   return (
-    <ProjectCard project={project} />
+    <ProjectCard project={project} {...props} />
   )
 }
 ProjectItem.propTypes = {

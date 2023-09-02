@@ -92,7 +92,8 @@ function App () {
                 users={users} currentUserID={currentUserID} setUsersState={setUsersState} />}
             />
             <Route path='/projects/*' element={
-              <Projects projects={projects} users={users} setProjectsState={setProjectsState} />
+              <Projects users={users} currentUserID={currentUserID}
+                projects={projects} setProjectsState={setProjectsState} />
             }
             />
             <Route path='/todos/*' element={
