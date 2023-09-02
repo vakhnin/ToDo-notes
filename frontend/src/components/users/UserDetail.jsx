@@ -21,7 +21,7 @@ const UserDetail = props => {
       </>)
   } else {
     return (
-      <div><p>Нет пользователя с таким ID</p></div>
+      <div>Нет пользователя с таким ID</div>
     )
   }
 }
