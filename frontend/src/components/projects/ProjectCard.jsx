@@ -23,7 +23,7 @@ export default function ProjectCard (props) {
             <Link className='pe-1 link-success'>
               <FontAwesomeIcon icon={faPenToSquare} />
             </Link>
-            <Link className='ps-1 link-danger'>
+            <Link onClick={() => props.deleteProject(project.id)} className='ps-1 link-danger'>
               <FontAwesomeIcon icon={faTrash} />
             </Link>
           </div>
@@ -58,5 +58,6 @@ export default function ProjectCard (props) {
 }
 ProjectCard.propTypes = {
   project: PropTypes.object,
+  deleteProject: PropTypes.func,
   users: PropTypes.array
 }
