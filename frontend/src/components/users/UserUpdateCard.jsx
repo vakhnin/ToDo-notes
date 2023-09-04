@@ -129,7 +129,7 @@ const UserUpdate = props => {
       .then(response => {
         props.setUsersState(
           props.users.map(item => {
-            if (item.id === id) { return response.data } else { return item }
+            return item.id === id ? response.data : item
           }))
         props.setShowEditState(false)
       }).catch(error => {
