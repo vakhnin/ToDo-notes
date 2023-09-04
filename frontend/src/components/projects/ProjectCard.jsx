@@ -20,7 +20,7 @@ export default function ProjectCard (props) {
             <Link to={`/projects/${project.id}`}>{project.name}</Link>
           </div>
           <div>
-            <Link className='pe-1 link-success'>
+            <Link className='pe-1 link-success' onClick={() => props.setShowEditState(true)}>
               <FontAwesomeIcon icon={faPenToSquare} />
             </Link>
             <Link onClick={() => props.deleteProject(project.id)} className='ps-1 link-danger'>
@@ -59,5 +59,6 @@ export default function ProjectCard (props) {
 ProjectCard.propTypes = {
   project: PropTypes.object,
   deleteProject: PropTypes.func,
+  setShowEditState: PropTypes.func,
   users: PropTypes.array
 }

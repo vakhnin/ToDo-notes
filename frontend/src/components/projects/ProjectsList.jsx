@@ -5,15 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 import { Card, Col, Row } from 'react-bootstrap'
 
-import ProjectCreate from './ProjectCreate'
 import ProjectCard from './ProjectCard'
+import ProjectCreate from './ProjectCreate'
+import ProjectUpdateCard from './ProjectUpdateCard'
 
 const ProjectItem = props => {
   const id = props.projectID
   const project = props.projects.find(user => user.id === id)
 
+  const [showEditState, setShowEditState] = useState(false)
+
   return (
-    <ProjectCard project={project} {...props} />
+    <>
+      {showEditState
+        ? <ProjectUpdateCard setShowEditState={setShowEditState} {...props} />
+        : <ProjectCard project={project} setShowEditState={setShowEditState} {...props} />}
+    </>
   )
 }
 ProjectItem.propTypes = {
