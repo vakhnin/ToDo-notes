@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import './App.css'
-import loadData from './components/LoadData'
+import loadData from './components/lib/loadDataUtils'
 
 import { RESTAPI } from './components/Settings'
 import NavMenu from './components/Nav'

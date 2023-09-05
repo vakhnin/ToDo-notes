@@ -1,4 +1,4 @@
-import { RESTAPI } from './Settings'
+import { RESTAPI } from '../Settings'
 
 export default function LoadData (setUsersState, setProjectsState, setTodosState) {
   RESTAPI.get('users/')
