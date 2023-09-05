@@ -32,7 +32,7 @@ export default function ProjectCreate (props) {
     <Card className='h-100'>
       <Card.Header>
         <div className='d-flex justify-content-between'>
-          <div>Новый проект</div>
+          <div>Новое ToDo</div>
           <div>
             <Link className='pe-1 link-success'>
               <FontAwesomeIcon icon={faCheck}
@@ -51,7 +51,7 @@ export default function ProjectCreate (props) {
           <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
             <Form.Label>Выбор проекта</Form.Label>
             <Form.Select {...register('project')}>
-              <option value={0} key={0}>--- Выбирите проект ---</option>
+              <option value={0} key={0}>--- Выберите проект ---</option>
               {props.projects.map((project) =>
                 <option value={project.id} key={project.id}>{project.name}</option>)}
             </Form.Select>
