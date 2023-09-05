@@ -33,9 +33,9 @@ class ProjectModelViewSet(ModelViewSet):
 
 
 class ToDoModelViewSet(ModelViewSet):
-    queryset = ToDo.objects.all()
+    queryset = ToDo.objects.order_by('-pk')
     serializer_class = ToDoModelSerializer
-    pagination_class = ToDoLimitOffsetPagination
+    # pagination_class = ToDoLimitOffsetPagination
     filterset_class = ToDoFilter
 
     def perform_create(self, serializer):

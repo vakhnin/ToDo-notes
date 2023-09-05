@@ -15,9 +15,8 @@ class ProjectModelSerializer(ModelSerializer):
 
 class ToDoModelSerializer(ModelSerializer):
     id = serializers.ReadOnlyField()
-    creator = serializers.CurrentUserDefault()
+    creator_id = serializers.ReadOnlyField()
 
     class Meta:
         model = ToDo
-        fields = '__all__'
-        extra_kwargs = {"creator": {"required": False, "allow_null": True}}
+        exclude = ('creator',)

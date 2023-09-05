@@ -1,66 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Col, Row } from 'react-bootstrap'
 
-import { RESTAPI } from '../Settings'
+import ToDoCreate from './ToDoCreate'
+import ToDoCard from './ToDoCard'
 
-const ToDoItem = ({ todo, handleClickDelete }) => {
+const ToDoItem = props => {
   return (
-    <tr>
-      <td>{todo.id}</td>
-      <td>{todo.project}</td>
-      <td>{todo.text}</td>
-      <td>{todo.created}</td>
-      <td>{todo.updated}</td>
-      <td>{todo.creater}</td>
-      <td>{(todo.isActive ? 'Active' : 'Not active')}</td>
-      <td>
-        <button data-index={todo.id} onClick={handleClickDelete} type='button'>Delete</button>
-      </td>
-    </tr>
+    <ToDoCard {...props} />
   )
-}
-ToDoItem.propTypes = {
-  todo: PropTypes.object,
-  handleClickDelete: PropTypes.func
 }
 
 const ToDoList = props => {
-  const handleClickDelete = event => {
-    const id = Number(event.target.dataset.index)
-    RESTAPI.delete(`todos/${id}/`)
-      .then(response => {
-        props.setTodosState(
-          props.todos.map(todo => {
-            if (todo.id === id) { return { ...todo, isActive: false } } else { return todo }
-          }))
-      }).catch(error => {
-        console.log(error)
-      })
-  }
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Project</th>
-          <th>ToDo text</th>
-          <th>Created</th>
-          <th>Updated</th>
-          <th>Creater</th>
-          <th>Active</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {props.todos.map((todo) => <ToDoItem key={todo.id} todo={todo}
-          handleClickDelete={handleClickDelete} />)}
-      </tbody>
-    </table>
+    <Row>
+      <Col className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
+        <ToDoCreate {...props} />
+      </Col>
+      {props.todos.map((todo) =>
+        <Col key={todo.id} className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
+          <ToDoItem todoID={todo.id} {...props} />
+        </Col>)}
+    </Row>
   )
 }
 ToDoList.propTypes = {
-  todos: PropTypes.array,
-  setTodosState: PropTypes.func
+  todos: PropTypes.array
 }
 
 export default ToDoList

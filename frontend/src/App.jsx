@@ -97,7 +97,7 @@ function App () {
             }
             />
             <Route path='/todos/*' element={
-              <ToDos projects={projects} todos={todos} setTodosState={setTodosState} />}
+              <ToDos users={users} projects={projects} todos={todos} setTodosState={setTodosState} />}
             />
           </Routes>
         </div>
