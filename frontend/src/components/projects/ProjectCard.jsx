@@ -5,13 +5,10 @@ import { Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 
+import { userNameById } from '../lib/users_ulils'
+
 export default function ProjectCard (props) {
   const project = props.project
-
-  const userNameById = (users, id) => {
-    const user = users.find((user) => user.id === Number(id))
-    return user ? user.username : 'пользователь не найден'
-  }
   return (
     <Card className='h-100'>
       <Card.Header>

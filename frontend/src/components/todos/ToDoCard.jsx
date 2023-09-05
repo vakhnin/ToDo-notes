@@ -5,17 +5,14 @@ import { Card } from 'react-bootstrap'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 
+import { userNameById } from '../lib/users_ulils'
+
 export default function ToDoCard (props) {
   const id = props.todoID
   const todo = props.todos.find(todo => todo.id === id)
 
   if (!todo) {
     return <div>Нет ToDo с таким ID</div>
-  }
-
-  const userNameById = (users, id) => {
-    const user = users.find((user) => user.id === Number(id))
-    return user ? user.username : 'пользователь не найден'
   }
   return (
     <Card className='h-100'>
