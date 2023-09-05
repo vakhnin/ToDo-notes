@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-import { userNameById } from '../lib/users_ulils'
+import { userNameById } from '../lib/usersUlils'
 
 export default function ToDoCard (props) {
   const id = props.todoID
