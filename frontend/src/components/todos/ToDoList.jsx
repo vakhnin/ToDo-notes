@@ -45,9 +45,11 @@ const ToDoList = props => {
           : <AddToDoItem setShowAddProjectState={setShowAddProjectState} />}
       </Col>
       {props.todos.map((todo) =>
+        todo.isActive &&
         <Col key={todo.id} className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
           <ToDoItem todoID={todo.id} {...props} />
-        </Col>)}
+        </Col>
+      )}
     </Row>
   )
 }

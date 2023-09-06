@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import { userNameById } from '../lib/usersUlils'
 
@@ -24,10 +24,10 @@ export default function ToDoCard (props) {
           <div>
             {/* <Link className='pe-1 link-success' onClick={() => props.setShowEditState(true)}>
               <FontAwesomeIcon icon={faPenToSquare} />
-            </Link>
-            <Link onClick={() => props.deleteProject(project.id)} className='ps-1 link-danger'>
-              <FontAwesomeIcon icon={faTrash} />
             </Link> */}
+            <Link onClick={() => props.deleteToDo(todo.id)} className='ps-1 link-danger'>
+              <FontAwesomeIcon icon={faTrash} />
+            </Link>
           </div>
         </div>
       </Card.Header>
@@ -48,5 +48,6 @@ export default function ToDoCard (props) {
 ToDoCard.propTypes = {
   todoID: PropTypes.number,
   todos: PropTypes.array,
-  users: PropTypes.array
+  users: PropTypes.array,
+  deleteToDo: PropTypes.func
 }
