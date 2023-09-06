@@ -11,7 +11,7 @@ export default function ToDoCard (props) {
   const id = props.todoID
   const todo = props.todos.find(todo => todo.id === id)
 
-  if (!todo) {
+  if (!todo || !todo.isActive) {
     return <div>Нет ToDo с таким ID</div>
   }
   return (
