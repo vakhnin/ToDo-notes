@@ -27,7 +27,7 @@ export default function ProjectCard (props) {
         </div>
       </Card.Header>
       <Card.Body>
-        <Card.Title className='text-capitalize'>{project.name}</Card.Title>
+        <Card.Title className='big-first-letter'>{project.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           {project.repository
             ? <Link to={project.repository}>{project.repository}</Link>
