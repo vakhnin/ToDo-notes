@@ -5,3 +5,8 @@
 .normal-size-icon {
     font-size: 1em;
 }
+
+.big-first-letter::first-letter {
+    text-transform: uppercase;
+}
+  

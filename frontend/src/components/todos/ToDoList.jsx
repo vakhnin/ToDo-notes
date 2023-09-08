@@ -5,12 +5,18 @@ import { Card, Col, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 
-import ToDoCreate from './ToDoCreate'
 import ToDoCard from './ToDoCard'
+import ToDoCreate from './ToDoCreate'
+import ToDoUpdateCard from './ToDoUpdateCard'
 
 const ToDoItem = props => {
+  const [showEditState, setShowEditState] = useState(false)
   return (
-    <ToDoCard {...props} />
+    <>
+      {showEditState
+        ? <ToDoUpdateCard setShowEditState={setShowEditState} {...props} />
+        : <ToDoCard setShowEditState={setShowEditState} {...props} />}
+    </>
   )
 }
 

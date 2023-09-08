@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 import { userNameById } from '../lib/usersUlils'
 
@@ -11,7 +11,7 @@ export default function ToDoCard (props) {
   const id = props.todoID
   const todo = props.todos.find(todo => todo.id === id)
 
-  if (!todo || !todo.isActive) {
+  if (!todo) {
     return <div>Нет ToDo с таким ID</div>
   }
   return (
@@ -22,9 +22,9 @@ export default function ToDoCard (props) {
             <Link to={`/todos/${todo.id}`}>{todo.name}</Link>
           </div>
           <div>
-            {/* <Link className='pe-1 link-success' onClick={() => props.setShowEditState(true)}>
+            <Link className='pe-1 link-success' onClick={() => props.setShowEditState(true)}>
               <FontAwesomeIcon icon={faPenToSquare} />
-            </Link> */}
+            </Link>
             <Link onClick={() => props.deleteToDo(todo.id)} className='ps-1 link-danger'>
               <FontAwesomeIcon icon={faTrash} />
             </Link>
@@ -32,7 +32,10 @@ export default function ToDoCard (props) {
         </div>
       </Card.Header>
       <Card.Body>
-        <Card.Title className='text-capitalize'>{todo.name}</Card.Title>
+        <Card.Title className='big-first-letter'>
+          {todo.name}
+          <span className='text-warning'>{!todo.isActive && ' (ToDo неактивно)'}</span>
+        </Card.Title>
         <Card.Text as='div'>
           <div>Создатель ToDo:</div>
           <Link to={`/users/${todo.creatorId}`}>
@@ -49,5 +52,6 @@ ToDoCard.propTypes = {
   todoID: PropTypes.number,
   todos: PropTypes.array,
   users: PropTypes.array,
-  deleteToDo: PropTypes.func
+  deleteToDo: PropTypes.func,
+  setShowEditState: PropTypes.func
 }
