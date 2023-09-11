@@ -11,6 +11,7 @@ class Project(models.Model):
     repository = models.URLField(blank=True)
     users = models.ManyToManyField(User, blank=True,
                                    related_name='project_users')
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

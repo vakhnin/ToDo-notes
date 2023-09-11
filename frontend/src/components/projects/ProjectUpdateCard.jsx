@@ -20,7 +20,8 @@ const ProjectUpdate = props => {
     defaultValues: {
       name: project.name,
       repository: project.repository,
-      users: project.users.map(id => String(id))
+      users: project.users.map(id => String(id)),
+      isActive: project.isActive
     }
   })
 
@@ -56,11 +57,14 @@ const ProjectUpdate = props => {
       </Card.Header>
       <Card.Body>
         <Form>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+          <Form.Group className="mb-3 d-inline-block" controlId="loginForm.ControlInput1">
+            <Form.Check type="switch" label="Проект активен" reverse {...register('isActive')} />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
             <Form.Label>Название проекта</Form.Label>
             <Form.Control type="text" placeholder="Название проекта" {...register('name')} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput3">
             <Form.Label>Репозитарий</Form.Label>
             <Form.Control type="text" placeholder="http://repository.com" {...register('repository')} />
           </Form.Group>

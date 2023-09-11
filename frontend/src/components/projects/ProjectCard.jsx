@@ -8,7 +8,12 @@ import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { userNameById } from '../lib/usersUlils'
 
 export default function ProjectCard (props) {
-  const project = props.project
+  const id = props.projectID
+  const project = props.projects.find(todo => todo.id === id)
+
+  if (!project) {
+    return <div>Нет проекта с таким ID</div>
+  }
   return (
     <Card className='h-100'>
       <Card.Header>
@@ -27,7 +32,10 @@ export default function ProjectCard (props) {
         </div>
       </Card.Header>
       <Card.Body>
-        <Card.Title className='big-first-letter'>{project.name}</Card.Title>
+        <Card.Title className='big-first-letter'>
+          {project.name}
+          <span className='text-warning'>{!project.isActive && ' (Проект неактивен)'}</span>
+        </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
           {project.repository
             ? <Link to={project.repository}>{project.repository}</Link>
@@ -54,8 +62,9 @@ export default function ProjectCard (props) {
   )
 }
 ProjectCard.propTypes = {
-  project: PropTypes.object,
+  projectID: PropTypes.number,
   deleteProject: PropTypes.func,
   setShowEditState: PropTypes.func,
+  projects: PropTypes.array,
   users: PropTypes.array
 }

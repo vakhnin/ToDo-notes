@@ -11,9 +11,12 @@ import ProjectDetail from './ProjectDetail'
 const Projects = props => {
   const deleteProject = projectId => {
     const id = Number(projectId)
-    RESTAPI.delete(`projects/${id}/`)
+    RESTAPI.patch(`projects/${id}/`, { isActive: false })
       .then(response => {
-        props.setProjectsState(props.projects.filter((item) => item.id !== id))
+        props.setProjectsState(
+          props.projects.map(item => {
+            return item.id === id ? response.data : item
+          }))
       }).catch(error => {
         console.log(error)
       })
