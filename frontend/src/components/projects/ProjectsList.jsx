@@ -10,16 +10,13 @@ import ProjectCreate from './ProjectCreate'
 import ProjectUpdateCard from './ProjectUpdateCard'
 
 const ProjectItem = props => {
-  const id = props.projectID
-  const project = props.projects.find(user => user.id === id)
-
   const [showEditState, setShowEditState] = useState(false)
 
   return (
     <>
       {showEditState
         ? <ProjectUpdateCard setShowEditState={setShowEditState} {...props} />
-        : <ProjectCard project={project} setShowEditState={setShowEditState} {...props} />}
+        : <ProjectCard setShowEditState={setShowEditState} {...props} />}
     </>
   )
 }

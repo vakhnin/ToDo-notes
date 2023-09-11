@@ -6,7 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export default function UserCard (props) {
-  const user = props.user
+  const id = props.userID
+  const user = props.users.find(todo => todo.id === id)
+
+  if (!user) {
+    return <div>Нет пользователя с таким ID</div>
+  }
   return (
     <Card className='h-100'>
       <Card.Header>
@@ -40,7 +45,8 @@ export default function UserCard (props) {
   )
 }
 UserCard.propTypes = {
-  user: PropTypes.object,
+  userID: PropTypes.number,
+  users: PropTypes.array,
   userIsI: PropTypes.bool,
   setShowEditState: PropTypes.func
 }

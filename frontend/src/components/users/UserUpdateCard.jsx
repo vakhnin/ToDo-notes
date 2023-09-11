@@ -12,6 +12,11 @@ import { RESTAPI } from '../Settings'
 const UserInfoUpdate = props => {
   const id = props.userID
   const user = props.users.find(user => user.id === id)
+
+  if (!user) {
+    return <div>Нет пользователя с таким ID</div>
+  }
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       firstName: user.firstName,
@@ -123,6 +128,10 @@ UserPasswordUpdate.propTypes = {
 const UserUpdate = props => {
   const id = props.userID
   const user = props.users.find(user => user.id === id)
+
+  if (!user) {
+    return <div>Нет пользователя с таким ID</div>
+  }
 
   const updateUser = data => {
     RESTAPI.patch(`users/${id}/`, data)

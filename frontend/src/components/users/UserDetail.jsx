@@ -7,23 +7,16 @@ import UserCard from './UserCard'
 
 const UserDetail = props => {
   const { id } = useParams()
-  const user = props.users.find((item) => item.id === Number(id))
   const userIsI = Number(id) === props.currentUserID
   const [showEditState, setShowEditState] = useState(false)
 
-  if (user) {
-    return (
-      <>
-        {showEditState
-          ? <UserUpdateCard userIsI={userIsI} userID={Number(id)} setShowEditState={setShowEditState} {...props} />
-          : <UserCard user={user} userIsI={userIsI} setShowEditState={setShowEditState} />
-        }
-      </>)
-  } else {
-    return (
-      <div>Нет пользователя с таким ID</div>
-    )
-  }
+  return (
+    <>
+      {showEditState
+        ? <UserUpdateCard userID={Number(id)} userIsI={userIsI} setShowEditState={setShowEditState} {...props} />
+        : <UserCard userID={Number(id)} userIsI={userIsI} setShowEditState={setShowEditState} {...props} />
+      }
+    </>)
 }
 UserDetail.propTypes = {
   users: PropTypes.array,

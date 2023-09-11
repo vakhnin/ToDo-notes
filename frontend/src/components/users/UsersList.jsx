@@ -9,16 +9,13 @@ import UserCard from './UserCard'
 import UserUpdateCard from './UserUpdateCard'
 
 const UserItem = props => {
-  const id = props.userID
-  const user = props.users.find(user => user.id === id)
-
   const [showEditState, setShowEditState] = useState(false)
 
   return (
     <Col className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
       {showEditState
         ? <UserUpdateCard setShowEditState={setShowEditState} {...props} />
-        : <UserCard user={user} userIsI={props.userIsI} setShowEditState={setShowEditState} />}
+        : <UserCard setShowEditState={setShowEditState} {...props} />}
     </Col>
   )
 }
