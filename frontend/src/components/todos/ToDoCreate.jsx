@@ -23,6 +23,7 @@ export default function ProjectCreate (props) {
     RESTAPI.post('todos/', data)
       .then(response => {
         props.setTodosState([response.data, ...props.todos])
+        props.setShowAddProjectState(false)
       }).catch(error => {
         console.log(error)
       })
