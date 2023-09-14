@@ -125,6 +125,53 @@ UserPasswordUpdate.propTypes = {
   updateUser: PropTypes.func
 }
 
+const UserAccessUpdate = props => {
+  const id = props.userID
+  const user = props.users.find(user => user.id === id)
+
+  if (!user) {
+    return <div>Нет пользователя с таким ID</div>
+  }
+
+  const { register, handleSubmit } = useForm({
+    defaultValues: {
+      isActive: user.isActive,
+      isStaff: user.isStaff
+    }
+  })
+
+  return (
+    <>
+      <div className='pt-2 d-flex justify-content-end'>
+        <Link className='pe-1 link-success'>
+          <FontAwesomeIcon icon={faCheck} onClick={handleSubmit(props.updateUser)} />
+        </Link>
+        <Link className='ps-1 link-danger'>
+          <FontAwesomeIcon icon={faXmark} onClick={() => props.setShowEditState(false)} />
+        </Link>
+      </div>
+      <Form>
+        <div>
+          <Form.Group className="mb-3 d-inline-block" controlId="loginForm.ControlInput1">
+            <Form.Check type="switch" label="Пользователь активен" reverse {...register('isActive')} />
+          </Form.Group>
+        </div>
+        <div>
+          <Form.Group className="mb-3 d-inline-block" controlId="loginForm.ControlInput2">
+            <Form.Check type="switch" label="Администратор" reverse {...register('isStaff')} />
+          </Form.Group>
+        </div>
+      </Form>
+    </>
+  )
+}
+UserAccessUpdate.propTypes = {
+  userID: PropTypes.number,
+  users: PropTypes.array,
+  setShowEditState: PropTypes.func,
+  updateUser: PropTypes.func
+}
+
 const UserUpdate = props => {
   const id = props.userID
   const user = props.users.find(user => user.id === id)
@@ -170,7 +217,7 @@ const UserUpdate = props => {
             <UserPasswordUpdate updateUser={updateUser} {...props} />
           </Tab>
           <Tab eventKey="access" title="Доступ">
-            Доступы
+            <UserAccessUpdate updateUser={updateUser} {...props} />
           </Tab>
         </Tabs>
       </Card.Body>
