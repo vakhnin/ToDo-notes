@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from .models import Project, ToDo
+from todo.models import Project, ToDo
 
 
 class ProjectModelSerializer(ModelSerializer):

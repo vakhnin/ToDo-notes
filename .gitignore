@@ -9,3 +9,5 @@ todo/__pycache__/
 todo/migrations/__pycache__/
 
 frontend/package-lock.json
+
+users/management/__pycache__/

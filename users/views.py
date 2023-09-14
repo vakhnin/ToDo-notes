@@ -1,10 +1,11 @@
-# Create your views here.
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 
 from users.models import User
-from users.serializers import UserModelSerializer, UserModelV2Serializer
+from users.serializers import UserModelSerializer
 
+
+# Create your views here.
 
 class UserModelViewSet(ModelViewSet):
     queryset = User.objects.order_by('-pk')
@@ -14,8 +15,3 @@ class UserModelViewSet(ModelViewSet):
     def me(self, request, *args, **kwargs):
         self.kwargs.update(pk=request.user.id)
         return self.retrieve(request, *args, **kwargs)
-
-    def get_serializer_class(self):
-        if self.request.version == '2.0':
-            return UserModelV2Serializer
-        return UserModelSerializer
