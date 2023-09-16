@@ -56,12 +56,14 @@ const UsersList = props => {
         : <RegistryItem setModalShow={props.setModalShow} />
       }
       {props.users.map((user) =>
+        (user.isActive || props.showNotActiveState) &&
         <UserItem key={user.id} userID={user.id} {...props} />)}
     </Row>
   )
 }
 UsersList.propTypes = {
   currentUserID: PropTypes.number,
+  showNotActiveState: PropTypes.bool,
   users: PropTypes.array,
   isAuthenticated: PropTypes.func,
   setModalShow: PropTypes.func

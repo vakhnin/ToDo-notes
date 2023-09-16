@@ -32,7 +32,10 @@ export default function UserCard (props) {
         </div>
       </Card.Header>
       <Card.Body>
-        <Card.Title className='text-capitalize'>{user.firstName} {user.lastName}</Card.Title>
+        <Card.Title className='text-capitalize'>
+          {user.firstName} {user.lastName}
+          <span className='text-warning'>{!user.isActive && ' (Пользователь неактивен)'}</span>
+        </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{user.email}</Card.Subtitle>
         <Card.Text as='div'>
           <div>Владелец проектов:</div>

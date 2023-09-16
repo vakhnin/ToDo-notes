@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
+import { Form } from 'react-bootstrap'
 
 import UsersList from './UsersList'
 import UserDetail from './UserDetail'
 
 const Users = props => {
+  const [showNotActiveState, setShowNotActiveState] = useState(false)
+
+  const toggleShowNotActiveState = () => {
+    setShowNotActiveState(!showNotActiveState)
+  }
   return (
     <Routes>
       <Route index element={
         <>
           <h2 className='py-3'>Пользователи</h2>
-          <UsersList {...props} />
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput1" >
+            <Form.Check type="switch" label="Показать неактивных пользователей"
+              onClick={() => toggleShowNotActiveState()} />
+          </Form.Group>
+          <UsersList showNotActiveState={showNotActiveState} {...props} />
         </>} />
       <Route path=":id" element={
         <>
