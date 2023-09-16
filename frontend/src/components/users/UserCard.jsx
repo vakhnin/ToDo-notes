@@ -25,7 +25,7 @@ export default function UserCard (props) {
               <FontAwesomeIcon icon={faPenToSquare}
                 onClick={() => props.setShowEditState(true)} />
             </Link>
-            <Link className='ps-1 link-danger'>
+            <Link className='ps-1 link-danger' onClick={() => props.deleteUser(user.id)}>
               <FontAwesomeIcon icon={faTrash} />
             </Link>
           </div>
@@ -51,5 +51,6 @@ UserCard.propTypes = {
   userID: PropTypes.number,
   users: PropTypes.array,
   userIsI: PropTypes.bool,
-  setShowEditState: PropTypes.func
+  setShowEditState: PropTypes.func,
+  deleteUser: PropTypes.func
 }

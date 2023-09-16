@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Link, Routes, Route } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
 import { Form } from 'react-bootstrap'
 
+import { RESTAPI } from '../Settings'
 import UsersList from './UsersList'
 import UserDetail from './UserDetail'
 
@@ -12,6 +14,19 @@ const Users = props => {
 
   const toggleShowNotActiveState = () => {
     setShowNotActiveState(!showNotActiveState)
+  }
+
+  const deleteUser = ToDoId => {
+    const id = Number(ToDoId)
+    RESTAPI.patch(`users/${id}/`, { isActive: false })
+      .then(response => {
+        props.setUsersState(
+          props.users.map(item => {
+            return item.id === id ? response.data : item
+          }))
+      }).catch(error => {
+        console.log(error)
+      })
   }
   return (
     <Routes>
@@ -22,7 +37,8 @@ const Users = props => {
             <Form.Check type="switch" label="Показать неактивных пользователей"
               onClick={() => toggleShowNotActiveState()} />
           </Form.Group>
-          <UsersList showNotActiveState={showNotActiveState} {...props} />
+          <UsersList showNotActiveState={showNotActiveState} deleteUser={deleteUser}
+            {...props} />
         </>} />
       <Route path=":id" element={
         <>
@@ -33,10 +49,14 @@ const Users = props => {
               К списку пользователей
             </Link>
           </h5>
-          <UserDetail {...props} />
+          <UserDetail deleteUser={deleteUser} {...props} />
         </>} />
     </Routes>
   )
+}
+Users.propTypes = {
+  users: PropTypes.array,
+  setUsersState: PropTypes.func
 }
 
 export default Users
