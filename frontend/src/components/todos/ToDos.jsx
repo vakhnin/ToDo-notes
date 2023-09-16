@@ -34,7 +34,7 @@ const ToDos = props => {
         <div>
           <h2 className='py-3'>ToDos</h2>
           <Form.Group className="mb-3" controlId="loginForm.ControlInput1" >
-            <Form.Check type="switch" label="Показать неактивные проекты"
+            <Form.Check type="switch" label="Показать неактивные ToDos"
               onClick={() => toggleShowNotActiveState()} />
           </Form.Group>
           <ToDoList showNotActiveState={showNotActiveState} deleteToDo={deleteToDo}
