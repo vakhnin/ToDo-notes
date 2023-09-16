@@ -56,7 +56,7 @@ const ProjectList = props => {
           : <AddProjectItem setShowAddProjectState={setShowAddProjectState} />}
       </Col>
       {props.projects.map((project) =>
-        project.isActive &&
+        (project.isActive || props.showNotActiveState) &&
         <Col key={project.id} className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
           <ProjectItem projectID={project.id} {...props} />
         </Col>)}
@@ -64,7 +64,8 @@ const ProjectList = props => {
   )
 }
 ProjectList.propTypes = {
-  projects: PropTypes.array
+  projects: PropTypes.array,
+  showNotActiveState: PropTypes.bool
 }
 
 export default ProjectList

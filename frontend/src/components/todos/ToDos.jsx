@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
+import { Form } from 'react-bootstrap'
 
 import { RESTAPI } from '../Settings'
 import ToDoList from './ToDoList'
 import ToDoDetail from './ToDoDetail'
 
 const ToDos = props => {
+  const [showNotActiveState, setShowNotActiveState] = useState(false)
+
+  const toggleShowNotActiveState = () => {
+    setShowNotActiveState(!showNotActiveState)
+  }
+
   const deleteToDo = ToDoId => {
     const id = Number(ToDoId)
     RESTAPI.patch(`todos/${id}/`, { isActive: false })
@@ -26,7 +33,12 @@ const ToDos = props => {
       <Route index element={
         <div>
           <h2 className='py-3'>ToDos</h2>
-          <ToDoList deleteToDo={deleteToDo} {...props} />
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput1" >
+            <Form.Check type="switch" label="Показать неактивные проекты"
+              onClick={() => toggleShowNotActiveState()} />
+          </Form.Group>
+          <ToDoList showNotActiveState={showNotActiveState} deleteToDo={deleteToDo}
+            {...props} />
         </div>} />
       <Route path=":id" element={
         <div>

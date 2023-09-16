@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
+import { Form } from 'react-bootstrap'
 
 import { RESTAPI } from '../Settings'
 import ProjectList from './ProjectsList'
 import ProjectDetail from './ProjectDetail'
 
 const Projects = props => {
+  const [showNotActiveState, setShowNotActiveState] = useState(false)
+
+  const toggleShowNotActiveState = () => {
+    setShowNotActiveState(!showNotActiveState)
+  }
+
   const deleteProject = projectId => {
     const id = Number(projectId)
     RESTAPI.patch(`projects/${id}/`, { isActive: false })
@@ -27,7 +34,12 @@ const Projects = props => {
       <Route index element={
         <div>
           <h2 className='py-3'>Проекты</h2>
-          <ProjectList deleteProject={deleteProject} {...props} />
+          <Form.Group className="mb-3" controlId="loginForm.ControlInput1" >
+            <Form.Check type="switch" label="Показать неактивные проекты"
+              onClick={() => toggleShowNotActiveState()} />
+          </Form.Group>
+          <ProjectList showNotActiveState={showNotActiveState} deleteProject={deleteProject}
+            {...props} />
         </div>} />
       <Route path=":id" element={
         <div>
