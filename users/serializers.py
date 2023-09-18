@@ -25,10 +25,13 @@ class UserModelSerializer(ModelSerializer):
             user.last_name = validated_data['last_name']
         if 'email' in validated_data and validated_data['email']:
             user.email = validated_data['email']
-        if 'is_active' in validated_data:
-            user.is_active = validated_data['is_active']
-        if 'is_staff' in validated_data:
-            user.is_staff = validated_data['is_staff']
+
+        if user.is_staff:
+            if 'is_active' in validated_data:
+                user.is_active = validated_data['is_active']
+            if 'is_staff' in validated_data:
+                user.is_staff = validated_data['is_staff']
+
         if 'password' in validated_data:
             user.set_password(validated_data['password'])
         user.save()

@@ -29,6 +29,7 @@ export default function registryModal (props) {
     RESTAPI.post('users/', data)
       .then(response => {
         data.id = response.data.id
+        data.isActive = true
         getToken({ username: data.username, password: data.password })
 
         delete data.password
