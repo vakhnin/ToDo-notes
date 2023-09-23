@@ -12,13 +12,17 @@ class UserPermissions(BasePermission):
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return True
-        elif view.action == 'create':
+        if view.action == 'create':
             return True
         return request.user
 
     def has_object_permission(self, request, view, obj):
-        if request.user and request.user.is_staff:
+        if not request.user:
+            return False
+        if request.user.is_staff:
             return True
+        if not request.user.is_active:
+            return False
         return obj == request.user
 
 
