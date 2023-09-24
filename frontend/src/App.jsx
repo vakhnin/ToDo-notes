@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Cookies from 'universal-cookie'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
 import './App.css'
 import loadData from './components/lib/loadDataUtils'
@@ -77,34 +78,40 @@ function App () {
     setToken('')
   }
 
-  return (
-    <div className="App d-flex flex-column min-vh-100">
-      <Router>
-        <NavMenu users={users} setUsersState={setUsersState}
-          currentUserID={currentUserID} isAuthenticated={isAuthenticated}
-          modalShow={modalShow} setModalShow={setModalShow}
-          setToken={setToken} logout={logout} />
-        <div className="container bg-light flex-grow-1">
-          <Routes>
-            <Route path='/' element={<h2>Главная</h2>} />
-            <Route path='/users/*' element={
-              <Users modalShow={modalShow} setModalShow={setModalShow} isAuthenticated={isAuthenticated}
-                users={users} currentUserID={currentUserID} setUsersState={setUsersState} />}
-            />
-            <Route path='/projects/*' element={
-              <Projects users={users} currentUserID={currentUserID}
-                projects={projects} setProjectsState={setProjectsState} />
-            }
-            />
-            <Route path='/todos/*' element={
-              <ToDos users={users} projects={projects} todos={todos} setTodosState={setTodosState} />}
-            />
-          </Routes>
-        </div>
-      </Router>
-      <Footer />
-    </div>
-  )
+  const MainApp = props => {
+    return (
+      <div className="App d-flex flex-column min-vh-100">
+        <Router>
+          <NavMenu setUsersState={setUsersState}
+            modalShow={modalShow} setModalShow={setModalShow}
+            setToken={setToken} logout={logout} {...props} />
+          <div className="container bg-light flex-grow-1">
+            <Routes>
+              <Route path='/' element={<h2>Главная</h2>} />
+              <Route path='/users/*' element={
+                <Users modalShow={modalShow} setModalShow={setModalShow}
+                  setUsersState={setUsersState} {...props} />}
+              />
+              <Route path='/projects/*' element={
+                <Projects projects={projects}
+                  setProjectsState={setProjectsState} {...props} />
+              }
+              />
+              <Route path='/todos/*' element={
+                <ToDos projects={projects} todos={todos} setTodosState={setTodosState} {...props} />}
+              />
+            </Routes>
+          </div>
+        </Router>
+        <Footer />
+      </div>
+    )
+  }
+  MainApp.propTypes = {
+    test: PropTypes.number
+  }
+  return <MainApp users={users} currentUserID={currentUserID}
+    isAuthenticated={isAuthenticated} />
 }
 
 export default App
