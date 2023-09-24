@@ -20,6 +20,7 @@ function App () {
   const [todos, setTodosState] = useState([])
 
   const [modalShow, setModalShow] = useState('')
+  const [accessModalShow, setAccessModalShow] = useState(false)
   const [currentUserID, setCurrentUserID] = useState(0)
   const [token, setTokenState] = useState(cookies.get('token'))
 
@@ -111,7 +112,8 @@ function App () {
     test: PropTypes.number
   }
   return <MainApp users={users} currentUserID={currentUserID}
-    isAuthenticated={isAuthenticated} />
+    isAuthenticated={isAuthenticated}
+    accessModalShow={accessModalShow} setAccessModalShow={setAccessModalShow} />
 }
 
 export default App

@@ -5,6 +5,7 @@ import { Container, Nav, Navbar } from 'react-bootstrap'
 
 import LoginModal from './profile/UserLogin'
 import RegistryModal from './profile/UserRegistry'
+import AccessModal from './AccessModal'
 
 const NavMenuWrapper = props => {
   const location = useLocation()
@@ -66,6 +67,7 @@ const NavMenu = props => {
         setToken={props.setToken} />
       <RegistryModal show={props.modalShow === 'registry'} setModalShow={props.setModalShow}
         users={props.users} setUsersState={props.setUsersState} setToken={props.setToken} />
+      <AccessModal {...props} />
     </>
   )
 }
