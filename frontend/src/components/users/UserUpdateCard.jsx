@@ -129,6 +129,14 @@ const UserAccessUpdate = props => {
   const id = props.userID
   const user = props.users.find(user => user.id === id)
 
+  const checkAccessUser = (event) => {
+    const currentUser = props.users.find(user => user.id === props.currentUserID)
+    if (!currentUser || !currentUser.isStaff) {
+      event.preventDefault()
+      props.setAccessModalShow(true)
+    }
+  }
+
   if (!user) {
     return <div>Нет пользователя с таким ID</div>
   }
@@ -153,12 +161,14 @@ const UserAccessUpdate = props => {
       <Form>
         <div>
           <Form.Group className="mb-3 d-inline-block" controlId="loginForm.ControlInput1">
-            <Form.Check type="switch" label="Пользователь активен" reverse {...register('isActive')} />
+            <Form.Check type="switch" label="Пользователь активен" reverse {...register('isActive')}
+              onClick={(event) => checkAccessUser(event)} />
           </Form.Group>
         </div>
         <div>
           <Form.Group className="mb-3 d-inline-block" controlId="loginForm.ControlInput2">
-            <Form.Check type="switch" label="Администратор" reverse {...register('isStaff')} />
+            <Form.Check type="switch" label="Администратор" reverse {...register('isStaff')}
+              onClick={(event) => checkAccessUser(event)} />
           </Form.Group>
         </div>
       </Form>
@@ -168,6 +178,8 @@ const UserAccessUpdate = props => {
 UserAccessUpdate.propTypes = {
   userID: PropTypes.number,
   users: PropTypes.array,
+  currentUserID: PropTypes.number,
+  setAccessModalShow: PropTypes.func,
   setShowEditState: PropTypes.func,
   updateUser: PropTypes.func
 }

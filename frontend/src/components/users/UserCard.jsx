@@ -9,6 +9,15 @@ export default function UserCard (props) {
   const id = props.userID
   const user = props.users.find(todo => todo.id === id)
 
+  const checkAccessUserAndDoAction = (action) => {
+    const currentUser = props.users.find(user => user.id === props.currentUserID)
+    if (!currentUser) {
+      props.setAccessModalShow(true)
+    } else if (!currentUser.isStaff && (currentUser.id !== id)) {
+      props.setAccessModalShow(true)
+    } else { action() }
+  }
+
   if (!user) {
     return <div>Нет пользователя с таким ID</div>
   }
@@ -23,9 +32,11 @@ export default function UserCard (props) {
           <div>
             <Link className='pe-1 link-success'>
               <FontAwesomeIcon icon={faPenToSquare}
-                onClick={() => props.setShowEditState(true)} />
+                onClick={() =>
+                  checkAccessUserAndDoAction(() => props.setShowEditState(true))} />
             </Link>
-            <Link className='ps-1 link-danger' onClick={() => props.deleteUser(user.id)}>
+            <Link className='ps-1 link-danger' onClick={() =>
+              checkAccessUserAndDoAction(() => props.deleteUser(user.id))}>
               <FontAwesomeIcon icon={faTrash} />
             </Link>
           </div>
@@ -51,6 +62,8 @@ UserCard.propTypes = {
   userID: PropTypes.number,
   users: PropTypes.array,
   userIsI: PropTypes.bool,
+  currentUserID: PropTypes.number,
   setShowEditState: PropTypes.func,
+  setAccessModalShow: PropTypes.func,
   deleteUser: PropTypes.func
 }
