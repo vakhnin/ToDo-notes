@@ -16,6 +16,15 @@ const Projects = props => {
     setShowNotActiveState(!showNotActiveState)
   }
 
+  const checkAccessProjectAndDoAction = (project, action) => {
+    const user = props.users.find(user => user.id === props.currentUserID)
+    if (!user) {
+      props.setAccessModalShow(true)
+    } else if (user.isStaff || project.creatorId === user.id) {
+      action()
+    } else { props.setAccessModalShow(true) }
+  }
+
   const deleteProject = projectId => {
     const id = Number(projectId)
     RESTAPI.patch(`projects/${id}/`, { isActive: false })
@@ -39,7 +48,7 @@ const Projects = props => {
               onClick={() => toggleShowNotActiveState()} />
           </Form.Group>
           <ProjectList showNotActiveState={showNotActiveState} deleteProject={deleteProject}
-            {...props} />
+            checkAccessProjectAndDoAction={checkAccessProjectAndDoAction} {...props} />
         </div>} />
       <Route path=":id" element={
         <div>
@@ -50,14 +59,18 @@ const Projects = props => {
               К списку проектов
             </Link>
           </h5>
-          <ProjectDetail deleteProject={deleteProject} {...props} />
+          <ProjectDetail deleteProject={deleteProject} checkAccessProjectAndDoAction={checkAccessProjectAndDoAction}
+            {...props} />
         </div>} />
     </Routes>
   )
 }
 Projects.propTypes = {
+  users: PropTypes.array,
   projects: PropTypes.array,
-  setProjectsState: PropTypes.func
+  currentUserID: PropTypes.number,
+  setProjectsState: PropTypes.func,
+  setAccessModalShow: PropTypes.func
 }
 
 export default Projects

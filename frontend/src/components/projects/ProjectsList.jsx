@@ -25,7 +25,7 @@ ProjectItem.propTypes = {
   projects: PropTypes.array
 }
 
-const AddProjectItem = ({ setShowAddProjectState }) => {
+const AddProjectItem = props => {
   return (
     <Card className='h-100'>
       <Card.Header>
@@ -34,7 +34,10 @@ const AddProjectItem = ({ setShowAddProjectState }) => {
       <Card.Body className='h-100'>
         <Card.Text className='big-plus h-100 d-flex align-items-center justify-content-center'>
           <Link className='link-success  stretched-link'
-            onClick={() => setShowAddProjectState(true)}>
+            onClick={() => {
+              if (props.currentUserID) props.setShowAddProjectState(true)
+              else props.setAccessModalShow(true)
+            }}>
             <FontAwesomeIcon icon={faCirclePlus} />
           </Link>
         </Card.Text>
@@ -43,7 +46,9 @@ const AddProjectItem = ({ setShowAddProjectState }) => {
   )
 }
 AddProjectItem.propTypes = {
-  setShowAddProjectState: PropTypes.func
+  currentUserID: PropTypes.number,
+  setShowAddProjectState: PropTypes.func,
+  setAccessModalShow: PropTypes.func
 }
 
 const ProjectList = props => {
@@ -53,7 +58,7 @@ const ProjectList = props => {
       <Col className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
         {showAddProjectState
           ? <ProjectCreate setShowAddProjectState={setShowAddProjectState} {...props} />
-          : <AddProjectItem setShowAddProjectState={setShowAddProjectState} />}
+          : <AddProjectItem setShowAddProjectState={setShowAddProjectState} {...props} />}
       </Col>
       {props.projects.map((project) =>
         (project.isActive || props.showNotActiveState) &&
