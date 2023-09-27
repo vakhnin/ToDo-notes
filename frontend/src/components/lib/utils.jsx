@@ -3,4 +3,9 @@ const userNameById = (users, id) => {
   return user ? user.username : 'пользователь не найден'
 }
 
-export { userNameById }
+const projectNameById = (projects, id) => {
+  const project = projects.find((project) => project.id === Number(id))
+  return project ? project.name : 'проект не найден'
+}
+
+export { userNameById, projectNameById }

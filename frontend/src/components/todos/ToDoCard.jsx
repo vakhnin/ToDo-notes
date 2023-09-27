@@ -5,7 +5,7 @@ import { Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-import { userNameById } from '../lib/utils'
+import { userNameById, projectNameById } from '../lib/utils'
 
 export default function ToDoCard (props) {
   const id = props.todoID
@@ -37,21 +37,30 @@ export default function ToDoCard (props) {
           <span className='text-warning'>{!todo.isActive && ' (ToDo неактивно)'}</span>
         </Card.Title>
         <Card.Text as='div'>
+          <div>Текст ToDo:</div>
+          <Card className='todo-text'>{todo.text}</Card>
+          <div>Проект:</div>
+          <Link to={`/projects/${todo.project}`}>
+            {projectNameById(props.projects, todo.project)}
+          </Link>
           <div>Создатель ToDo:</div>
           <Link to={`/users/${todo.creatorId}`}>
             {userNameById(props.users, todo.creatorId)}
           </Link>
-          <p>Текст ToDo</p>
-          <p>{todo.text}</p>
         </Card.Text>
       </Card.Body>
+      <Card.Footer>
+        <div>Создано: {todo.created}</div>
+        <div>Изменено: {todo.updated}</div>
+      </Card.Footer>
     </Card>
   )
 }
 ToDoCard.propTypes = {
   todoID: PropTypes.number,
-  todos: PropTypes.array,
   users: PropTypes.array,
+  projects: PropTypes.array,
+  todos: PropTypes.array,
   deleteToDo: PropTypes.func,
   setShowEditState: PropTypes.func
 }

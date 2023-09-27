@@ -9,4 +9,8 @@
 .big-first-letter::first-letter {
     text-transform: uppercase;
 }
+
+.todo-text {
+    padding: 0.5em;
+}
   
