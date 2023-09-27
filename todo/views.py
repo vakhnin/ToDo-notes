@@ -37,9 +37,21 @@ class ProjectModelViewSet(ModelViewSet):
             return Response(status=status.HTTP_200_OK)
 
 
+class ToDoPermissions(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if not request.user:
+            return False
+        if request.user.is_staff:
+            return True
+        if not request.user.is_active:
+            return False
+        return obj.creator == request.user or obj.project.creator == request.user
+
+
 class ToDoModelViewSet(ModelViewSet):
     queryset = ToDo.objects.order_by('-pk')
     serializer_class = ToDoModelSerializer
+    permission_classes = (ToDoPermissions,)
 
     def perform_create(self, serializer):
         instance = serializer.save(creator=self.request.user)
