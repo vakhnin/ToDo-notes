@@ -49,9 +49,12 @@ export default function UserCard (props) {
         </Card.Title>
         <Card.Subtitle className="mb-2 text-muted">{user.email}</Card.Subtitle>
         <Card.Text as='div'>
-          <Link to={`/projects/owner/${id}`}>Владелец проектов</Link>
-          <div>Участник проектов:</div>
-          <div>&lt;нет проектов&gt;</div>
+          <div>
+            <Link to={`/projects/owner/${id}`}>Владелец проектов</Link>
+          </div>
+          <div>
+            <Link to={`/projects/member/${id}`}>Участник проектов</Link>
+          </div>
         </Card.Text>
       </Card.Body>
     </Card>

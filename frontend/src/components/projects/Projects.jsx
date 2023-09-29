@@ -40,10 +40,10 @@ const Projects = props => {
     }
 
     const { id } = useParams()
-    let pageHeader = 'Проекты'
-    if (props.projectsFilter === 'owner') {
+    let pageHeader = 'Все проекты'
+    if (props.projectsFilter === 'owner' || props.projectsFilter === 'member') {
       pageHeader = <>
-        Проекты владельца&nbsp;
+        {props.projectsFilter === 'owner' ? 'Проекты владельца ' : 'Проекты с участием '}
         <Link to={`/users/${id}`}>
           {userNameById(props.users, id)}
         </Link>
@@ -71,6 +71,8 @@ const Projects = props => {
         <ProjectsListBase projectsFilter={'all'} {...props} />} />
       <Route path="owner/:id" element={
         <ProjectsListBase projectsFilter={'owner'} {...props} />} />
+      <Route path="member/:id" element={
+        <ProjectsListBase projectsFilter={'member'} {...props} />} />
       <Route path=":id" element={
         <div>
           <h2 className='py-3'>Детальная информация о проекте</h2>

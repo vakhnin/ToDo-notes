@@ -55,6 +55,8 @@ const ProjectsList = props => {
   const [showAddProjectState, setShowAddProjectState] = useState(false)
   const projectsFilter = (project) => {
     if (props.projectsFilter === 'owner' && project.creatorId !== props.userId) { return false }
+    if (props.projectsFilter === 'member' &&
+      !project.users.find(userId => userId === props.userId)) { return false }
     return project.isActive || props.showNotActiveState
   }
   return (
