@@ -1,21 +1,16 @@
 import React, { useState } from 'react'
-import { Routes, Route, Link } from 'react-router-dom'
+import { Routes, Route, Link, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons'
 import { Form } from 'react-bootstrap'
 
 import { RESTAPI } from '../Settings'
-import ProjectList from './ProjectsList'
+import { userNameById } from '../lib/utils'
+import ProjectsList from './ProjectsList'
 import ProjectDetail from './ProjectDetail'
 
 const Projects = props => {
-  const [showNotActiveState, setShowNotActiveState] = useState(false)
-
-  const toggleShowNotActiveState = () => {
-    setShowNotActiveState(!showNotActiveState)
-  }
-
   const checkAccessProjectAndDoAction = (project, action) => {
     const user = props.users.find(user => user.id === props.currentUserID)
     if (!user) {
@@ -38,18 +33,44 @@ const Projects = props => {
       })
   }
 
+  const ProjectsListBase = props => {
+    const [showNotActiveState, setShowNotActiveState] = useState(false)
+    const toggleShowNotActiveState = () => {
+      setShowNotActiveState(!showNotActiveState)
+    }
+
+    const { id } = useParams()
+    let pageHeader = 'Проекты'
+    if (props.projectsFilter === 'owner') {
+      pageHeader = <>
+        Проекты владельца&nbsp;
+        <Link to={`/users/${id}`}>
+          {userNameById(props.users, id)}
+        </Link>
+      </>
+    }
+    return (
+      <>
+        <h2 className='py-3'>{pageHeader}</h2>
+        <Form.Group className="mb-3" controlId="projectsList.ControlInput1" >
+          <Form.Check type="switch" label="Показать неактивные проекты"
+            onClick={() => toggleShowNotActiveState()} />
+        </Form.Group>
+        <ProjectsList userId={Number(id)} showNotActiveState={showNotActiveState} deleteProject={deleteProject}
+          checkAccessProjectAndDoAction={checkAccessProjectAndDoAction} {...props} />
+      </>
+    )
+  }
+  ProjectsListBase.propTypes = {
+    projectsFilter: PropTypes.string
+  }
+
   return (
     <Routes>
       <Route index element={
-        <div>
-          <h2 className='py-3'>Проекты</h2>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput1" >
-            <Form.Check type="switch" label="Показать неактивные проекты"
-              onClick={() => toggleShowNotActiveState()} />
-          </Form.Group>
-          <ProjectList showNotActiveState={showNotActiveState} deleteProject={deleteProject}
-            checkAccessProjectAndDoAction={checkAccessProjectAndDoAction} {...props} />
-        </div>} />
+        <ProjectsListBase projectsFilter={'all'} {...props} />} />
+      <Route path="owner/:id" element={
+        <ProjectsListBase projectsFilter={'owner'} {...props} />} />
       <Route path=":id" element={
         <div>
           <h2 className='py-3'>Детальная информация о проекте</h2>
