@@ -43,6 +43,10 @@ AddToDoItem.propTypes = {
 
 const ToDoList = props => {
   const [showAddProjectState, setShowAddProjectState] = useState(false)
+  const todosFilter = (todo) => {
+    if (props.todosFilter === 'project' && todo.project !== props.projectId) { return false }
+    return todo.isActive || props.showNotActiveState
+  }
   return (
     <Row>
       <Col className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
@@ -51,7 +55,7 @@ const ToDoList = props => {
           : <AddToDoItem setShowAddProjectState={setShowAddProjectState} />}
       </Col>
       {props.todos.map((todo) =>
-        (todo.isActive || props.showNotActiveState) &&
+        (todosFilter(todo)) &&
         <Col key={todo.id} className='pb-3 align-self-stretch' md={6} lg={4} xl={3}>
           <ToDoItem todoID={todo.id} {...props} />
         </Col>
@@ -61,6 +65,8 @@ const ToDoList = props => {
 }
 ToDoList.propTypes = {
   todos: PropTypes.array,
+  projectId: PropTypes.number,
+  todosFilter: PropTypes.string,
   showNotActiveState: PropTypes.bool
 }
 

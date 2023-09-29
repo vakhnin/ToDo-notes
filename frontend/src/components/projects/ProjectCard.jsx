@@ -44,6 +44,11 @@ export default function ProjectCard (props) {
             : '<Нет репозитария проекта>'}
         </Card.Subtitle>
         <Card.Text as='div'>
+          <div>
+            <Link to={`/todos/project/${project.creatorId}`}>
+              ToDos проекта
+            </Link>
+          </div>
           <div>Владелец проекта:</div>
           <Link to={`/users/${project.creatorId}`}>
             {userNameById(props.users, project.creatorId)}
