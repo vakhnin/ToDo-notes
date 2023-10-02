@@ -1,5 +1,6 @@
 from rest_framework import status
-from rest_framework.permissions import BasePermission
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
@@ -38,6 +39,11 @@ class ProjectModelViewSet(ModelViewSet):
 
 
 class ToDoPermissions(BasePermission):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        return request.user
+
     def has_object_permission(self, request, view, obj):
         if not request.user:
             return False
@@ -54,7 +60,13 @@ class ToDoModelViewSet(ModelViewSet):
     permission_classes = (ToDoPermissions,)
 
     def perform_create(self, serializer):
-        instance = serializer.save(creator=self.request.user)
+        project = serializer.validated_data['project']
+        if (self.request.user.is_staff
+                or self.request.user == project.creator
+                or self.request.user in project.users.all()):
+            serializer.save(creator=self.request.user)
+        else:
+            raise PermissionDenied
 
     def destroy(self, request, *args, **kwargs):
         try:
