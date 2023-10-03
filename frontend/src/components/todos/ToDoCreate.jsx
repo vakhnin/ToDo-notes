@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
@@ -10,8 +11,8 @@ import { RESTAPI } from '../Settings'
 import Form from 'react-bootstrap/Form'
 
 export default function ProjectCreate (props) {
-  const [error] = useState('')
-  const { register, handleSubmit } = useForm({
+  const [serverError, setServerError] = useState('')
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       project: 0,
       name: '',
@@ -25,7 +26,16 @@ export default function ProjectCreate (props) {
         props.setTodosState([response.data, ...props.todos])
         props.setShowAddProjectState(false)
       }).catch(error => {
-        console.log(error)
+        if (!error) {
+          setServerError('Неизвестная ошибка. Обратитесь к разработчику')
+          return
+        }
+        if (error.response.data &&
+          error.response.data.nonFieldErrors[0].includes('The fields project, name must make a unique set')) {
+          setServerError('В проекте уже существует ToDo с таким названием')
+        } else {
+          setServerError('Неизвестная ошибка сервера. Обратитесь к разработчику')
+        }
       })
   }
 
@@ -47,23 +57,32 @@ export default function ProjectCreate (props) {
         </div>
       </Card.Header>
       <Card.Body>
-        <div className='text-danger'>{error}</div>
+        <div className='text-danger'>{serverError}</div>
         <Form>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+          <Form.Group className="mb-3" controlId="toDoForm.ControlInput1">
             <Form.Label>Выбор проекта</Form.Label>
-            <Form.Select {...register('project')}>
-              <option value={0} key={0}>--- Выберите проект ---</option>
+            <Form.Select
+              {...register('project', { required: 'Проект должен быть выбран' })}>
+              <option value={''} key={0}>--- Выберите проект ---</option>
               {props.projects.map((project) =>
                 <option value={project.id} key={project.id}>{project.name}</option>)}
             </Form.Select>
+            <ErrorMessage errors={errors} name="project"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+          <Form.Group className="mb-3" controlId="toDoForm.ControlInput2">
             <Form.Label>Название ToDo</Form.Label>
-            <Form.Control type="text" placeholder="Название ToDo" {...register('name')} />
+            <Form.Control type="text" placeholder="Название ToDo"
+              {...register('name', { required: 'Поле "Название ToDo" не может быть пустым' })} />
+            <ErrorMessage errors={errors} name="name"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput3">
+          <Form.Group className="mb-3" controlId="toDoForm.ControlInput3">
             <Form.Label>ToDo текст</Form.Label>
-            <Form.Control as="textarea" placeholder="Текст ToDo" {...register('text')} />
+            <Form.Control as="textarea" placeholder="Текст ToDo"
+              {...register('text', { required: 'Поле "Текст ToDo" не может быть пустым' })} />
+            <ErrorMessage errors={errors} name="text"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
         </Form>
       </Card.Body>
