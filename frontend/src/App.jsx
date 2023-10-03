@@ -8,6 +8,7 @@ import loadData from './components/lib/loadDataUtils'
 
 import { RESTAPI } from './components/Settings'
 import NavMenu from './components/Nav'
+import MainPage from './components/MainPage.jsx'
 import Users from './components/users/Users'
 import Projects from './components/projects/Projects'
 import ToDos from './components/todos/ToDos'
@@ -88,15 +89,15 @@ function App () {
             setToken={setToken} logout={logout} {...props} />
           <div className="container bg-light flex-grow-1">
             <Routes>
-              <Route path='/' element={<h2>Главная</h2>} />
+              <Route index element={
+                <MainPage />} />
               <Route path='/users/*' element={
                 <Users modalShow={modalShow} setModalShow={setModalShow}
                   setUsersState={setUsersState} {...props} />}
               />
               <Route path='/projects/*' element={
                 <Projects projects={projects}
-                  setProjectsState={setProjectsState} {...props} />
-              }
+                  setProjectsState={setProjectsState} {...props} />}
               />
               <Route path='/todos/*' element={
                 <ToDos projects={projects} todos={todos} setTodosState={setTodosState} {...props} />}
