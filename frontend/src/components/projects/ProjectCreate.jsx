@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
@@ -10,8 +11,8 @@ import { RESTAPI } from '../Settings'
 import Form from 'react-bootstrap/Form'
 
 export default function ProjectCreate (props) {
-  const [error] = useState('')
-  const { register, handleSubmit } = useForm({
+  const [serverError, setServerError] = useState('')
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       name: '',
       repository: '',
@@ -25,7 +26,16 @@ export default function ProjectCreate (props) {
         props.setProjectsState([response.data, ...props.projects])
         props.setShowAddProjectState(false)
       }).catch(error => {
-        console.log(error)
+        if (!error) {
+          setServerError('Неизвестная ошибка. Обратитесь к разработчику')
+          return
+        }
+        if (error.response.data.name &&
+          error.response.data.name.includes('project with this name already exists.')) {
+          setServerError('Проект с таким названием уже существует')
+        } else {
+          setServerError('Неизвестная ошибка сервера. Обратитесь к разработчику')
+        }
       })
   }
 
@@ -47,13 +57,16 @@ export default function ProjectCreate (props) {
         </div>
       </Card.Header>
       <Card.Body>
-        <div className='text-danger'>{error}</div>
+        <div className='text-danger'>{serverError}</div>
         <Form>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+          <Form.Group className="mb-3" controlId="projectForm.ControlInput1">
             <Form.Label>Название проекта</Form.Label>
-            <Form.Control type="text" placeholder="Название проекта" {...register('name')} />
+            <Form.Control type="text" placeholder="Название проекта"
+              {...register('name', { required: 'Поле "Название проекта" не может быть пустым' })} />
+            <ErrorMessage errors={errors} name="name"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+          <Form.Group className="mb-3" controlId="projectForm.ControlInput2">
             <Form.Label>Репозитарий</Form.Label>
             <Form.Control type="text" placeholder="http://repository.com" {...register('repository')} />
           </Form.Group>
