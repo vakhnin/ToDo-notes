@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -16,7 +17,8 @@ const ProjectUpdate = props => {
     return <div>Нет проекта с таким ID</div>
   }
 
-  const { register, handleSubmit } = useForm({
+  const [serverError, setServerError] = useState('')
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       name: project.name,
       repository: project.repository,
@@ -34,7 +36,16 @@ const ProjectUpdate = props => {
           }))
         props.setShowEditState(false)
       }).catch(error => {
-        console.log(error)
+        if (!error) {
+          setServerError('Неизвестная ошибка. Обратитесь к разработчику')
+          return
+        }
+        if (error.response.data.name &&
+          error.response.data.name.includes('project with this name already exists.')) {
+          setServerError('Проект с таким названием уже существует')
+        } else {
+          setServerError('Неизвестная ошибка сервера. Обратитесь к разработчику')
+        }
       })
   }
 
@@ -56,19 +67,23 @@ const ProjectUpdate = props => {
         </div>
       </Card.Header>
       <Card.Body>
+        <div className='text-danger'>{serverError}</div>
         <Form>
-          <Form.Group className="mb-3 d-inline-block" controlId="loginForm.ControlInput1">
+          <Form.Group className="mb-3 d-inline-block" controlId="projectForm.ControlInput1">
             <Form.Check type="switch" label="Проект активен" reverse {...register('isActive')} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+          <Form.Group className="mb-3" controlId="projectForm.ControlInput2">
             <Form.Label>Название проекта</Form.Label>
-            <Form.Control type="text" placeholder="Название проекта" {...register('name')} />
+            <Form.Control type="text" placeholder="Название проекта"
+              {...register('name', { required: 'Поле "Название проекта" не может быть пустым' })} />
+            <ErrorMessage errors={errors} name="name"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput3">
+          <Form.Group className="mb-3" controlId="projectForm.ControlInput3">
             <Form.Label>Репозитарий</Form.Label>
             <Form.Control type="text" placeholder="http://repository.com" {...register('repository')} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlSelect1">
+          <Form.Group className="mb-3" controlId="projectForm.ControlSelect1">
             <Form.Label>Участники проекта</Form.Label>
             <Form.Select multiple {...register('users')}>
               {props.users.map((user) =>
