@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -16,7 +17,8 @@ const ToDoUpdate = props => {
     return <div>Нет ToDo с таким ID</div>
   }
 
-  const { register, handleSubmit } = useForm({
+  const [serverError, setServerError] = useState('')
+  const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: {
       name: todo.name,
       text: todo.text,
@@ -33,7 +35,16 @@ const ToDoUpdate = props => {
           }))
         props.setShowEditState(false)
       }).catch(error => {
-        console.log(error)
+        if (!error) {
+          setServerError('Неизвестная ошибка. Обратитесь к разработчику')
+          return
+        }
+        if (error.response.data &&
+          error.response.data.nonFieldErrors[0].includes('The fields project, name must make a unique set')) {
+          setServerError('В проекте уже существует ToDo с таким названием')
+        } else {
+          setServerError('Неизвестная ошибка сервера. Обратитесь к разработчику')
+        }
       })
   }
 
@@ -55,17 +66,24 @@ const ToDoUpdate = props => {
         </div>
       </Card.Header>
       <Card.Body>
+        <div className='text-danger'>{serverError}</div>
         <Form>
-          <Form.Group className="mb-3 d-inline-block" controlId="loginForm.ControlInput3">
+          <Form.Group className="mb-3 d-inline-block" controlId="toDoForm.ControlInput1">
             <Form.Check type="switch" label="ToDo активен" reverse {...register('isActive')} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
+          <Form.Group className="mb-3" controlId="toDoForm.ControlInput2">
             <Form.Label>Название ToDo</Form.Label>
-            <Form.Control type="text" placeholder="Название ToDo" {...register('name')} />
+            <Form.Control type="text" placeholder="Название ToDo"
+              {...register('name', { required: 'Поле "Название ToDo" не может быть пустым' })} />
+            <ErrorMessage errors={errors} name="name"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
-          <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
+          <Form.Group className="mb-3" controlId="toDoForm.ControlInput3">
             <Form.Label>Текст ToDo</Form.Label>
-            <Form.Control as="textarea" placeholder="Текст ToDo" {...register('text')} />
+            <Form.Control as="textarea" placeholder="Текст ToDo"
+              {...register('text', { required: 'Поле "Текст ToDo" не может быть пустым' })} />
+            <ErrorMessage errors={errors} name="text"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
         </Form>
       </Card.Body>
