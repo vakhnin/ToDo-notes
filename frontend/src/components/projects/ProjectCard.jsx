@@ -45,7 +45,7 @@ export default function ProjectCard (props) {
         </Card.Subtitle>
         <Card.Text as='div'>
           <div>
-            <Link to={`/todos/project/${project.creatorId}`}>
+            <Link to={`/todos/project/${project.id}`}>
               ToDos проекта
             </Link>
           </div>
