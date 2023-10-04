@@ -1,8 +1,12 @@
 import React from 'react'
+import { Helmet } from 'react-helmet'
 
 const MainPage = () => {
   return (
     <>
+      <Helmet>
+        <title>Главная</title>
+      </Helmet>
       <h2 className='py-3'>Главная</h2>
       <h4>Описание проекта</h4>
       <div>

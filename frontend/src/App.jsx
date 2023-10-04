@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Helmet } from 'react-helmet'
 import Cookies from 'universal-cookie'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -92,15 +93,30 @@ function App () {
               <Route index element={
                 <MainPage />} />
               <Route path='/users/*' element={
-                <Users modalShow={modalShow} setModalShow={setModalShow}
-                  setUsersState={setUsersState} {...props} />}
+                <>
+                  <Helmet>
+                    <title>Пользователи</title>
+                  </Helmet>
+                  <Users modalShow={modalShow} setModalShow={setModalShow}
+                    setUsersState={setUsersState} {...props} />
+                </>}
               />
               <Route path='/projects/*' element={
-                <Projects projects={projects}
-                  setProjectsState={setProjectsState} {...props} />}
+                <>
+                  <Helmet>
+                    <title>Проекты</title>
+                  </Helmet>
+                  <Projects projects={projects}
+                    setProjectsState={setProjectsState} {...props} />
+                </>}
               />
               <Route path='/todos/*' element={
-                <ToDos projects={projects} todos={todos} setTodosState={setTodosState} {...props} />}
+                <>
+                  <Helmet>
+                    <title>ToDos</title>
+                  </Helmet>
+                  <ToDos projects={projects} todos={todos} setTodosState={setTodosState} {...props} />
+                </>}
               />
             </Routes>
           </div>
