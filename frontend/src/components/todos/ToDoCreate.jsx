@@ -20,6 +20,17 @@ export default function ProjectCreate (props) {
     }
   })
 
+  const existsProjectsForUser = () => {
+    const user = props.users.find(user => user.id === props.currentUserID)
+    if (!user) return false
+    if (props.projects.find(project =>
+      project.isActive &&
+      (project.creatorId === user.id || project.users.includes(user.id)))) {
+      return true
+    }
+    return false
+  }
+
   const createToDo = data => {
     RESTAPI.post('todos/', data)
       .then(response => {
@@ -59,17 +70,23 @@ export default function ProjectCreate (props) {
       <Card.Body>
         <div className='text-danger'>{serverError}</div>
         <Form>
-          <Form.Group className="mb-3" controlId="toDoForm.ControlInput1">
-            <Form.Label>Выбор проекта</Form.Label>
-            <Form.Select
-              {...register('project', { required: 'Проект должен быть выбран' })}>
-              <option value={''} key={0}>--- Выберите проект ---</option>
-              {props.projects.map((project) =>
-                <option value={project.id} key={project.id}>{project.name}</option>)}
-            </Form.Select>
-            <ErrorMessage errors={errors} name="project"
-              render={({ message }) => <div className='text-danger'>{message}</div>} />
-          </Form.Group>
+          {existsProjectsForUser()
+            ? <>
+              <Form.Group className="mb-3" controlId="toDoForm.ControlInput1">
+                <Form.Label>Выбор проекта</Form.Label>
+                <Form.Select
+                  {...register('project', { required: 'Проект должен быть выбран' })}>
+                  {props.projects.map((project) =>
+                    <option value={project.id} key={project.id}>{project.name}</option>)}
+                </Form.Select>
+                <ErrorMessage errors={errors} name="project"
+                  render={({ message }) => <div className='text-danger'>{message}</div>} />
+              </Form.Group>
+            </>
+            : <div className='text-danger'>
+              У Вас нет проекта созданного Вами или участником которого Вы являетесь.
+              Вы не можете создать ToDo.
+            </div>}
           <Form.Group className="mb-3" controlId="toDoForm.ControlInput2">
             <Form.Label>Название ToDo</Form.Label>
             <Form.Control type="text" placeholder="Название ToDo"
@@ -90,6 +107,8 @@ export default function ProjectCreate (props) {
   )
 }
 ProjectCreate.propTypes = {
+  currentUserID: PropTypes.number,
+  users: PropTypes.array,
   projects: PropTypes.array,
   todos: PropTypes.array,
   setTodosState: PropTypes.func,
