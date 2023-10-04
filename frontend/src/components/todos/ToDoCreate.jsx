@@ -23,11 +23,22 @@ export default function ProjectCreate (props) {
   const existsProjectsForUser = () => {
     const user = props.users.find(user => user.id === props.currentUserID)
     if (!user) return false
+    if (user.isStaff) return true
     if (props.projects.find(project =>
       project.isActive &&
       (project.creatorId === user.id || project.users.includes(user.id)))) {
       return true
     }
+    return false
+  }
+
+  const checkUserInProject = project => {
+    if (!project.isActive) return false
+    const user = props.users.find(user => user.id === props.currentUserID)
+    if (!user) return false
+    if (user.isStaff) return true
+    if (project.creatorId === user.id) return true
+    if (project.users.includes(user.id)) return true
     return false
   }
 
@@ -76,8 +87,10 @@ export default function ProjectCreate (props) {
                 <Form.Label>Выбор проекта</Form.Label>
                 <Form.Select
                   {...register('project', { required: 'Проект должен быть выбран' })}>
-                  {props.projects.map((project) =>
-                    <option value={project.id} key={project.id}>{project.name}</option>)}
+                  {props.projects
+                    .filter(project => checkUserInProject(project))
+                    .map(project =>
+                      <option value={project.id} key={project.id}>{project.name}</option>)}
                 </Form.Select>
                 <ErrorMessage errors={errors} name="project"
                   render={({ message }) => <div className='text-danger'>{message}</div>} />
