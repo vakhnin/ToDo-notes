@@ -210,8 +210,8 @@ const UserUpdate = props => {
       <Card.Header>
         <div className='d-flex justify-content-between'>
           <div className='d-inline-block text-truncate'>
+            {props.userIsI && '(Вы) '}
             <Link to={`/users/${id}`}>{user.username}</Link>
-            {props.userIsI && ' (Вы)'}
           </div>
           <div>
             <Link className='ps-1 link-danger'>

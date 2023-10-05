@@ -26,8 +26,8 @@ export default function UserCard (props) {
       <Card.Header>
         <div className='d-flex justify-content-between'>
           <div className='d-inline-block text-truncate'>
+            {props.userIsI && '(Вы) '}
             <Link to={`/users/${user.id}`}>{user.username}</Link>
-            {props.userIsI && ' (Вы)'}
           </div>
           <div className='d-flex flex-nowrap'>
             <Link className='pe-1 link-success'>
