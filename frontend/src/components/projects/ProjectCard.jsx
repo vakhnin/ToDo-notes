@@ -18,10 +18,10 @@ export default function ProjectCard (props) {
     <Card className='h-100'>
       <Card.Header>
         <div className='d-flex justify-content-between'>
-          <div>
+          <div className='d-inline-block text-truncate'>
             <Link to={`/projects/${project.id}`}>{project.name}</Link>
           </div>
-          <div>
+          <div className='d-flex flex-nowrap'>
             <Link className='pe-1 link-success' onClick={() =>
               props.checkAccessProjectAndDoAction(project, () => props.setShowEditState(true))}>
               <FontAwesomeIcon icon={faPenToSquare} />

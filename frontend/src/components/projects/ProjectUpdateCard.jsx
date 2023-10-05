@@ -53,10 +53,10 @@ const ProjectUpdate = props => {
     <Card className='h-100'>
       <Card.Header>
         <div className='d-flex justify-content-between'>
-          <div>
+          <div className='d-inline-block text-truncate'>
             <Link to={`/projects/${id}`}>{project.name}</Link>
           </div>
-          <div>
+          <div className='d-flex flex-nowrap'>
             <Link className='pe-1 link-success'>
               <FontAwesomeIcon icon={faCheck} onClick={handleSubmit(updateProject)} />
             </Link>

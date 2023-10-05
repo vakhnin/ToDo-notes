@@ -25,11 +25,11 @@ export default function UserCard (props) {
     <Card className='h-100'>
       <Card.Header>
         <div className='d-flex justify-content-between'>
-          <div>
+          <div className='d-inline-block text-truncate'>
             <Link to={`/users/${user.id}`}>{user.username}</Link>
             {props.userIsI && ' (Вы)'}
           </div>
-          <div>
+          <div className='d-flex flex-nowrap'>
             <Link className='pe-1 link-success'>
               <FontAwesomeIcon icon={faPenToSquare}
                 onClick={() =>
