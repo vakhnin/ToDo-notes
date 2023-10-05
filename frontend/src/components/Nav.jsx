@@ -27,7 +27,7 @@ const NavMenu = props => {
                   : <Nav.Link as={Link} to="/">Главная</Nav.Link>}
               </Nav.Item>
               <Nav.Item>
-                {props.locationPathname.startsWith('/users')
+                {props.locationPathname.startsWith('/users') && !props.locationPathname.startsWith('/users/me')
                   ? <Nav.Link as={Link} to="/users" active className="bg-light text-black border-bottom-0">Пользователи</Nav.Link>
                   : <Nav.Link as={Link} to="/users">Пользователи</Nav.Link>}
               </Nav.Item>
@@ -44,20 +44,17 @@ const NavMenu = props => {
               {props.isAuthenticated()
                 ? <>
                   <Nav.Item>
-                    <Nav.Link as={Link} to={`/users/${props.currentUserID}`}>Профиль</Nav.Link>
+                    {props.locationPathname.startsWith('/users/me')
+                      ? <Nav.Link as={Link} to="/users/me" active className="bg-light text-black border-bottom-0">Профиль</Nav.Link>
+                      : <Nav.Link as={Link} to="/users/me">Профиль</Nav.Link>}
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link onClick={() => props.logout()}>Выйти</Nav.Link>
                   </Nav.Item>
                 </>
-                : <>
-                  <Nav.Item>
-                    <Nav.Link onClick={() => props.setModalShow('login')}>Профиль</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link onClick={() => props.setModalShow('login')}>Войти</Nav.Link>
-                  </Nav.Item>
-                </>
+                : <Nav.Item>
+                  <Nav.Link onClick={() => props.setModalShow('login')}>Войти</Nav.Link>
+                </Nav.Item>
               }
             </Nav>
           </Navbar.Collapse>

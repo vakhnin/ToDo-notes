@@ -8,6 +8,7 @@ import { Form } from 'react-bootstrap'
 import { RESTAPI } from '../Settings'
 import UsersList from './UsersList'
 import UserDetail from './UserDetail'
+import ProfileUserDetail from '../profile/ProfileUserDetail'
 
 const Users = props => {
   const [showNotActiveState, setShowNotActiveState] = useState(false)
@@ -39,6 +40,11 @@ const Users = props => {
           </Form.Group>
           <UsersList showNotActiveState={showNotActiveState} deleteUser={deleteUser}
             {...props} />
+        </>} />
+      <Route path="me" element={
+        <>
+          <h2 className='py-3'>Ваш профиль</h2>
+          <ProfileUserDetail deleteUser={deleteUser} {...props} />
         </>} />
       <Route path=":id" element={
         <>
