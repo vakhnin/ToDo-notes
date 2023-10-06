@@ -63,7 +63,10 @@ export default function registryModal (props) {
               <Form.Group className="mb-3" controlId="loginForm.ControlInput1">
                 <Form.Label>Имя</Form.Label>
                 <Form.Control type="text" placeholder="Имя"
-                  {...register('firstName', { required: 'Поле "Имя" не может быть пустым' })} />
+                  {...register('firstName', {
+                    maxLength: { value: 20, message: 'Поле "Имя" не может быть длиннее 20 символов' },
+                    required: 'Поле "Имя" не может быть пустым'
+                  })} />
                 <ErrorMessage errors={errors} name="firstName"
                   render={({ message }) => <div className='text-danger'>{message}</div>} />
               </Form.Group>
@@ -72,7 +75,10 @@ export default function registryModal (props) {
               <Form.Group className="mb-3" controlId="loginForm.ControlInput2">
                 <Form.Label>Фамилия</Form.Label>
                 <Form.Control type="text" placeholder="Фамилия"
-                  {...register('lastName', { required: 'Поле "Фамилия" не может быть пустым' })} />
+                  {...register('lastName', {
+                    maxLength: { value: 20, message: 'Поле "Фамилия" не может быть длиннее 20 символов' },
+                    required: 'Поле "Фамилия" не может быть пустым'
+                  })} />
                 <ErrorMessage errors={errors} name="lastName"
                   render={({ message }) => <div className='text-danger'>{message}</div>} />
               </Form.Group>
@@ -83,7 +89,10 @@ export default function registryModal (props) {
               <Form.Group className="mb-3" controlId="loginForm.ControlInput3">
                 <Form.Label>Имя пользователя</Form.Label>
                 <Form.Control type="text" placeholder="Имя пользователя"
-                  {...register('username', { required: 'Поле "Имя пользователя" не может быть пустым' })} />
+                  {...register('username', {
+                    maxLength: { value: 20, message: 'Поле "Имя пользователя" не может быть длиннее 20 символов' },
+                    required: 'Поле "Имя пользователя" не может быть пустым'
+                  })} />
                 <ErrorMessage errors={errors} name="username"
                   render={({ message }) => <div className='text-danger'>{message}</div>} />
               </Form.Group>
@@ -93,6 +102,7 @@ export default function registryModal (props) {
                 <Form.Label>Почта</Form.Label>
                 <Form.Control type="email" placeholder="Почта"
                   {...register('email', {
+                    maxLength: { value: 90, message: 'Поле "Почта" не может быть длиннее 90 символов' },
                     required: 'Поле "Почта" не может быть пустым',
                     pattern: {
                       value: /\S+@\S+\.\S+/,
