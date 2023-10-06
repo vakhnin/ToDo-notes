@@ -18,7 +18,7 @@ const ProjectUpdate = props => {
   }
 
   const [serverError, setServerError] = useState('')
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, setError, formState: { errors } } = useForm({
     defaultValues: {
       name: project.name,
       repository: project.repository,
@@ -43,6 +43,11 @@ const ProjectUpdate = props => {
         if (error.response.data.name &&
           error.response.data.name.includes('project with this name already exists.')) {
           setServerError('Проект с таким названием уже существует')
+        } else if (error.response.data.repository.includes('Enter a valid URL.')) {
+          setError('repository', {
+            type: 'custom',
+            message: 'Поле "Репозитарий" должно  являться URL'
+          })
         } else {
           setServerError('Неизвестная ошибка сервера. Обратитесь к разработчику')
         }
@@ -75,13 +80,21 @@ const ProjectUpdate = props => {
           <Form.Group className="mb-3" controlId="projectForm.ControlInput2">
             <Form.Label>Название проекта</Form.Label>
             <Form.Control type="text" placeholder="Название проекта"
-              {...register('name', { required: 'Поле "Название проекта" не может быть пустым' })} />
+              {...register('name', {
+                maxLength: { value: 32, message: 'Поле "Название проекта" не может быть длиннее 32 символов' },
+                required: 'Поле "Название проекта" не может быть пустым'
+              })} />
             <ErrorMessage errors={errors} name="name"
               render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="projectForm.ControlInput3">
             <Form.Label>Репозитарий</Form.Label>
-            <Form.Control type="text" placeholder="http://repository.com" {...register('repository')} />
+            <Form.Control type="text" placeholder="http://repository.com"
+              {...register('repository', {
+                maxLength: { value: 200, message: 'Поле "Репозитарий" не может быть длиннее 200 символов' }
+              })} />
+            <ErrorMessage errors={errors} name="repository"
+              render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="projectForm.ControlSelect1">
             <Form.Label>Участники проекта</Form.Label>

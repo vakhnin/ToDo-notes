@@ -103,7 +103,10 @@ export default function ProjectCreate (props) {
           <Form.Group className="mb-3" controlId="toDoForm.ControlInput2">
             <Form.Label>Название ToDo</Form.Label>
             <Form.Control type="text" placeholder="Название ToDo"
-              {...register('name', { required: 'Поле "Название ToDo" не может быть пустым' })} />
+              {...register('name', {
+                maxLength: { value: 32, message: 'Поле "Название ToDo" не может быть длиннее 32 символов' },
+                required: 'Поле "Название ToDo" не может быть пустым'
+              })} />
             <ErrorMessage errors={errors} name="name"
               render={({ message }) => <div className='text-danger'>{message}</div>} />
           </Form.Group>
