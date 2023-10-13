@@ -1,18 +1,37 @@
-from django.shortcuts import render
-
-# Create your views here.
-from rest_framework import mixins, viewsets
+from rest_framework.decorators import action
+from rest_framework.permissions import BasePermission, SAFE_METHODS
+from rest_framework.viewsets import ModelViewSet
 
 from users.models import User
-from users.serializers import UserModelSerializer, UserModelV2Serializer
+from users.serializers import UserModelSerializer
 
 
-class UserModelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
-                       mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    queryset = User.objects.all()
+# Create your views here.
+
+class UserPermissions(BasePermission):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        if view.action == 'create':
+            return True
+        return request.user
+
+    def has_object_permission(self, request, view, obj):
+        if not request.user:
+            return False
+        if request.user.is_staff:
+            return True
+        if not request.user.is_active:
+            return False
+        return obj == request.user
+
+
+class UserModelViewSet(ModelViewSet):
+    queryset = User.objects.order_by('-pk')
     serializer_class = UserModelSerializer
+    permission_classes = (UserPermissions,)
 
-    def get_serializer_class(self):
-        if self.request.version == '2.0':
-            return UserModelV2Serializer
-        return UserModelSerializer
+    @action(detail=False)
+    def me(self, request, *args, **kwargs):
+        self.kwargs.update(pk=request.user.id)
+        return self.retrieve(request, *args, **kwargs)
