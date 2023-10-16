@@ -9,7 +9,7 @@
 2. Описание проекта
 
 ## 1. i. запуск тестовых серверов Django REST и React локально (Windows)
-Необходимы предустановленные git, Python3, Node.js
+Необходимы предустановленные git, Python3, Node.js версии 18.16.1
 
 Развертывание проекта
 
@@ -56,3 +56,24 @@ ToDo-notes\frontend&gt;
 ```npm start```
 
 ## 1. ii. запуск тестовых серверов Django REST и React локально (Ubuntu)
+
+$ ```sudo apt update``` <br>
+$ ```sudo apt install git python3-venv npm curl -y``` <br>
+$ ```curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash``` <br>
+$ ```source ~/.bashrc``` <br>
+$ ```git clone https://github.com/vakhnin/ToDo-notes.git``` <br>
+$ ```cd ToDo-notes/``` <br>
+ToDo-notes$ ```python3 -m venv venv``` <br>
+ToDo-notes$ ```source venv/bin/activate``` <br>
+(venv) ToDo-notes$ ```pip3 install -U pip``` <br>
+(venv) ToDo-notes$ ```pip3 install -r requirements.txt``` <br>
+(venv) ToDo-notes$ ```python3 manage.py migrate``` <br>
+(venv) ToDo-notes$ ```python3 manage.py fill_db``` <br>
+(venv) ToDo-notes$ ```python3 manage.py runserver``` <br>
+
+Окно терминала не закрывать. В другом окне терминала:
+
+$ ```cd ToDo-notes/frontend``` <br>
+ToDo-notes/frontend$ ```nvm install 18.16.1``` <br>
+ToDo-notes/frontend$ ```npm install``` <br>
+ToDo-notes/frontend ```npm start``` 
