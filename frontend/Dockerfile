@@ -1,4 +1,17 @@
-FROM nginx:1.19.6-alpine
+FROM node:18-alpine
 
-COPY ./build /var/www/
-COPY nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p ./node_modules && chown -R node:node ./
+
+WORKDIR ./
+
+COPY package*.json ./
+
+USER node
+
+RUN npm install
+
+COPY --chown=node:node . .
+
+EXPOSE 8080
+
+CMD [ "node", "App.js" ]
