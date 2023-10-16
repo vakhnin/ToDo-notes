@@ -8,54 +8,32 @@
    2. запуск тестовых серверов Django REST и React локально (Ubuntu)
 2. Описание проекта
 
-## 1. i. запуск тестовых серверов Django REST и React локально (Windows)
+## 1. i. запуск тестовых серверов разработки Django REST и React локально (Windows 10)
 Необходимы предустановленные git, Python3, Node.js версии 18.16.1
 
 Развертывание проекта
 
 В оболочке cmd (не PowerShell):
 
-&gt; 
-```git clone https://github.com/vakhnin/ToDo-notes.git```
-
-&gt; 
-```cd .\ToDo-notes\```
-
-ToDo-notes&gt; 
-```python3 -m venv venv```
-
-ToDo-notes&gt; 
-```.\venv\Scripts\activate.bat```
-
-(venv) ToDo-notes&gt; 
-```pip3 install -U pip```
-
-(venv) ToDo-notes&gt; 
-```pip3 install -r requirements.txt```
-
-(venv) ToDo-notes&gt; 
-```python3 manage.py migrate```
-
-(venv) ToDo-notes&gt; 
-```python3 manage.py fill_db```
-
-(venv) ToDo-notes&gt; 
-```python3 manage.py runserver```
+&gt; ```git clone https://github.com/vakhnin/ToDo-notes.git``` <br>
+&gt; ```cd .\ToDo-notes\``` <br>
+ToDo-notes&gt; ```python3 -m venv venv``` <br>
+ToDo-notes&gt; ```.\venv\Scripts\activate.bat``` <br>
+(venv) ToDo-notes&gt; ```pip3 install -U pip``` <br>
+(venv) ToDo-notes&gt; ```pip3 install -r requirements.txt``` <br>
+(venv) ToDo-notes&gt; ```python3 manage.py migrate``` <br>
+(venv) ToDo-notes&gt; ```python3 manage.py fill_db``` <br>
+(venv) ToDo-notes&gt; ```python3 manage.py runserver``` <br>
 
 cmd не закрывать.
 В другом окне оболочки cmd (не PowerShell), 
 в тоей-же дирректории, куда клонирован репозитарий:
 
-&gt; 
-```cd ToDo-notes\frontend```
+&gt; ```cd ToDo-notes\frontend``` <br>
+ToDo-notes\frontend&gt; ```npm install``` <br>
+ToDo-notes\frontend&gt; ```npm start```
 
-ToDo-notes\frontend&gt; 
-```npm install```
-
-ToDo-notes\frontend&gt; 
-```npm start```
-
-## 1. ii. запуск тестовых серверов Django REST и React локально (Ubuntu)
+## 1. ii. запуск тестовых серверов разработки Django REST и React локально (Ubuntu 20)
 
 $ ```sudo apt update``` <br>
 $ ```sudo apt install git python3-venv npm curl -y``` <br>
