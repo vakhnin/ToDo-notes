@@ -49,7 +49,8 @@ ToDo-notes$ ```source venv/bin/activate``` <br>
 (venv) ToDo-notes$ ```python3 manage.py fill_db``` <br>
 (venv) ToDo-notes$ ```python3 manage.py runserver``` <br>
 
-Окно терминала не закрывать. В другом окне терминала:
+Окно терминала не закрывать. В другом окне терминала,
+в тоей-же дирректории, куда клонирован репозитарий:
 
 $ ```cd ToDo-notes/frontend``` <br>
 ToDo-notes/frontend$ ```nvm install 18.16.1``` <br>
