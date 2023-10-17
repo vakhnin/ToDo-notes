@@ -7,8 +7,8 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_USER: geekbrains
-      POSTGRES_PASSWORD: geekbrains
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: db_user
       POSTGRES_DB: todo
 
   db_check:
@@ -26,6 +26,8 @@ services:
       bash -c "python manage.py migrate
       && python manage.py fill_db 
       &&  gunicorn todo_notes.wsgi -b 0.0.0.0:8080"
+    environment:
+      TODONOTES_ON_SERVER: True
     depends_on:
       - db
       - db_check
