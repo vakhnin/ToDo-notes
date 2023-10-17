@@ -2,7 +2,8 @@ version: '2.3'
 
 services:
   db:
-    image: postgres:13
+    image: postgres
+    restart: always
     privileged: true
     ports:
       - 5432:5432
@@ -16,18 +17,27 @@ services:
     depends_on:
       - db
 
+  adminer:
+    image: adminer:4.7.8-standalone
+    restart: always
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+      - db_check
+
   backend:
     build:
       context: ..
     image: backend_django:1.0.0
     ports:
       - 8080:8080
-    command: > 
+    command: >
       bash -c "python manage.py migrate
       && python manage.py fill_db 
       &&  gunicorn todo_notes.wsgi -b 0.0.0.0:8080"
     environment:
-      TODONOTES_ON_SERVER: True
+      - TODONOTES_ON_SERVER=True
     depends_on:
       - db
       - db_check
