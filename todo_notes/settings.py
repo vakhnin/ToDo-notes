@@ -24,11 +24,11 @@ SECRET_KEY = 'django-insecure-$$(l*t_e=ccl#x_i)0)wckp2q^5ixx1^6r-z1zdm8o_b)q(7cc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 SERVER = False
-if os.getenv('GEEKSHOP_ON_SERVER') == 'True':
+if os.getenv('TODONOTES_ON_SERVER') == 'True':
     DEBUG = False
     SERVER = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 AUTH_USER_MODEL = 'users.User'
@@ -87,8 +87,8 @@ if SERVER:
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'todo',
-            'PASSWORD': 'geekbrains',
-            'USER': 'geekbrains',
+            'PASSWORD': 'db_user',
+            'USER': 'db_user',
             'HOST': 'db',
             'PORT': '5432',
         }

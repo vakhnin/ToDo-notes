@@ -1,0 +1,8 @@
+.git
+.gitignore
+Dockerfile
+.dockerignore
+.prettierrc
+package-lock.json
+node_modules
+npm-debug.log
