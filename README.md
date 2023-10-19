@@ -3,12 +3,12 @@
 Отслеживание и ведение заметок ToDo, сгруппированных по проектам
 
 Содержание:
-1. запуск проекта
-   1. запуск тестовых серверов Django REST и React локально (Windows)
-   2. запуск тестовых серверов Django REST и React локально (Ubuntu)
-2. Описание проекта
+1. Запуск тестовых серверов Django REST и React локально
+   1. Запуск тестовых серверов Django REST и React локально (Windows 10)
+   2. Запуск тестовых серверов Django REST и React локально (Ubuntu 20)
+2. Развертывание проекта на сервере
 
-## 1. i. запуск тестовых серверов разработки Django REST и React локально (Windows 10)
+## 1. i. Запуск тестовых серверов разработки Django REST и React локально (Windows 10)
 Необходимы предустановленные git, Python3, Node.js версии 18.16.1
 
 Развертывание проекта
@@ -27,13 +27,13 @@ ToDo-notes&gt; ```.\venv\Scripts\activate.bat``` <br>
 
 cmd не закрывать.
 В другом окне оболочки cmd (не PowerShell), 
-в тоей-же дирректории, куда клонирован репозитарий:
+в той-же директории, куда клонирован репозитарий:
 
 &gt; ```cd ToDo-notes\frontend``` <br>
 ToDo-notes\frontend&gt; ```npm install``` <br>
 ToDo-notes\frontend&gt; ```npm start```
 
-## 1. ii. запуск тестовых серверов разработки Django REST и React локально (Ubuntu 20)
+## 1. ii. Запуск тестовых серверов разработки Django REST и React локально (Ubuntu 20)
 
 $ ```sudo apt update``` <br>
 $ ```sudo apt install git python3-venv npm curl -y``` <br>
@@ -50,9 +50,17 @@ ToDo-notes$ ```source venv/bin/activate``` <br>
 (venv) ToDo-notes$ ```python3 manage.py runserver``` <br>
 
 Окно терминала не закрывать. В другом окне терминала,
-в тоей-же дирректории, куда клонирован репозитарий:
+в той-же директории, куда клонирован репозитарий:
 
 $ ```cd ToDo-notes/frontend``` <br>
 ToDo-notes/frontend$ ```nvm install 18.16.1``` <br>
 ToDo-notes/frontend$ ```npm install``` <br>
 ToDo-notes/frontend ```npm start``` 
+
+## 2. Развертывание проекта на сервере
+
+$ ```sudo apt update``` <br>
+$ ```sudo apt install git docker docker-compose -y``` <br>
+$ ```git clone https://github.com/vakhnin/ToDo-notes.git``` <br>
+$ ```cd ToDo-notes/production/``` <br>
+ToDo-notes/production$ ```sudo docker-compose up -d``` <br>
