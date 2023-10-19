@@ -2,6 +2,7 @@ version: '2.3'
 
 services:
   db:
+    container_name: db-postgres-container
     image: postgres
     restart: always
     privileged: true
@@ -13,20 +14,23 @@ services:
       POSTGRES_DB: todo
 
   db_check:
+    container_name: db-check-start-container
     build: ./db_check
     depends_on:
       - db
 
   adminer:
+    container_name: adminer-container
     image: adminer:4.7.8-standalone
     restart: always
     ports:
-      - 8080:8081
+      - 8081:8080
     depends_on:
       - db
       - db_check
 
   backend:
+    container_name: backend-container
     build:
       context: ..
     image: backend_django:1.0.0
@@ -43,6 +47,7 @@ services:
       - db_check
 
   nginx:
+    container_name: nginx-backend-container
     build: ./nginx
     ports:
       - 8000:8010
@@ -50,6 +55,7 @@ services:
       - backend
 
   frontend:
+    container_name: frontend-container
     build: ../frontend
     ports:
       - 80:80
