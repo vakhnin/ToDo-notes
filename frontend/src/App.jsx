@@ -28,8 +28,19 @@ function App () {
 
   useEffect(() => {
     getTokenFromStorage()
-    loadData(setUsersState, setProjectsState, setTodosState)
-    getAuthorizedUser()
+    RESTAPI.get('users/me/')
+      .then(response => {
+        setCurrentUserID(response.data.id)
+        loadData(setUsersState, setProjectsState, setTodosState)
+      }).catch(error => {
+        if (error.response.data.detail === 'Not found.' ||
+        error.response.data.detail === 'Invalid token.') {
+          logout()
+          loadData(setUsersState, setProjectsState, setTodosState)
+        } else {
+          console.log(error)
+        }
+      })
   }, [])
 
   const getAuthorizedUser = () => {
