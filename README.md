@@ -59,19 +59,19 @@ ToDo-notes/frontend ```npm start```
 
 ## 2. Развертывание проекта на сервере
 
-В файле todo_notes/settings.py необходимо добавить
-свой сайт в список разрешенных сайтов: 
-```commandline
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-    'http://your-domain:80', # Add this domain with port
-]
-```
-
-Далее, в терминале:<br>
+В терминале:<br>
 $ ```sudo apt update``` <br>
 $ ```sudo apt install git docker docker-compose -y``` <br>
 $ ```git clone https://github.com/vakhnin/ToDo-notes.git``` <br>
+
+В файле ToDo-notes/todo_notes/settings.py необходимо добавить
+свой сайт в список разрешенных сайтов: 
+```
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://your-domain:80', # Вместо этой строчки добавить домен с портом
+]
+```
 $ ```cd ToDo-notes/production/``` <br>
 ToDo-notes/production$ ```sudo docker-compose up -d``` <br>
