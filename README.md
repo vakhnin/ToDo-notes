@@ -19,7 +19,7 @@
 &gt; ```cd .\ToDo-notes\``` <br>
 ToDo-notes&gt; ```python3 -m venv venv``` <br>
 ToDo-notes&gt; ```.\venv\Scripts\activate.bat``` <br>
-(venv) ToDo-notes&gt; ```pip3 install -U pip``` <br>
+(venv) ToDo-notes&gt; ```python.exe -m pip install --upgrade pip``` <br>
 (venv) ToDo-notes&gt; ```pip3 install -r requirements.txt``` <br>
 (venv) ToDo-notes&gt; ```python3 manage.py migrate``` <br>
 (venv) ToDo-notes&gt; ```python3 manage.py fill_db``` <br>
@@ -43,7 +43,7 @@ $ ```git clone https://github.com/vakhnin/ToDo-notes.git``` <br>
 $ ```cd ToDo-notes/``` <br>
 ToDo-notes$ ```python3 -m venv venv``` <br>
 ToDo-notes$ ```source venv/bin/activate``` <br>
-(venv) ToDo-notes$ ```python.exe -m pip install --upgrade pip``` <br>
+(venv) ToDo-notes$ ```pip3 install -U pip``` <br>
 (venv) ToDo-notes$ ```pip3 install -r requirements.txt``` <br>
 (venv) ToDo-notes$ ```python3 manage.py migrate``` <br>
 (venv) ToDo-notes$ ```python3 manage.py fill_db``` <br>
