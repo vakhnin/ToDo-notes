@@ -1,4 +1,5 @@
 .idea/
+venv/
 todo_notes/__pycache__/
 db.sqlite3
 users/__pycache__/

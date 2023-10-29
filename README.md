@@ -17,13 +17,13 @@
 
 &gt; ```git clone https://github.com/vakhnin/ToDo-notes.git``` <br>
 &gt; ```cd .\ToDo-notes\``` <br>
-ToDo-notes&gt; ```python3 -m venv venv``` <br>
+ToDo-notes&gt; ```python -m venv venv``` <br>
 ToDo-notes&gt; ```.\venv\Scripts\activate.bat``` <br>
 (venv) ToDo-notes&gt; ```python.exe -m pip install --upgrade pip``` <br>
-(venv) ToDo-notes&gt; ```pip3 install -r requirements.txt``` <br>
-(venv) ToDo-notes&gt; ```python3 manage.py migrate``` <br>
-(venv) ToDo-notes&gt; ```python3 manage.py fill_db``` <br>
-(venv) ToDo-notes&gt; ```python3 manage.py runserver``` <br>
+(venv) ToDo-notes&gt; ```pip install -r requirements.txt``` <br>
+(venv) ToDo-notes&gt; ```python manage.py migrate``` <br>
+(venv) ToDo-notes&gt; ```python manage.py fill_db``` <br>
+(venv) ToDo-notes&gt; ```python manage.py runserver``` <br>
 
 cmd не закрывать.
 В другом окне оболочки cmd (не PowerShell), 
