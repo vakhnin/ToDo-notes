@@ -23,7 +23,7 @@ class Command(BaseCommand):
             first_name='Админ',
             last_name='Админов',
             email='admin@todonotes.local',
-            password='12345',
+            password='admin',
             is_staff=True)
 
         if not options['all']:
