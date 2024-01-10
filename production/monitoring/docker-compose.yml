@@ -24,7 +24,7 @@ services:
     image: nginx/nginx-prometheus-exporter:1.0
     expose:
       - 9113
-    command: -nginx.scrape-uri=http://nginx/nginx_status
+    command: -nginx.scrape-uri=http://nginx:8010/nginx_status
     networks:
       - production_network
       
