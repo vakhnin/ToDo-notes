@@ -5,7 +5,7 @@
 Содержание:
 1. Запуск тестовых серверов Django REST и React локально
    1. Запуск тестовых серверов Django REST и React локально (Windows 10)
-   2. Запуск тестовых серверов Django REST и React локально (Ubuntu 20)
+   2. Запуск тестовых серверов Django REST и React локально (Ubuntu 20.04)
 2. Развертывание проекта на сервере
 
 ## 1. i. Запуск тестовых серверов разработки Django REST и React локально (Windows 10)
@@ -33,7 +33,12 @@ cmd не закрывать.
 ToDo-notes\frontend&gt; ```npm install``` <br>
 ToDo-notes\frontend&gt; ```npm start```
 
-## 1. ii. Запуск тестовых серверов разработки Django REST и React локально (Ubuntu 20)
+При развертывании проекта будет создан пользователь с административными правами 
+с логином `admin` и паролем `admin`
+
+Тестировалось с Python 3.12
+
+## 1. ii. Запуск тестовых серверов разработки Django REST и React локально (Ubuntu 20.04)
 
 $ ```sudo apt update``` <br>
 $ ```sudo apt install git python3-venv npm curl -y``` <br>
@@ -57,6 +62,9 @@ ToDo-notes/frontend$ ```nvm install 18.16.1``` <br>
 ToDo-notes/frontend$ ```npm install``` <br>
 ToDo-notes/frontend ```npm start``` 
 
+При развертывании проекта будет создан пользователь с административными правами 
+с логином `admin` и паролем `admin`
+
 ## 2. Развертывание проекта на сервере
 
 В терминале:<br>
@@ -75,3 +83,14 @@ CORS_ALLOWED_ORIGINS = [
 ```
 $ ```cd ToDo-notes/production/``` <br>
 ToDo-notes/production$ ```sudo docker-compose up -d``` <br>
+
+При развертывании проекта будет создан пользователь с административными правами 
+с логином `admin` и паролем `admin`
+
+Если дополнительно необходимо развернуть Grafana с Loki для 
+отслеживания логов, Prometheus для отсеживания метрик и Dasboard:<br>
+
+ToDo-notes/production$ ```cd monitoring```<br>
+ToDo-notes/production/monitoring$ ```sudo docker-compose up --build -d```
+
+Развертывание тестировалось на Ubuntu 20.04, Docker 24.0.5, docker-compose 1.25.0 
