@@ -82,7 +82,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 ```
 $ ```cd ToDo-notes/production/``` <br>
-ToDo-notes/production$ ```sudo docker-compose up -d``` <br>
+ToDo-notes/production$ ```sudo docker-compose up --build -d``` <br>
 
 При развертывании проекта будет создан пользователь с административными правами 
 с логином `admin` и паролем `admin`
