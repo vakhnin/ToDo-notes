@@ -2,62 +2,71 @@ version: '2.3'
 
 services:
   db:
-    container_name: db-postgres-container
-    image: postgres
-    restart: always
-    privileged: true
-    ports:
-      - 5432:5432
+    image: postgres:14.7-alpine
+    container_name: db_container
+    expose:
+      - 5432
     environment:
       POSTGRES_USER: db_user
       POSTGRES_PASSWORD: db_user
       POSTGRES_DB: todo
-
-  db_check:
-    container_name: db-check-start-container
-    build: ./db_check
-    depends_on:
-      - db
-
-  adminer:
-    container_name: adminer-container
-    image: adminer:4.7.8-standalone
-    restart: always
-    ports:
-      - 8081:8080
-    depends_on:
-      - db
-      - db_check
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d todo -U db_user"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    labels:
+      logging: "commonlogs"
+    networks:
+      - production_network
+      
 
   backend:
-    container_name: backend-container
+    image: backend_django:1.0.0
+    container_name: backend_container
     build:
       context: ..
-    image: backend_django:1.0.0
-    ports:
-      - 8080:8080
+    expose:
+      - 8080
     command: >
       bash -c "python manage.py migrate
-      && python manage.py fill_db 
+      && python manage.py fill_db
       &&  gunicorn todo_notes.wsgi -b 0.0.0.0:8080"
     environment:
       - TODONOTES_ON_SERVER=True
     depends_on:
-      - db
-      - db_check
+      db:
+        condition: service_healthy
+    labels:
+      logging: "commonlogs"
+    networks:
+      - production_network
 
   nginx:
-    container_name: nginx-backend-container
+    container_name: nginx_container
     build: ./nginx
     ports:
       - 8000:8010
     depends_on:
       - backend
+    labels:
+      logging: "nginxlogs"
+    networks:
+      - production_network
 
   frontend:
-    container_name: frontend-container
+    container_name: frontend_container
     build: ../frontend
     ports:
       - 80:80
     depends_on:
       - nginx
+    labels:
+      logging: "commonlogs"
+    networks:
+      - production_network
+      
+networks:
+  production_network:
+    driver: bridge
+    name: production_network

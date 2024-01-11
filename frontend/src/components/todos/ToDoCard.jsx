@@ -22,10 +22,12 @@ export default function ToDoCard (props) {
             <Link to={`/todos/${todo.id}`}>{todo.name}</Link>
           </div>
           <div className='d-flex flex-nowrap'>
-            <Link className='pe-1 link-success' onClick={() => props.setShowEditState(true)}>
+            <Link className='pe-1 link-success' onClick={() =>
+              props.checkAccessToDoAndDoAction(todo, () => props.setShowEditState(true))}>
               <FontAwesomeIcon icon={faPenToSquare} />
             </Link>
-            <Link onClick={() => props.deleteToDo(todo.id)} className='ps-1 link-danger'>
+            <Link className='ps-1 link-danger' onClick={() =>
+              props.checkAccessToDoAndDoAction(todo, () => props.deleteToDo(todo.id))}>
               <FontAwesomeIcon icon={faTrash} />
             </Link>
           </div>
@@ -62,5 +64,6 @@ ToDoCard.propTypes = {
   projects: PropTypes.array,
   todos: PropTypes.array,
   deleteToDo: PropTypes.func,
+  checkAccessToDoAndDoAction: PropTypes.func,
   setShowEditState: PropTypes.func
 }

@@ -11,6 +11,22 @@ import ToDoList from './ToDoList'
 import ToDoDetail from './ToDoDetail'
 
 const ToDos = props => {
+  const checkAccessToDoAndDoAction = (todo, action) => {
+    const user = props.users.find(user => user.id === props.currentUserID)
+    if (!user) {
+      props.setAccessModalShow(true)
+    } else if (user.isStaff || todo.creatorId === user.id) {
+      action()
+    } else {
+      const project = props.projects.find(project => project.id === todo.project)
+      if (project.creatorId === user.id) {
+        action()
+      } else {
+        props.setAccessModalShow(true)
+      }
+    }
+  }
+
   const deleteToDo = ToDoId => {
     const id = Number(ToDoId)
     RESTAPI.patch(`todos/${id}/`, { isActive: false })
@@ -47,7 +63,7 @@ const ToDos = props => {
             onClick={() => toggleShowNotActiveState()} />
         </Form.Group>
         <ToDoList projectId={Number(id)} showNotActiveState={showNotActiveState} deleteToDo={deleteToDo}
-          {...props} />
+          checkAccessToDoAndDoAction={checkAccessToDoAndDoAction} {...props} />
       </>
     )
   }
@@ -70,15 +86,18 @@ const ToDos = props => {
               К списку ToDo
             </Link>
           </h5>
-          <ToDoDetail deleteToDo={deleteToDo} {...props} />
+          <ToDoDetail deleteToDo={deleteToDo} {...props} checkAccessToDoAndDoAction={checkAccessToDoAndDoAction} />
         </div>} />
     </Routes>
   )
 }
 ToDos.propTypes = {
+  users: PropTypes.array,
   projects: PropTypes.array,
   todos: PropTypes.array,
-  setTodosState: PropTypes.func
+  currentUserID: PropTypes.number,
+  setTodosState: PropTypes.func,
+  setAccessModalShow: PropTypes.func
 }
 
 export default ToDos
