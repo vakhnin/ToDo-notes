@@ -1,0 +1,6 @@
+
+# Make BD dump
+sudo docker exec -i db_container pg_dump --clean -U db_user todo > todo_dump.sql
+
+# Restory BD from dump
+sudo docker exec -i db_container psql -U db_user todo < todo_dump.sql
