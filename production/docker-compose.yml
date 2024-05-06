@@ -4,6 +4,7 @@ services:
   db:
     image: postgres:14.7-alpine
     container_name: db_container
+    restart: always
     expose:
       - 5432
     environment:
@@ -17,6 +18,11 @@ services:
       retries: 10
     labels:
       logging: "commonlogs"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
       
@@ -24,6 +30,7 @@ services:
   backend:
     image: backend_django:1.0.0
     container_name: backend_container
+    restart: always
     build:
       context: ..
     expose:
@@ -39,30 +46,47 @@ services:
         condition: service_healthy
     labels:
       logging: "commonlogs"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
 
   nginx:
     container_name: nginx_container
     build: ./nginx
+    restart: always
     ports:
       - 8000:8010
     depends_on:
       - backend
     labels:
       logging: "nginxlogs"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
 
   frontend:
     container_name: frontend_container
     build: ../frontend
+    restart: always
     ports:
       - 80:80
     depends_on:
       - nginx
     labels:
       logging: "commonlogs"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
       

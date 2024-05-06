@@ -3,33 +3,52 @@ version: '2.3'
 services:
   loki:
     image: grafana/loki:2.9.2
+    restart: always
     expose:
       - 3100
     command: -config.file=/etc/loki/local-config.yaml
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network 
 
   promtail:
     image: grafana/promtail:2.9.2
+    restart: always
     volumes:
       - ./promtail/config.yml:/etc/promtail/config.yml
       - /var/log:/var/log
       - /var/lib/docker/containers:/var/lib/docker/containers:ro
       - /var/run/docker.sock:/var/run/docker.sock
     command: -config.file=/etc/promtail/config.yml
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network 
 
   nginx-prometheus-exporter:
     image: nginx/nginx-prometheus-exporter:1.0
+    restart: always
     expose:
       - 9113
     command: -nginx.scrape-uri=http://nginx:8010/nginx_status
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
       
   node-exporter:
     image: prom/node-exporter:v1.7.0
+    restart: always
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -40,25 +59,42 @@ services:
       - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
     expose:
       - 9100
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
     
   prometheus:
     image: prom/prometheus:v2.45.2
+    restart: always
     expose:
       - 9090
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
 
   grafana:
     image: grafana/grafana:10.1.6
+    restart: always
     ports:
       - 3000:3000
     volumes:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
       - ./grafana:/etc/grafana/provisioning/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - production_network
   
